@@ -1,4 +1,4 @@
-import { ChevronDown, LogOut, UserRoundCheck } from "lucide-react";
+import { ChevronDown, ForkKnife, LogOut, UserRoundCheck } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
@@ -24,6 +24,11 @@ export function AccountMenu() {
             <DropdownMenuItem>
                <UserRoundCheck />
                <span>Colaboradores</span>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem>
+               <ForkKnife />
+               <span>Gerenciar Pratos</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
