@@ -6,16 +6,40 @@ export function Home() {
       <>
          <Helmet title="Home" />
          
-         <div>
+         <div className="my-6">
             <h1>banner</h1>
          </div>
 
-         <div className="grid grid-cols-5 justify-center gap-y-16 gap-x-5 py-6">
-            <HomeDishCard />
-            <HomeDishCard />
-            <HomeDishCard />
-            <HomeDishCard />
-            <HomeDishCard />
+         <div className="flex flex-col gap-y-8">
+            <h1 className="font-semibold text-2xl mt-12">Refeições</h1>
+
+            <div className="grid grid-cols-5 justify-center gap-x-5 py-6">
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+            </div>
+
+            <h1 className="font-semibold text-2xl mt-8">Sobremesas</h1>
+
+            <div className="grid grid-cols-5 justify-center gap-y-8 gap-x-5 py-6">
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+            </div>
+
+            <h1 className="font-semibold text-2xl mt-8">Bebidas</h1>
+
+            <div className="grid grid-cols-5 justify-center gap-y-8 gap-x-5 py-6">
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+               <HomeDishCard />
+            </div>
          </div>
       </>
    )

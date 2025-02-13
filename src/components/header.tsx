@@ -13,11 +13,11 @@ export function Header() {
                <CookingPot className="h-6 w-6" />
 
                <div className="flex flex-col center">
-                  <h1 className="text-lg leading-4 font-semibold">
+                  <h1 className="text-lg leading-4 font-semibold tracking-wide">
                      Eatsy
                   </h1>
 
-                  <span className="text-xs leading-3 text-indigo-500 dark:text-indigo-400">
+                  <span className="text-xs leading-3 text-ring">
                      admin
                   </span>
                </div>
