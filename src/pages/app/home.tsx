@@ -11,8 +11,14 @@ import { Heart, Search, Star } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { HomeDishCard } from "@/components/home-dish-card"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
+import { Controller, useForm } from "react-hook-form"
+import { Label } from "@/components/ui/label"
 
 export function Home() {
+   const { control } = useForm()
+
    return (
       <>
          <Helmet title="Home" />
@@ -94,37 +100,45 @@ export function Home() {
             </div>
          </div>
 
-         {/* <div className="flex flex-col gap-y-8">
-            <h1 className="font-semibold text-2xl mt-12">Refeições</h1>
+         <div className="flex flex-col my-8">
+            <Controller
+               name="category"
+               control={control}
+               render={({ field }) => {
+                  return (
+                     <RadioGroup onValueChange={field.onChange} value={field.value} className="flex gap-2">
+                        <div className="flex justify-center items-center relative h-6">
+                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Todos</Label>
+                           <RadioGroupItem value="todos" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                        </div>
 
-            <div className="grid grid-cols-5 justify-center gap-x-5 py-6">
+                        <div className="flex justify-center items-center relative h-6">
+                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Refeições</Label>
+                           <RadioGroupItem value="refeicao" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                        </div>
+
+                        <div className="flex justify-center items-center relative h-6">
+                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Sobremesas</Label>
+                           <RadioGroupItem value="sobremesa" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                        </div>
+
+                        <div className="flex justify-center items-center relative h-6">
+                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Bebidas</Label>
+                           <RadioGroupItem value="bebida" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                        </div>
+                     </RadioGroup>
+                  )
+               }}
+            />
+
+            <div className="grid grid-cols-5 justify-center gap-x-5 pt-20">
                <HomeDishCard />
                <HomeDishCard />
                <HomeDishCard />
                <HomeDishCard />
                <HomeDishCard />
             </div>
-
-            <h1 className="font-semibold text-2xl mt-8">Sobremesas</h1>
-
-            <div className="grid grid-cols-5 justify-center gap-y-8 gap-x-5 py-6">
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-            </div>
-
-            <h1 className="font-semibold text-2xl mt-8">Bebidas</h1>
-
-            <div className="grid grid-cols-5 justify-center gap-y-8 gap-x-5 py-6">
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-            </div>
-         </div> */}
+         </div>
       </>
    )
 }
