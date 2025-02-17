@@ -10,7 +10,7 @@ import { Heart, Search, Star } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { HomeDishCard } from "@/components/home-dish-card"
+import { HomeDishCard } from "@/pages/app/home/components/home-dish-card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { Controller, useForm } from "react-hook-form"

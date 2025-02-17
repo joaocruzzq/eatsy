@@ -1,8 +1,8 @@
 import { Pencil, ShoppingCart } from "lucide-react";
 
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
-import plateIMG from "../assets/plate-seafood.svg"
+import plateIMG from "@/assets/plate-seafood.svg"
 
 export function HomeDishCard() {
    return (
