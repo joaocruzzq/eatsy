@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed } from "lucide-react";
+import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed, ConciergeBell } from "lucide-react";
 
 import { NavLink } from "./nav-link";
 import { Separator } from "./ui/separator";
@@ -31,8 +31,13 @@ export function Header() {
                   Início
                </NavLink>
 
-               <NavLink to="/pedidos">
+               <NavLink to="/manage-plates">
                   <UtensilsCrossed className="h-4 w-4" />
+                  Gerenciar Pratos
+               </NavLink>
+
+               <NavLink to="/orders">
+                  <ConciergeBell className="h-4 w-4" />
                   Pedidos
                </NavLink>
 
