@@ -1,8 +1,11 @@
 import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function AddNewPlate() {
+   const navigate = useNavigate()
+
    return (
-      <button className="flex flex-col h-80 border border-dashed border-primary items-center rounded-lg justify-center gap-1 px-9 hover:bg-primary transition-all">
+      <button onClick={() => navigate("/add-new-plate")} className="flex flex-col border border-dashed border-primary rounded-lg items-center justify-center hover:bg-primary transition-all">
          <Plus size={36} />
          <span className="text-xl text-center">Adicionar um <br /> novo prato</span>
       </button>

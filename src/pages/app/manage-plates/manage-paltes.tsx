@@ -37,10 +37,6 @@ export function ManagePlates() {
             <PlateManagementCard />
             <PlateManagementCard />
             <PlateManagementCard />
-            <PlateManagementCard />
-            <PlateManagementCard />
-            <PlateManagementCard />
-            <PlateManagementCard />
          </div>
       </div>
    )

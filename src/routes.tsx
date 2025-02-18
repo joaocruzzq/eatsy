@@ -10,7 +10,7 @@ import { Home } from "./pages/app/home/home";
 import { Orders } from "./pages/app/orders/orders";
 import { DashBoard } from "./pages/app/dashboard/dashboard";
 import { ManagePlates } from "./pages/app/manage-plates/manage-paltes";
-import { Collaborators } from "./pages/app/collaborators/collaborators";
+import { AddNewPlate } from "./pages/app/add-new-plate/add-new-plate";
 
 export const router = createBrowserRouter([
    {
@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
          { path: '/orders', element: <Orders /> },
          { path: '/dashboard', element: <DashBoard /> },
          { path: '/manage-plates', element: <ManagePlates /> },
-         { path: '/collaborators', element: <Collaborators /> },
+         { path: '/add-new-plate', element: <AddNewPlate /> },
       ]
    },
 
