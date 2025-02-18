@@ -2,6 +2,7 @@ import { ChevronDown, ForkKnife, LogOut, UserRoundCheck } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 export function AccountMenu() {
    return (
@@ -21,20 +22,26 @@ export function AccountMenu() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
-               <UserRoundCheck />
-               <span>Colaboradores</span>
-            </DropdownMenuItem>
+            <Link to="#">
+               <DropdownMenuItem className="cursor-pointer">
+                  <UserRoundCheck />
+                  <span>Colaboradores</span>
+               </DropdownMenuItem>
+            </Link>
+            
+            <Link to="/manage-plates">
+               <DropdownMenuItem className="cursor-pointer">
+                  <ForkKnife />
+                  <span>Gerenciar Pratos</span>
+               </DropdownMenuItem>
+            </Link>
 
-            <DropdownMenuItem>
-               <ForkKnife />
-               <span>Gerenciar Pratos</span>
-            </DropdownMenuItem>
-
-            <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
-               <LogOut />
-               <span>Sair da conta</span>
-            </DropdownMenuItem>
+            <Link to="#">
+               <DropdownMenuItem className="text-rose-500 dark:text-rose-400 cursor-pointer">
+                  <LogOut />
+                  <span>Sair da conta</span>
+               </DropdownMenuItem>
+            </Link>
          </DropdownMenuContent>
       </DropdownMenu>
    )

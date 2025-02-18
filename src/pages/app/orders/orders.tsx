@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Filter } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination"
 
-export function Pedidos() {
+export function Orders() {
    return (
       <>
          <Helmet title="Pedidos" />
@@ -13,7 +13,7 @@ export function Pedidos() {
          <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
 
-            <div className="text-muted-foreground w-[140px]">
+            <div className="text-muted-foreground w-36">
                <Select>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">

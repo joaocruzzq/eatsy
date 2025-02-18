@@ -7,8 +7,9 @@ import { SignIn } from "./pages/auth/sign-in";
 import { SignUp } from "./pages/auth/sign-up";
 
 import { Home } from "./pages/app/home/home";
-import { Pedidos } from "./pages/app/pedidos/pedidos";
+import { Orders } from "./pages/app/orders/orders";
 import { DashBoard } from "./pages/app/dashboard/dashboard";
+import { ManagePlates } from "./pages/app/manage-plates/manage-paltes";
 
 export const router = createBrowserRouter([
    {
@@ -17,8 +18,9 @@ export const router = createBrowserRouter([
 
       children: [
          { path: '/', element: <Home /> },
-         { path: '/pedidos', element: <Pedidos /> },
+         { path: '/pedidos', element: <Orders /> },
          { path: '/dashboard', element: <DashBoard /> },
+         { path: '/manage-plates', element: <ManagePlates /> },
       ]
    },
 

@@ -6,7 +6,7 @@ import plateIMG from "@/assets/plate-seafood.svg"
 
 export function HomeDishCard() {
    return (
-      <div className="flex flex-col max-w-60 rounded-md text-center bg-zinc-300 dark:bg-zinc-900">
+      <div className="flex flex-col max-w-60 rounded-lg text-center bg-zinc-200 dark:bg-zinc-900">
          <img src={plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
          <div className="flex flex-col gap-y-3 p-6 pt-0 -mt-5">
