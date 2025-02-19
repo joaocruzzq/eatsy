@@ -4,21 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { AddNewPlate } from "./components/add-new-plate";
 import { PlateManagementCard } from "./components/plate-management-card";
 
-import { api } from "@/lib/axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
 
 export function ManagePlates() {
-   const [plates, setPlates] = useState([])
-
-   useEffect(() => {
-      async function fetchPlates() {
-         const platesList = await api.get("/plates")
-
-         setPlates(platesList.data)
-      }
-
-      fetchPlates()
-   }, [])
+   const { plates } = useContext(AppMainContext)
 
    return (
       <div>
@@ -51,7 +41,10 @@ export function ManagePlates() {
 
             {plates.map((plate) => {
                return (
-                  <PlateManagementCard key={plate} />
+                  <PlateManagementCard
+                     key={plate.id}
+                     plateInfo={plate}
+                  />
                )
             })}
          </div>

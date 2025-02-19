@@ -16,7 +16,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Controller, useForm } from "react-hook-form"
 import { Label } from "@/components/ui/label"
 
+import { useContext } from "react"
+import { AppMainContext } from "@/contexts/app-main-context"
+
 export function Home() {
+   const { plates } = useContext(AppMainContext)
+   
    const { control } = useForm()
 
    return (
@@ -132,11 +137,14 @@ export function Home() {
             />
 
             <div className="grid grid-cols-5 justify-center gap-x-5 pt-20">
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
-               <HomeDishCard />
+               {plates.map((plate) => {
+                  return (
+                     <HomeDishCard
+                        key={plate.id}
+                        plateInfo={plate}
+                     />
+                  )
+               })}
             </div>
          </div>
       </>

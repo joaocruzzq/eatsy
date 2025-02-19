@@ -7,6 +7,7 @@ import { Toaster } from "sonner"
 import { router } from "./routes"
 import { RouterProvider } from "react-router-dom"
 import { ThemeProvider } from "./components/theme/theme-provider"
+import { AppMainContextProvider } from "./contexts/app-main-context"
 
 export function App() {
   return (
@@ -14,7 +15,10 @@ export function App() {
       <ThemeProvider storageKey="eatsy-theme" defaultTheme="dark">
         <Helmet titleTemplate="%s | Eatsy" />
         <Toaster richColors closeButton />
-        <RouterProvider router={router} />
+
+        <AppMainContextProvider>
+          <RouterProvider router={router} />
+        </AppMainContextProvider>
       </ThemeProvider>
     </HelmetProvider>
   )
