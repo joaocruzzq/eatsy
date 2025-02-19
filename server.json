@@ -1,0 +1,47 @@
+{
+   "users": [
+      {
+         "id": 1,
+         "role": "admin",
+         "name": "João Pedro Cruz",
+         "email": "joaocruzzq@email.com"
+      },
+
+      {
+         "id": 2,
+         "role": "customer",
+         "name": "Eliane Oliveira",
+         "email": "oliveira.eliane@email.com"
+      }
+   ],
+
+   "plates": [
+      {
+         "id": 1,
+         "price": 21.90,
+         "name": "Salada Ravanello",
+         "category": "Refeicao",
+         "description": "Rabanetes, folhas verdes e molho agridoce salpicados com gergelim. O pão naan dá um toque especial.",
+
+         "tags": [
+            {"id": 1, "name": "alface"},
+            {"id": 2, "name": "tomate"},
+            {"id": 3, "name": "cebola"}
+         ]
+      },
+
+      {
+         "id": 2,
+         "price": 14.90,
+         "name": "Macarons",
+         "category": "Sobremesa",
+         "description": "Farinha de amêndoas, manteiga, claras e açúcar.",
+
+         "tags": [
+            {"id": 2, "name": "açúcar"},
+            {"id": 1, "name": "amendoas"},
+            {"id": 3, "name": "manteiga"}
+         ]
+      }
+   ]
+}

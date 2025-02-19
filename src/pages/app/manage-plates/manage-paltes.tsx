@@ -4,7 +4,22 @@ import { Helmet } from "react-helmet-async";
 import { AddNewPlate } from "./components/add-new-plate";
 import { PlateManagementCard } from "./components/plate-management-card";
 
+import { api } from "@/lib/axios";
+import { useEffect, useState } from "react";
+
 export function ManagePlates() {
+   const [plates, setPlates] = useState([])
+
+   useEffect(() => {
+      async function fetchPlates() {
+         const platesList = await api.get("/plates")
+
+         setPlates(platesList.data)
+      }
+
+      fetchPlates()
+   }, [])
+
    return (
       <div>
          <Helmet title="Gerenciar Pratos" />
@@ -33,10 +48,12 @@ export function ManagePlates() {
 
          <div className="grid grid-cols-5 mt-5 gap-x-5 gap-y-10">
             <AddNewPlate />
-            <PlateManagementCard />
-            <PlateManagementCard />
-            <PlateManagementCard />
-            <PlateManagementCard />
+
+            {plates.map((plate) => {
+               return (
+                  <PlateManagementCard key={plate} />
+               )
+            })}
          </div>
       </div>
    )
