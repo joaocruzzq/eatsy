@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet-async";
 
 export function DashBoard() {
    return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
          <Helmet title="Dashboard" />
          
          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>

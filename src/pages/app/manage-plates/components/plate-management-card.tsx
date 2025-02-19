@@ -7,7 +7,7 @@ import plateIMG from "@/assets/plate-seafood.svg"
 
 export function PlateManagementCard() {
    return (
-      <Card className="flex flex-col h-80 items-center rounded-lg justify-center gap-1 bg-zinc-200 dark:bg-zinc-900">
+      <Card className="flex flex-col h-80 items-center rounded-lg justify-center gap-1 bg-neutral-200 dark:bg-neutral-900">
          <CardContent className=" flex flex-col items-center gap-2 p-4">
             <img src={plateIMG} className="w-32" />
 
