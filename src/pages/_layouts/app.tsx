@@ -4,9 +4,9 @@ import { Footer } from "@/components/footer";
 
 import lightIMG from "@/assets/background-light.svg"
 
-export function AppLayout() {
+export function AppLayout() {   
    return (
-      <div className="flex min-h-screen flex-col antialiased ">
+      <div className="flex min-h-screen flex-col antialiased">
          <div className="flex flex-col relative h-[640px] bg-gradient-to-b from-[#f5474718] to-transparent">
             <div className="flex opacity-5 h-[100%] justify-end ml-auto">
                <img src={lightIMG} className="pointer-events-none select-none" />

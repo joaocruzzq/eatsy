@@ -12,7 +12,7 @@ export function ManagePlates() {
          <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold tracking-tight">Gerenciar Pratos</h1>
 
-            <div className="text-muted-foreground w-44">
+            <div className="text-muted-foreground w-[168px]">
                <Select>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">
