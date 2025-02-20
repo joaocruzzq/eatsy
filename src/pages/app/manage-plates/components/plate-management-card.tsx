@@ -1,44 +1,65 @@
-import { Pen } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Pencil, Trash2 } from "lucide-react";
 
 import plateIMG from "@/assets/plate-seafood.svg"
-import { PlatesProps } from "@/contexts/app-main-context";
+
+import { PlateType } from "@/contexts/app-main-context";
+
+import { Button } from "@/components/ui/button";
+import { AlertModal } from "@/components/alert-modal";
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface PlateCardProps {
-   plateInfo: PlatesProps
+   plateInfo: PlateType
 }
 
 export function PlateManagementCard({plateInfo}: PlateCardProps) {
    return (
-      <Card className="flex flex-col h-80 items-center rounded-lg justify-center gap-1 bg-neutral-200 dark:bg-neutral-900">
-         <CardContent className=" flex flex-col items-center gap-2 p-4">
-            <img src={plateIMG} className="w-32" />
+      <Card className="bg-stone-900">
+         <CardContent>
+            <img src={plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
-            <div className="flex flex-col text-center">
-               <h1 className="font-semibold text-xl text-foreground">
+            <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
+               <h1 className="font-semibold text-xl text-foreground tracking-wide">
                   {plateInfo.name}
                </h1>
 
-               <span className="text-xs text-muted-foreground leading-5 text-center line-clamp-2 tracking-wider">
+               <span className="text-xs text-muted-foreground text-justify leading-5 line-clamp-2 tracking-wide">
                   {plateInfo.description}
                </span>
 
-               <div className="flex gap-1 items-baseline justify-center mt-1">
-                  <span className="text-xs text-muted-foreground">R$</span>
+               <div className="w-full flex justify-between items-center my-1">
+                  <div className="flex gap-0.5 items-baseline">
+                     <span className="text-xs text-muted-foreground">R$</span>
 
-                  <h1 className="text-xl font-medium tracking-wide">
-                     {plateInfo.price.toFixed(2)}
-                  </h1>
+                     <h1 className="text-xl font-medium">
+                        {plateInfo.price.toFixed(2)}
+                     </h1>
+                  </div>
+
+                  <div className="flex gap-2">
+                     <Button className="px-2.5 w-fit" variant={"ghost"}>
+                        <Pencil />
+                     </Button>
+
+                     <AlertDialog>
+                        <AlertDialogTrigger>
+                           <Button className="px-2.5 w-fit" variant={"default"}>
+                              <Trash2 />
+                           </Button>
+                        </AlertDialogTrigger>
+
+                        <AlertModal
+                           title="Tem certeza que deseja excluir?"
+                           description="Isso excluirá permanentemente o prato."
+                           option1="Cancelar"
+                           option2="Continuar"
+                        />
+                     </AlertDialog>
+                  </div>
                </div>
             </div>
          </CardContent>
-
-         <Button className="w-full h-full mt-auto rounded-t-none hover:opacity-80 transition-opacity">
-            <Pen />
-            <p>Editar Prato</p>
-         </Button>
       </Card>
    )
 }

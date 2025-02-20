@@ -9,12 +9,13 @@ import deliveryTruckIMG from "@/assets/delivery-truck.svg"
 import { Heart, Search, Star } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { HomeDishCard } from "@/pages/app/home/components/home-dish-card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
+import { HomeDishCard } from "./components/home-dish-card"
+
 import { Controller, useForm } from "react-hook-form"
-import { Label } from "@/components/ui/label"
 
 import { useContext } from "react"
 import { AppMainContext } from "@/contexts/app-main-context"
@@ -141,7 +142,7 @@ export function Home() {
                   return (
                      <HomeDishCard
                         key={plate.id}
-                        plateInfo={plate}
+                        plate={plate}
                      />
                   )
                })}

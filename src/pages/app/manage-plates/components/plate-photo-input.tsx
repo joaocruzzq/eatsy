@@ -22,7 +22,7 @@ export function PlatePhotoInput() {
          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
 
          <button type="button" onClick={handleUploadPhoto} className="flex flex-col items-center justify-center h-full w-full">
-            <ImageUp size={36} className="mb-6" />
+            <ImageUp size={36} className="mb-2" />
 
             <h1 className="text-lg">
                {fileName ? fileName : "Selecionar arquivo"}

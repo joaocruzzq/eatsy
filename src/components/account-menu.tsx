@@ -1,7 +1,8 @@
 import { ChevronDown, LogOut } from "lucide-react";
 
-import { Button } from "./ui/button";
 import { NavLink } from "./nav-link";
+
+import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 
 export function AccountMenu() {

@@ -1,10 +1,12 @@
+import { Helmet } from "react-helmet-async";
+
+import { RevenueChart } from "./components/revenue-chart";
+import { PopularProductsChart } from "./components/popular-products-chart";
+
 import { MothRevenueCard } from "./components/moth-revenue-card";
 import { DayOrdersAmountCard } from "./components/day-orders-amount-card";
 import { MonthOrdersAmountCard } from "./components/moth-orders-amount-card";
 import { MonthCanceledOrdersAmountCard } from "./components/month-canceled-orders-amount-card";
-import { RevenueChart } from "./components/revenue-chart";
-import { PopularProductsChart } from "./components/popular-products-chart";
-import { Helmet } from "react-helmet-async";
 
 export function DashBoard() {
    return (

@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import colors from "tailwindcss/colors"
+
 import { BarChart } from "lucide-react";
 
 import { ResponsiveContainer, Pie, PieChart, Cell } from "recharts"
 
-import colors from "tailwindcss/colors"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const revenueData = [
    { product: "Prato 01", amount: 40 },

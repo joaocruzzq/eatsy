@@ -10,7 +10,15 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-export function CancelModal() {
+interface ModalProps {
+   title: string
+   option1: string
+   option2: string
+   description?: string
+   shouldNavigate?: boolean
+}
+
+export function AlertModal(props : ModalProps) {
    const navigate = useNavigate()
 
    function handlePreviousPage() {
@@ -21,17 +29,17 @@ export function CancelModal() {
       <AlertDialogContent>
          <AlertDialogHeader>
             <AlertDialogTitle>
-               Tem certeza que deseja cancelar?
+               {props.title}
             </AlertDialogTitle>
 
-            <AlertDialogDescription>
-               Esta ação não poderá ser desfeita. Isso excluirá permanentemente as alterações feitas e restaurará os dados para a versão anterior.
+            <AlertDialogDescription className="leading-6">
+            {props.description} Esta ação não poderá ser desfeita.
             </AlertDialogDescription>
          </AlertDialogHeader>
                      
          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handlePreviousPage}>Continuar</AlertDialogAction>
+            <AlertDialogCancel>{props.option1}</AlertDialogCancel>
+            <AlertDialogAction onClick={props.shouldNavigate ? handlePreviousPage : undefined}>{props.option2}</AlertDialogAction>
          </AlertDialogFooter>
       </AlertDialogContent>
    )

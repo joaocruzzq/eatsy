@@ -2,21 +2,22 @@ import { api } from "@/lib/axios";
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-type Tags = {
+interface Tag {
    id: number
    name: string
 }
 
-export interface PlatesProps {
+export interface PlateType {
    id: number
-   price: number
+   tags: Tag[]
    name: string
+   price: number
+   quantity: number
    description: string
-   tags: Tags[]
 }
 
 interface AppMainContextType {
-   plates: PlatesProps[]
+   plates: PlateType[]
 }
 
 interface AppMainContextProviderProps {
@@ -26,7 +27,9 @@ interface AppMainContextProviderProps {
 export const AppMainContext = createContext({} as AppMainContextType)
 
 export function AppMainContextProvider({children}: AppMainContextProviderProps) {
-   const [plates, setPlates] = useState<PlatesProps[]>([])
+   const [plates, setPlates] = useState<PlateType[]>([])
+
+   // const [platesOnCart, setPlatesOnCart] = useState()
    
    useEffect(() => {
       async function fetchPlates() {
@@ -41,7 +44,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
    return (
       <AppMainContext.Provider
          value={{
-            plates
+            plates,
          }}
       >
          {children}

@@ -1,11 +1,16 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter } from "lucide-react";
-import { Helmet } from "react-helmet-async";
-import { AddNewPlate } from "./components/add-new-plate";
-import { PlateManagementCard } from "./components/plate-management-card";
 
 import { useContext } from "react";
+
+import { Helmet } from "react-helmet-async";
+
+import { NewPlateModal } from "./components/new-plate-modal";
+import { AddNewPlateButton } from "./components/add-new-plate-button";
+import { PlateManagementCard } from "./components/plate-management-card";
+
 import { AppMainContext } from "@/contexts/app-main-context";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 export function ManagePlates() {
    const { plates } = useContext(AppMainContext)
@@ -37,7 +42,21 @@ export function ManagePlates() {
          </div>
 
          <div className="grid grid-cols-5 mt-5 gap-x-5 gap-y-10">
-            <AddNewPlate />
+            <Dialog>
+               <DialogTrigger asChild>
+                  <AddNewPlateButton />
+               </DialogTrigger>
+
+               <DialogContent>
+                  <DialogHeader>
+                     <DialogTitle>
+                        Adicionar um novo prato
+                     </DialogTitle>
+                  </DialogHeader>
+
+                  <NewPlateModal />
+               </DialogContent>
+            </Dialog>
 
             {plates.map((plate) => {
                return (
