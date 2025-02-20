@@ -14,6 +14,7 @@ export interface PlateType {
    price: number
    quantity: number
    description: string
+   category: "Refeição" | "Sobremesa" | "Bebida"
 }
 
 interface AppMainContextType {

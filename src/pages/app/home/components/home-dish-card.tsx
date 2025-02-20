@@ -14,7 +14,7 @@ interface PlateProps {
 
 export function HomeDishCard({ plate }: PlateProps) {
    return (
-      <Card className="bg-stone-900">
+      <Card className="bg-stone-100 dark:bg-stone-900">
          <CardContent>
             <img src={plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 

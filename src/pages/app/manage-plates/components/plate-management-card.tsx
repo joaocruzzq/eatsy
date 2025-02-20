@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/alert-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { EditPlateModal } from "./edit-plate-modal";
 
 interface PlateCardProps {
    plateInfo: PlateType
@@ -15,7 +17,7 @@ interface PlateCardProps {
 
 export function PlateManagementCard({plateInfo}: PlateCardProps) {
    return (
-      <Card className="bg-stone-900">
+      <Card className="bg-stone-100 dark:bg-stone-900">
          <CardContent>
             <img src={plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
@@ -38,9 +40,25 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
                   </div>
 
                   <div className="flex gap-2">
-                     <Button className="px-2.5 w-fit" variant={"ghost"}>
-                        <Pencil />
-                     </Button>
+                     <Dialog>
+                        <DialogTrigger asChild>
+                           <Button className="px-2.5 w-fit" variant={"ghost"}>
+                              <Pencil />
+                           </Button>
+                        </DialogTrigger>
+
+                        <DialogContent>
+                           <DialogHeader>
+                              <DialogTitle>
+                                 Editar prato
+                              </DialogTitle>
+                           </DialogHeader>
+
+                           <EditPlateModal
+                              plateId={plateInfo.id}
+                           />
+                        </DialogContent>
+                     </Dialog>
 
                      <AlertDialog>
                         <AlertDialogTrigger>
