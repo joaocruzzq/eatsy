@@ -1,6 +1,5 @@
 import { Plus } from "lucide-react";
 
-import { IngredientTag } from "./ingredient-tag";
 import { PlatePhotoInput } from "./plate-photo-input";
 
 import { Input } from "@/components/ui/input";

@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 export function ManagePlates() {
-   const { plates } = useContext(AppMainContext)
+   const { categoryFilter, filteredPlates, onChangeFilter } = useContext(AppMainContext)
 
    return (
       <div>
@@ -23,7 +23,7 @@ export function ManagePlates() {
             <h1 className="text-3xl font-bold tracking-tight">Gerenciar Pratos</h1>
 
             <div className="text-muted-foreground w-[168px]">
-               <Select>
+               <Select onValueChange={onChangeFilter} value={categoryFilter}>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">
                         <Filter size={16} className="mr-1" />
@@ -32,10 +32,10 @@ export function ManagePlates() {
                   </SelectTrigger>
 
                   <SelectContent>
-                     <SelectItem value="all">Todos</SelectItem>
-                     <SelectItem value="refeicao">Refeições</SelectItem>
-                     <SelectItem value="sobremesa">Sobremesas</SelectItem>
-                     <SelectItem value="bebida">Bebidas</SelectItem>
+                     <SelectItem value="all">Todos os pratos</SelectItem>
+                     <SelectItem value="Refeição">Refeições</SelectItem>
+                     <SelectItem value="Sobremesa">Sobremesas</SelectItem>
+                     <SelectItem value="Bebida">Bebidas</SelectItem>
                   </SelectContent>
                </Select>
             </div>
@@ -58,7 +58,7 @@ export function ManagePlates() {
                </DialogContent>
             </Dialog>
 
-            {plates.map((plate) => {
+            {filteredPlates.map((plate) => {
                return (
                   <PlateManagementCard
                      key={plate.id}

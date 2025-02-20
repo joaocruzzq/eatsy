@@ -15,15 +15,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { HomeDishCard } from "./components/home-dish-card"
 
-import { Controller, useForm } from "react-hook-form"
-
 import { useContext } from "react"
 import { AppMainContext } from "@/contexts/app-main-context"
 
 export function Home() {
-   const { plates } = useContext(AppMainContext)
-   
-   const { control } = useForm()
+   const { categoryFilter, filteredPlates, onChangeFilter } = useContext(AppMainContext)
 
    return (
       <>
@@ -107,38 +103,30 @@ export function Home() {
          </div>
 
          <div className="flex flex-col my-8">
-            <Controller
-               name="category"
-               control={control}
-               render={({ field }) => {
-                  return (
-                     <RadioGroup onValueChange={field.onChange} value={field.value} className="flex gap-2">
-                        <div className="flex justify-center items-center relative h-6">
-                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Todos</Label>
-                           <RadioGroupItem value="todos" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
-                        </div>
+            <RadioGroup onValueChange={onChangeFilter} value={categoryFilter} className="flex gap-2">
+               <div className="flex justify-center items-center relative h-6">
+                  <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Todos</Label>
+                  <RadioGroupItem value="" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+               </div>
 
-                        <div className="flex justify-center items-center relative h-6">
-                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Refeições</Label>
-                           <RadioGroupItem value="refeicao" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
-                        </div>
+               <div className="flex justify-center items-center relative h-6">
+                  <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Refeições</Label>
+                  <RadioGroupItem value="Refeição" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+               </div>
 
-                        <div className="flex justify-center items-center relative h-6">
-                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Sobremesas</Label>
-                           <RadioGroupItem value="sobremesa" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
-                        </div>
+               <div className="flex justify-center items-center relative h-6">
+                  <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Sobremesas</Label>
+                  <RadioGroupItem value="Sobremesa" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+               </div>
 
-                        <div className="flex justify-center items-center relative h-6">
-                           <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Bebidas</Label>
-                           <RadioGroupItem value="bebida" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
-                        </div>
-                     </RadioGroup>
-                  )
-               }}
-            />
-
+               <div className="flex justify-center items-center relative h-6">
+                  <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Bebidas</Label>
+                  <RadioGroupItem value="Bebida" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+               </div>
+            </RadioGroup>
+             
             <div className="grid grid-cols-5 justify-center gap-x-5 pt-20">
-               {plates.map((plate) => {
+               {filteredPlates.map((plate) => {
                   return (
                      <HomeDishCard
                         key={plate.id}

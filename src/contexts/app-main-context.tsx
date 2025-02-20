@@ -19,6 +19,9 @@ export interface PlateType {
 
 interface AppMainContextType {
    plates: PlateType[]
+   categoryFilter: string
+   filteredPlates: PlateType[]
+   onChangeFilter: (value: string) => void
 }
 
 interface AppMainContextProviderProps {
@@ -30,7 +33,19 @@ export const AppMainContext = createContext({} as AppMainContextType)
 export function AppMainContextProvider({children}: AppMainContextProviderProps) {
    const [plates, setPlates] = useState<PlateType[]>([])
 
-   // const [platesOnCart, setPlatesOnCart] = useState()
+   const [categoryFilter, setCatgoryFilter] = useState("")
+   
+   const filteredPlates = plates.filter((plate) => {
+      if(categoryFilter === "") {
+         return true
+      }
+
+      return plate.category === categoryFilter
+   })
+
+   function onChangeFilter(value: string) {
+      setCatgoryFilter(value === "all" ? "" : value)
+   }
    
    useEffect(() => {
       async function fetchPlates() {
@@ -46,6 +61,9 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       <AppMainContext.Provider
          value={{
             plates,
+            categoryFilter,
+            filteredPlates,
+            onChangeFilter
          }}
       >
          {children}
