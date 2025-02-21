@@ -6,13 +6,12 @@ import dishPlateIMG from "@/assets/plate-seafood.svg"
 import titleDetailIMG from "@/assets/text-decoration.svg"
 import deliveryTruckIMG from "@/assets/delivery-truck.svg"
 
-import { Heart, Search, Star } from "lucide-react"
+import { Heart, Star } from "lucide-react"
 
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
+import { SearchForm } from "./components/search-form"
 import { HomeDishCard } from "./components/home-dish-card"
 
 import { useContext } from "react"
@@ -47,13 +46,7 @@ export function Home() {
                   Cozinhamos com amor e entregamos com agilidade. Sua comida favorita, fresquinha e saborosa, chega até você em até 60 minutos!
                </span>
 
-               <form className="flex justify-end items-center h-10 w-11/12">
-                  <Input className="h-full w-full rounded-full" placeholder="Busque pelo prato ou ingredientes" />
-
-                  <Button className="absolute rounded-full w-8 h-8 mr-1.5">
-                     <Search />
-                  </Button>
-               </form>
+               <SearchForm />
             </div>
 
             <div className="flex relative justify-center">

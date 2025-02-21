@@ -46,7 +46,9 @@ export function NewPlateModal() {
                </div>
 
                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <Button type="button" variant={"secondary"}>Concluir</Button>
+                  <Button type="button" variant={"secondary"}>
+                     Concluir
+                  </Button>
 
                   <DialogClose asChild>
                      <Button type="button" variant={"default"}>Cancelar</Button>

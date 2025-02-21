@@ -18,9 +18,13 @@ export interface PlateType {
 }
 
 interface AppMainContextType {
+   query: string
+
    plates: PlateType[]
    categoryFilter: string
    filteredPlates: PlateType[]
+
+   fetchPlates: (query?: string) => void
    onChangeFilter: (value: string) => void
 }
 
@@ -46,24 +50,34 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
    function onChangeFilter(value: string) {
       setCatgoryFilter(value === "all" ? "" : value)
    }
-   
+
+   const [query, setQuery] = useState("")
+
+   async function fetchPlates(query?: string) {
+      setQuery(query || "")
+
+      const platesList = await api.get("/plates", {
+         params: {
+            q: query
+         }
+      })
+
+      setPlates(platesList.data)
+   }
+
    useEffect(() => {
-      async function fetchPlates() {
-         const platesList = await api.get("/plates")
-   
-         setPlates(platesList.data)
-      }
-   
       fetchPlates()
    }, [])
       
    return (
       <AppMainContext.Provider
          value={{
+            query,
             plates,
             categoryFilter,
             filteredPlates,
-            onChangeFilter
+            onChangeFilter,
+            fetchPlates
          }}
       >
          {children}

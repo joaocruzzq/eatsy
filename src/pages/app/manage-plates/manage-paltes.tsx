@@ -1,16 +1,16 @@
 import { Filter } from "lucide-react";
 
-import { useContext } from "react";
-
 import { Helmet } from "react-helmet-async";
 
 import { NewPlateModal } from "./components/new-plate-modal";
 import { AddNewPlateButton } from "./components/add-new-plate-button";
 import { PlateManagementCard } from "./components/plate-management-card";
 
-import { AppMainContext } from "@/contexts/app-main-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
 
 export function ManagePlates() {
    const { categoryFilter, filteredPlates, onChangeFilter } = useContext(AppMainContext)

@@ -1,20 +1,4 @@
 {
-   "users": [
-      {
-         "id": 1,
-         "role": "admin",
-         "name": "João Pedro Cruz",
-         "email": "joaocruzzq@email.com"
-      },
-
-      {
-         "id": 2,
-         "role": "customer",
-         "name": "Eliane Oliveira",
-         "email": "oliveira.eliane@email.com"
-      }
-   ],
-
    "plates": [
       {
          "id": 1,
