@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react";
 
+import { IngredientTag } from "./ingredient-tag";
 import { PlatePhotoInput } from "./plate-photo-input";
 
 import { Input } from "@/components/ui/input";
@@ -8,8 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@/components/ui/dialog";
 import { AppMainContext } from "@/contexts/app-main-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-import { IngredientTag } from "./ingredient-tag";
 
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -20,7 +19,7 @@ import { toast } from "sonner";
 import { api } from "@/lib/axios";
 import { useContext, useState } from "react";
 
-const NewPlateModalFormSchema = z.object({
+const PlateModalFormSchema = z.object({
    name: z.string(),
    price: z.coerce.number(),
    category: z.enum(["Refeição", "Sobremesa", "Bebida"]),
@@ -33,22 +32,28 @@ const NewPlateModalFormSchema = z.object({
    )
 })
 
-type NewPlateModalInputs = z.infer<typeof NewPlateModalFormSchema>
+type AlterPlateModalInputs = z.infer<typeof PlateModalFormSchema>
 
-export function NewPlateModal() {
-   const { fetchPlates } = useContext(AppMainContext)
+interface EditPlateProps {
+   plateId: number | undefined
+}
 
-   const { register, handleSubmit, control, reset } =useForm<NewPlateModalInputs>({
-      resolver: zodResolver(NewPlateModalFormSchema)
+export function AlterPlateModal({ plateId }: EditPlateProps) {
+   const { fetchPlates, plates } = useContext(AppMainContext)
+
+   const { register, handleSubmit, control, reset } = useForm<AlterPlateModalInputs>({
+      resolver: zodResolver(PlateModalFormSchema)
    })
 
-   const { fields, append } = useFieldArray({
+   const { fields, append, remove } = useFieldArray({
       control, name: "ingredients"
    })
 
+   const filteredPlate = plates.find((plate) => plate.id === plateId)
+
    const [newIngredient, setNewIngredient] = useState("")
 
-   async function handleAddANewPlate(data: NewPlateModalInputs) {
+   async function handleAddANewPlate(data: AlterPlateModalInputs) {
       try {
          await api.post("/plates", {
             name: data.name,
@@ -81,22 +86,26 @@ export function NewPlateModal() {
       }
    }
 
+   function handleDeleteIngredientTag(id: number) {
+      remove(id)
+   }
+
    return (
       <div>
          <form onSubmit={handleSubmit(handleAddANewPlate)} className="grid gap-4">
             <PlatePhotoInput />
 
             <div className="grid gap-3">
-               <Input type="text" placeholder="Nome do prato" {...register("name")} />
+               <Input type="text" placeholder="Nome do prato" {...register("name")} value={filteredPlate?.name} />
 
                <div className="flex gap-2">
-                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} />
+                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} value={filteredPlate?.price} />
 
                   <Controller
                      name="category"
                      control={control}
                      render={({ field }) => (
-                        <Select value={field.value} onValueChange={field.onChange}>
+                        <Select value={field.value} onValueChange={field.onChange} defaultValue={filteredPlate?.category}>
                            <SelectTrigger>
                               <SelectValue placeholder="Categoria" />
                            </SelectTrigger>
@@ -111,14 +120,30 @@ export function NewPlateModal() {
                   />
                </div>
 
-               <Textarea placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato." {...register("description")} className="resize-none" rows={4}/>
+               <Textarea
+                  rows={4}
+                  className="resize-none"
+                  {...register("description")}
+                  value={filteredPlate?.description}
+                  placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato."
+               />
 
                <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md" {...register("ingredients")}>
-                  {fields.map((ingredient) => {
-                     return (
-                        <IngredientTag key={ingredient.id} name={ingredient.name} />
+                  {
+                     filteredPlate ? (
+                        filteredPlate.ingredients.map((ingredient) => {
+                           return (
+                              <IngredientTag key={ingredient.id} name={ingredient.name} />
+                           )
+                        })
+                     ) : (
+                        fields.map((ingredient) => {
+                           return (
+                              <IngredientTag key={ingredient.id} name={ingredient.name} />
+                           )
+                        })
                      )
-                  })}
+                  }
 
                   <div className="flex gap-0.5 border-2 border-dashed border-muted-foreground rounded-sm h-full px-2 focus-within:border-ring transition">
                      <input

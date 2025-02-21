@@ -9,7 +9,7 @@ import { AlertModal } from "@/components/alert-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { EditPlateModal } from "./edit-plate-modal";
+import { AlterPlateModal } from "./alter-plate-modal";
 
 interface PlateCardProps {
    plateInfo: PlateType
@@ -54,7 +54,7 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
                               </DialogTitle>
                            </DialogHeader>
 
-                           <EditPlateModal
+                           <AlterPlateModal
                               plateId={plateInfo.id}
                            />
                         </DialogContent>
@@ -68,10 +68,10 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
                         </AlertDialogTrigger>
 
                         <AlertModal
+                           plateId={plateInfo.id}
+                           option2="Continuar"
                            title="Tem certeza que deseja excluir?"
                            description="Isso excluirá permanentemente o prato."
-                           option1="Cancelar"
-                           option2="Continuar"
                         />
                      </AlertDialog>
                   </div>

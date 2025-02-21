@@ -8,21 +8,24 @@ import {
    AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
 
 interface ModalProps {
    title: string
-   option1: string
    option2: string
    description?: string
    shouldNavigate?: boolean
+   plateId: number
 }
 
 export function AlertModal(props : ModalProps) {
-   const navigate = useNavigate()
+   const { deletePlate, fetchPlates } = useContext(AppMainContext)
 
-   function handlePreviousPage() {
-      navigate(-1)
+   function handleDeletePlate() {
+      deletePlate(props.plateId)
+
+      fetchPlates()
    }
    
    return (
@@ -38,8 +41,8 @@ export function AlertModal(props : ModalProps) {
          </AlertDialogHeader>
                      
          <AlertDialogFooter>
-            <AlertDialogCancel>{props.option1}</AlertDialogCancel>
-            <AlertDialogAction onClick={props.shouldNavigate ? handlePreviousPage : undefined}>{props.option2}</AlertDialogAction>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeletePlate}>{props.option2}</AlertDialogAction>
          </AlertDialogFooter>
       </AlertDialogContent>
    )

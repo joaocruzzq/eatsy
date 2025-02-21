@@ -2,7 +2,6 @@ import { Filter } from "lucide-react";
 
 import { Helmet } from "react-helmet-async";
 
-import { NewPlateModal } from "./components/new-plate-modal";
 import { AddNewPlateButton } from "./components/add-new-plate-button";
 import { PlateManagementCard } from "./components/plate-management-card";
 
@@ -11,6 +10,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from 
 
 import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
+import { AlterPlateModal } from "./components/alter-plate-modal";
 
 export function ManagePlates() {
    const { categoryFilter, filteredPlates, onChangeFilter } = useContext(AppMainContext)
@@ -54,7 +54,9 @@ export function ManagePlates() {
                      </DialogTitle>
                   </DialogHeader>
 
-                  <NewPlateModal />
+                  <AlterPlateModal
+                     plateId={undefined}
+                  />
                </DialogContent>
             </Dialog>
 

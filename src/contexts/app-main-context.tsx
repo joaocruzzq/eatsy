@@ -24,6 +24,7 @@ interface AppMainContextType {
    categoryFilter: string
    filteredPlates: PlateType[]
 
+   deletePlate: (id: number) => void
    fetchPlates: (query?: string) => void
    onChangeFilter: (value: string) => void
 }
@@ -36,6 +37,20 @@ export const AppMainContext = createContext({} as AppMainContextType)
 
 export function AppMainContextProvider({children}: AppMainContextProviderProps) {
    const [plates, setPlates] = useState<PlateType[]>([])
+
+   const [query, setQuery] = useState("")
+
+   async function fetchPlates(query?: string) {
+      setQuery(query || "")
+
+      const platesList = await api.get("/plates", {
+         params: {
+            q: query
+         }
+      })
+
+      setPlates(platesList.data)
+   }
 
    const [categoryFilter, setCatgoryFilter] = useState("")
    
@@ -51,21 +66,9 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       setCatgoryFilter(value === "all" ? "" : value)
    }
 
-   const [query, setQuery] = useState("")
-
-   async function fetchPlates(query?: string) {
-      setQuery(query || "")
-
-      const platesList = await api.get("/plates", {
-         params: {
-            q: query
-         }
-      })
-
-      setPlates(platesList.data)
+   function deletePlate(id: number) {
+      api.delete(`/plates/${id}`)
    }
-   
-   
 
    useEffect(() => {
       fetchPlates()
@@ -80,6 +83,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             filteredPlates,
             onChangeFilter,
             fetchPlates,
+            deletePlate
          }}
       >
          {children}

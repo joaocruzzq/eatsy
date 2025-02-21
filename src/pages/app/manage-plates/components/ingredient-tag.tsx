@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 
 interface TagProps {
-   name?: string
+   name: string
 }
 
 export function IngredientTag({name}: TagProps) {
