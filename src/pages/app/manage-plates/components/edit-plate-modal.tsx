@@ -48,10 +48,10 @@ export function EditPlateModal({ plateId }: EditPlateProps) {
                <Textarea placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato." value={filteredPlate?.description} className="resize-none" rows={4} />
 
                <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md">
-                  {filteredPlate?.tags.map((tag) => (
+                  {filteredPlate?.ingredients.map((ingredient) => (
                      <IngredientTag
-                        key={tag.id}
-                        name={tag.name}
+                        key={ingredient.id}
+                        name={ingredient.name}
                      />
                   ))}
 

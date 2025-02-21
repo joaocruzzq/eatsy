@@ -6,47 +6,137 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@/components/ui/dialog";
+import { AppMainContext } from "@/contexts/app-main-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+import { IngredientTag } from "./ingredient-tag";
+
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+
+import { toast } from "sonner";
+
+import { api } from "@/lib/axios";
+import { useContext, useState } from "react";
+
+const NewPlateModalFormSchema = z.object({
+   name: z.string(),
+   price: z.coerce.number(),
+   category: z.enum(["Refeição", "Sobremesa", "Bebida"]),
+   description: z.string(),
+   ingredients: z.array(
+      z.object({
+         id: z.number(),
+         name: z.string()
+      })
+   )
+})
+
+type NewPlateModalInputs = z.infer<typeof NewPlateModalFormSchema>
+
 export function NewPlateModal() {
+   const { fetchPlates } = useContext(AppMainContext)
+
+   const { register, handleSubmit, control, reset } =useForm<NewPlateModalInputs>({
+      resolver: zodResolver(NewPlateModalFormSchema)
+   })
+
+   const { fields, append } = useFieldArray({
+      control, name: "ingredients"
+   })
+
+   const [newIngredient, setNewIngredient] = useState("")
+
+   async function handleAddANewPlate(data: NewPlateModalInputs) {
+      try {
+         await api.post("/plates", {
+            name: data.name,
+            price: data.price,
+            category: data.category,
+            description: data.description,
+            ingredients: data.ingredients
+         })
+
+         toast.success("Prato adicionado com sucesso!")
+
+         fetchPlates()
+
+         reset()
+      }
+
+      catch {
+         toast.error("Erro ao adicionar prato, tente novamente.")
+      }
+   }
+
+   function handleAddNewIngredientTag() {
+      if(newIngredient.trim() !== "") {
+         append({
+            id: fields.length + 1,
+            name: newIngredient.trim()
+         })
+
+         setNewIngredient("")
+      }
+   }
+
    return (
       <div>
-         <form className="grid gap-4">
+         <form onSubmit={handleSubmit(handleAddANewPlate)} className="grid gap-4">
             <PlatePhotoInput />
 
             <div className="grid gap-3">
-               <Input type="text" placeholder="Nome do prato" />
+               <Input type="text" placeholder="Nome do prato" {...register("name")} />
 
                <div className="flex gap-2">
-                  <Input type="number" step={0.01} placeholder="R$ 00,00" />
+                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} />
 
-                  <Select >
-                     <SelectTrigger>
-                        <SelectValue placeholder="Categoria" />
-                     </SelectTrigger>
+                  <Controller
+                     name="category"
+                     control={control}
+                     render={({ field }) => (
+                        <Select value={field.value} onValueChange={field.onChange}>
+                           <SelectTrigger>
+                              <SelectValue placeholder="Categoria" />
+                           </SelectTrigger>
 
-                     <SelectContent>
-                        <SelectItem value="Refeição">Refeição</SelectItem>
-                        <SelectItem value="Sobremesa">Sobremesa</SelectItem>
-                        <SelectItem value="Bebida">Bebida</SelectItem>
-                     </SelectContent>
-                  </Select>
+                           <SelectContent>
+                              <SelectItem value="Refeição">Refeição</SelectItem>
+                              <SelectItem value="Sobremesa">Sobremesa</SelectItem>
+                              <SelectItem value="Bebida">Bebida</SelectItem>
+                           </SelectContent>
+                        </Select>
+                     )}
+                  />
                </div>
 
-               <Textarea placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato." className="resize-none" rows={4} />
+               <Textarea placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato." {...register("description")} className="resize-none" rows={4}/>
 
-               <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md">
+               <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md" {...register("ingredients")}>
+                  {fields.map((ingredient) => {
+                     return (
+                        <IngredientTag key={ingredient.id} name={ingredient.name} />
+                     )
+                  })}
+
                   <div className="flex gap-0.5 border-2 border-dashed border-muted-foreground rounded-sm h-full px-2 focus-within:border-ring transition">
-                     <input type="text" placeholder="ingrediente" className="bg-transparent outline-none text-sm w-[72px]" />
+                     <input
+                        type="text"
+                        value={newIngredient}
+                        placeholder="ingrediente"
+                        onChange={(e) => setNewIngredient(e.target.value)}
+                        className="bg-transparent outline-none text-sm w-[72px]"
+                     />
 
-                     <button type="button" className="w-fit">
+                     <button type="button" className="w-fit" onClick={handleAddNewIngredientTag}>
                         <Plus size={16} />
                      </button>
                   </div>
                </div>
 
                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <Button type="button" variant={"secondary"}>
+                  <Button type="submit" variant={"secondary"}>
                      Concluir
                   </Button>
 

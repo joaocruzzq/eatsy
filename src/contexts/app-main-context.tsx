@@ -2,18 +2,18 @@ import { api } from "@/lib/axios";
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-interface Tag {
+export interface Ingredient {
    id: number
    name: string
 }
 
 export interface PlateType {
    id: number
-   tags: Tag[]
    name: string
    price: number
    quantity: number
    description: string
+   ingredients: Ingredient[]
    category: "Refeição" | "Sobremesa" | "Bebida"
 }
 
@@ -64,6 +64,8 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
       setPlates(platesList.data)
    }
+   
+   
 
    useEffect(() => {
       fetchPlates()
@@ -77,7 +79,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             categoryFilter,
             filteredPlates,
             onChangeFilter,
-            fetchPlates
+            fetchPlates,
          }}
       >
          {children}

@@ -1,31 +1,99 @@
 {
-   "plates": [
-      {
-         "id": 1,
-         "price": 21.90,
-         "name": "Salada Ravanello",
-         "category": "Refeição",
-         "description": "Rabanetes, folhas verdes e molho agridoce salpicados com gergelim. O pão naan dá um toque especial.",
-
-         "tags": [
-            {"id": 1, "name": "alface"},
-            {"id": 2, "name": "tomate"},
-            {"id": 3, "name": "cebola"}
-         ]
-      },
-
-      {
-         "id": 2,
-         "price": 14.90,
-         "name": "Macarons",
-         "category": "Sobremesa",
-         "description": "Farinha de amêndoas, manteiga, claras e açúcar.",
-
-         "tags": [
-            {"id": 2, "name": "açúcar"},
-            {"id": 1, "name": "amendoas"},
-            {"id": 3, "name": "manteiga"}
-         ]
-      }
-   ]
+  "plates": [
+    {
+      "id": 1,
+      "price": 21.9,
+      "name": "Salada Ravanello",
+      "category": "Refeição",
+      "description": "Rabanetes, folhas verdes e molho agridoce salpicados com gergelim. O pão naan dá um toque especial.",
+      "tags": [
+        {
+          "id": 1,
+          "name": "alface"
+        },
+        {
+          "id": 2,
+          "name": "tomate"
+        },
+        {
+          "id": 3,
+          "name": "cebola"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "price": 14.9,
+      "name": "Macarons",
+      "category": "Sobremesa",
+      "description": "Farinha de amêndoas, manteiga, claras e açúcar.",
+      "tags": [
+        {
+          "id": 2,
+          "name": "açúcar"
+        },
+        {
+          "id": 1,
+          "name": "amendoas"
+        },
+        {
+          "id": 3,
+          "name": "manteiga"
+        }
+      ]
+    },
+    {
+      "name": "Chá de hibisco",
+      "price": 13.9,
+      "category": "Bebida",
+      "description": "Chá refrescante levemtne adocicado",
+      "id": 3
+    },
+    {
+      "name": "Teste sobremesa",
+      "price": 13.9,
+      "category": "Sobremesa",
+      "description": "aaaaaaaaaaa",
+      "ingredients": [
+        {
+          "id": 1740159580059,
+          "name": "teste 1"
+        },
+        {
+          "id": 1740159583427,
+          "name": "teste 2"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "name": "Batata com Queijo e Cheddar",
+      "price": 49.9,
+      "category": "Refeição",
+      "description": "Batata ocm catupiry, queijo mussarela e cheddar.",
+      "ingredients": [],
+      "id": 5
+    },
+    {
+      "name": "Prato 222222",
+      "price": 49.9,
+      "category": "Sobremesa",
+      "description": "descrição aa",
+      "ingredients": [
+        {
+          "id": 1,
+          "name": "asfas"
+        },
+        {
+          "id": 2,
+          "name": "egvwrwev"
+        },
+        {
+          "id": 3,
+          "name": "rvrvewve"
+        }
+      ],
+      "id": 6
+    }
+  ]
 }

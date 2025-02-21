@@ -15,7 +15,7 @@ export function App() {
     <HelmetProvider>
       <ThemeProvider storageKey="eatsy-theme" defaultTheme="dark">
         <Helmet titleTemplate="%s | Eatsy" />
-        <Toaster richColors closeButton />
+        <Toaster richColors />
 
         <AppMainContextProvider>
           <RouterProvider router={router} />
