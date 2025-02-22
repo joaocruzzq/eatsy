@@ -100,9 +100,11 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
       }
    }
 
-   // function handleDeleteIngredientTag(id: number) {
-   //    remove(id)
-   // }
+   function handleDeleteIngredientTag(id: number) {
+      const ingredientID = fields.findIndex((ingredient) => ingredient.id === id)
+      
+      remove(ingredientID)
+   }
 
    return (
       <div>
@@ -147,19 +149,29 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                      filteredPlate ? (
                         filteredPlate.ingredients.map((ingredient) => {
                            return (
-                              <IngredientTag key={ingredient.id} name={ingredient.name} />
+                              <IngredientTag
+                                 key={ingredient.id}
+                                 name={ingredient.name}
+                                 id={ingredient.id}
+                                 onDeleteIngredientTag={handleDeleteIngredientTag}
+                              />
                            )
                         })
                      ) : (
                         fields.map((ingredient) => {
                            return (
-                              <IngredientTag key={ingredient.id} name={ingredient.name} />
+                              <IngredientTag
+                                 key={ingredient.id}
+                                 name={ingredient.name}
+                                 id={ingredient.id}
+                                 onDeleteIngredientTag={handleDeleteIngredientTag}
+                              />
                            )
                         })
                      )
                   }
 
-                  <div className="flex gap-0.5 border-2 border-dashed border-muted-foreground rounded-sm h-full px-2 focus-within:border-ring transition">
+                  <div className="flex gap-0.5 border-2 border-dashed border-muted-foreground rounded-sm h-6 px-2 focus-within:border-ring transition">
                      <input
                         type="text"
                         value={newIngredient}
