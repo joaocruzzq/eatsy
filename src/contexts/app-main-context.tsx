@@ -15,6 +15,7 @@ export interface PlateType {
    description: string
    ingredients: Ingredient[]
    category: "Refeição" | "Sobremesa" | "Bebida"
+   plateIMG: string
 }
 
 interface AppMainContextType {
@@ -72,7 +73,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
    useEffect(() => {
       fetchPlates()
-   }, [])
+   }, [plates])
       
    return (
       <AppMainContext.Provider

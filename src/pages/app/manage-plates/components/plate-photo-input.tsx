@@ -2,7 +2,11 @@ import { ImageUp } from "lucide-react";
 
 import { ChangeEvent, useRef, useState } from "react";
 
-export function PlatePhotoInput() {
+interface PlatePhotoInputProps {
+   onImageUpload: (file: File) => void
+}
+
+export function PlatePhotoInput({ onImageUpload }: PlatePhotoInputProps) {
    const fileInputRef = useRef<HTMLInputElement | null>(null)
 
    const [fileName, setFileName] = useState<string | null>(null)
@@ -13,7 +17,10 @@ export function PlatePhotoInput() {
 
    function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
       if(event.target.files && event.target.files.length > 0) {
-         setFileName(event.target.files[0].name)
+         const file = event.target.files[0]
+
+         setFileName(file.name)
+         onImageUpload(file)
       }
    }
 

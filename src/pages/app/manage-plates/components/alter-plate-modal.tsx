@@ -39,7 +39,7 @@ interface EditPlateProps {
 }
 
 export function AlterPlateModal({ plateId }: EditPlateProps) {
-   const { fetchPlates, plates } = useContext(AppMainContext)
+   const { plates } = useContext(AppMainContext)
 
    const { register, handleSubmit, control, reset } = useForm<AlterPlateModalInputs>({
       resolver: zodResolver(PlateModalFormSchema)
@@ -53,20 +53,34 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
 
    const [newIngredient, setNewIngredient] = useState("")
 
+   const [plateIMG, setPlateIMG] = useState<File | null>(null)
+
    async function handleAddANewPlate(data: AlterPlateModalInputs) {
       try {
+         let imageBase64 = null
+
+         if (plateIMG) {
+            const reader = new FileReader()
+
+            reader.readAsDataURL(plateIMG)
+
+            imageBase64 = await new Promise((resolve) => {
+               reader.onload = () => resolve(reader.result)
+            })
+         }
+
          await api.post("/plates", {
             name: data.name,
             price: data.price,
             category: data.category,
             description: data.description,
-            ingredients: data.ingredients
+            ingredients: data.ingredients,
+            plateIMG: imageBase64
          })
 
          toast.success("Prato adicionado com sucesso!")
 
-         fetchPlates()
-
+         setPlateIMG(null)
          reset()
       }
 
@@ -86,14 +100,14 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
       }
    }
 
-   function handleDeleteIngredientTag(id: number) {
-      remove(id)
-   }
+   // function handleDeleteIngredientTag(id: number) {
+   //    remove(id)
+   // }
 
    return (
       <div>
          <form onSubmit={handleSubmit(handleAddANewPlate)} className="grid gap-4">
-            <PlatePhotoInput />
+            <PlatePhotoInput onImageUpload={setPlateIMG} />
 
             <div className="grid gap-3">
                <Input type="text" placeholder="Nome do prato" {...register("name")} value={filteredPlate?.name} />
