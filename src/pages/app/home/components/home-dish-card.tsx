@@ -6,11 +6,28 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { PlateType } from "@/contexts/app-main-context"
 
+import { useContext, useState } from "react"
+import { AppMainContext } from "@/contexts/app-main-context"
+
 interface PlateProps {
    plate: PlateType
 }
 
 export function HomeDishCard({ plate }: PlateProps) {
+   const { onAddPlateToOrder } = useContext(AppMainContext)
+
+   const [itemQuantity, setItemQuantity] = useState(1)
+   
+   function handleAddPlateToOrder() {
+      onAddPlateToOrder({
+         id: plate.id,
+         name: plate.name,
+         price: plate.price,
+         quantity: itemQuantity,
+         plateIMG: plate.plateIMG,
+      })
+   }
+
    return (
       <Card className="bg-stone-100 dark:bg-stone-900">
          <CardContent>
@@ -35,9 +52,9 @@ export function HomeDishCard({ plate }: PlateProps) {
                   </div>
 
                   <div className="flex gap-1.5">
-                     <Stepper />
+                     <Stepper itemID={plate.id} initialValue={itemQuantity} onChangeQuantity={setItemQuantity} />
                      
-                     <Button className="px-2.5" variant={"default"}>
+                     <Button className="px-2.5" variant={"default"} onClick={handleAddPlateToOrder}>
                         <ShoppingCart />
                      </Button>
                   </div>

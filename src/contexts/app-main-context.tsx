@@ -13,9 +13,18 @@ export interface PlateType {
    name: string
    price: number
    plateIMG: string
+   quantity: number
    description: string
    ingredients: Ingredient[]
    category: "Refeição" | "Sobremesa" | "Bebida"
+}
+
+interface PlateOnOrderType {
+   id: number
+   name: string
+   price: number
+   quantity: number
+   plateIMG: string
 }
 
 interface AppMainContextType {
@@ -26,13 +35,16 @@ interface AppMainContextType {
    categoryFilter: string
    filteredPlates: PlateType[]
 
+   customerOrder: PlateOnOrderType[]
+
    fetchPlates: (query?: string) => void
    onChangeFilter: (value: string) => void
 
    onDeletePlate: (id: number) => void
-   onAddPlateData: (data: PlateType) => void
-   
+   onAddNewPlate: (data: PlateType) => void
    onAddPlatePhoto: (platePhoto: string) => void
+
+   onAddPlateToOrder: (plate: PlateOnOrderType) => void
 }
 
 interface AppMainContextProviderProps {
@@ -72,18 +84,13 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       setCatgoryFilter(value === "all" ? "" : value)
    }
 
-   function onDeletePlate(id: number) {
-      api.delete(`/plates/${id}`)
-      fetchPlates()
-   }
-
    const [plateIMG, setPlateIMG] = useState<string | null>(null)
 
    function onAddPlatePhoto(platePhoto: string) {
       setPlateIMG(platePhoto)
    }
 
-   async function onAddPlateData(data: PlateType) {
+   async function onAddNewPlate(data: PlateType) {
       const isNewPlate = !data.id
 
       const plateData = {
@@ -96,15 +103,11 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
          if (isNewPlate) {
             await api.post("/plates", plateData)
             toast.success("Prato adicionado com sucesso!")
-
-            console.log("Prato a adicionar", plateData)
          }
 
          else {
             await api.put(`/plates/${data.id}`, plateData)
             toast.success("Prato atualizado com sucesso!")
-
-            console.log("Prato a atualizar", plateData)
          }
 
          setPlateIMG(null)
@@ -117,22 +120,54 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       fetchPlates()
    }
 
+   function onDeletePlate(id: number) {
+      api.delete(`/plates/${id}`)
+      fetchPlates()
+   }
+
+   const [customerOrder, setCustomerOrder] = useState<PlateOnOrderType[]>([])
+
+   function onAddPlateToOrder(plateData: PlateOnOrderType) {
+      const alreadyOnOrder = customerOrder.find((plate) => plate.id === plateData.id)
+
+      if (alreadyOnOrder) {
+         const updatedPlateQuantity = customerOrder.map((plate) => plate.id === plateData.id ? {
+            id: plate.id,
+            name: plate.name,
+            price: plate.price,
+            plateIMG: plate.plateIMG,
+            quantity: plate.quantity + plateData.quantity
+         } : plate)
+
+         setCustomerOrder(updatedPlateQuantity)
+      }
+
+      else {
+         setCustomerOrder((prevState) => [...prevState, plateData])
+      }
+   }
+
    useEffect(() => {
       fetchPlates()
-   }, [])
+   }, [customerOrder])
       
    return (
       <AppMainContext.Provider
          value={{
             query,
-            plates,
+            fetchPlates,
+
             categoryFilter,
             filteredPlates,
-            fetchPlates,
-            onDeletePlate,
             onChangeFilter,
-            onAddPlateData,
-            onAddPlatePhoto
+
+            plates,
+            onDeletePlate,
+            onAddNewPlate,
+            onAddPlatePhoto,
+
+            customerOrder,
+            onAddPlateToOrder,
          }}
       >
          {children}

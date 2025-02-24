@@ -154,7 +154,6 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                   </DialogClose>
                </div>
             </div>
-
          </form>
       </div>
    )
