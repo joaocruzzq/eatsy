@@ -14,16 +14,15 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-import { toast } from "sonner";
-
-import { api } from "@/lib/axios";
 import { useContext, useState } from "react";
 
 const PlateModalFormSchema = z.object({
+   id: z.number().optional(),
    name: z.string(),
+   plateIMG: z.string(),
+   description: z.string(),
    price: z.coerce.number(),
    category: z.enum(["Refeição", "Sobremesa", "Bebida"]),
-   description: z.string(),
    ingredients: z.array(
       z.object({
          id: z.number(),
@@ -39,54 +38,30 @@ interface EditPlateProps {
 }
 
 export function AlterPlateModal({ plateId }: EditPlateProps) {
-   const { plates } = useContext(AppMainContext)
+   const { plates, onAddPlateData } = useContext(AppMainContext)
 
-   const { register, handleSubmit, control, reset } = useForm<AlterPlateModalInputs>({
-      resolver: zodResolver(PlateModalFormSchema)
+   const filteredPlate = plates.find((plate) => plate.id === plateId)
+
+   const { register, setValue, handleSubmit, control, formState: { isSubmitting } } = useForm<AlterPlateModalInputs>({
+      resolver: zodResolver(PlateModalFormSchema),
+      defaultValues: {
+         id: filteredPlate?.id,
+         name: filteredPlate?.name,
+         price: filteredPlate?.price,
+         category: filteredPlate?.category,
+         plateIMG: filteredPlate?.plateIMG || "",
+         description: filteredPlate?.description
+      }
    })
 
    const { fields, append, remove } = useFieldArray({
       control, name: "ingredients"
    })
 
-   const filteredPlate = plates.find((plate) => plate.id === plateId)
-
    const [newIngredient, setNewIngredient] = useState("")
 
-   const [plateIMG, setPlateIMG] = useState<File | null>(null)
-
-   async function handleAddANewPlate(data: AlterPlateModalInputs) {
-      try {
-         let imageBase64 = null
-
-         if (plateIMG) {
-            const reader = new FileReader()
-
-            reader.readAsDataURL(plateIMG)
-
-            imageBase64 = await new Promise((resolve) => {
-               reader.onload = () => resolve(reader.result)
-            })
-         }
-
-         await api.post("/plates", {
-            name: data.name,
-            price: data.price,
-            category: data.category,
-            description: data.description,
-            ingredients: data.ingredients,
-            plateIMG: imageBase64
-         })
-
-         toast.success("Prato adicionado com sucesso!")
-
-         setPlateIMG(null)
-         reset()
-      }
-
-      catch {
-         toast.error("Erro ao adicionar prato, tente novamente.")
-      }
+   function handleSetPlateInformations(data: AlterPlateModalInputs) {
+      onAddPlateData(data)
    }
 
    function handleAddNewIngredientTag() {
@@ -108,20 +83,20 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
 
    return (
       <div>
-         <form onSubmit={handleSubmit(handleAddANewPlate)} className="grid gap-4">
-            <PlatePhotoInput onImageUpload={setPlateIMG} />
+         <form onSubmit={handleSubmit(handleSetPlateInformations)} className="grid gap-4">
+            <PlatePhotoInput register={register} setValue={setValue} />
 
             <div className="grid gap-3">
-               <Input type="text" placeholder="Nome do prato" {...register("name")} value={filteredPlate?.name} />
+               <Input type="text" placeholder="Nome do prato" {...register("name")} />
 
                <div className="flex gap-2">
-                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} value={filteredPlate?.price} />
+                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} />
 
                   <Controller
                      name="category"
                      control={control}
                      render={({ field }) => (
-                        <Select value={field.value} onValueChange={field.onChange} defaultValue={filteredPlate?.category}>
+                        <Select value={field.value} onValueChange={field.onChange} >
                            <SelectTrigger>
                               <SelectValue placeholder="Categoria" />
                            </SelectTrigger>
@@ -140,7 +115,6 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                   rows={4}
                   className="resize-none"
                   {...register("description")}
-                  value={filteredPlate?.description}
                   placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato."
                />
 
@@ -187,7 +161,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                </div>
 
                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <Button type="submit" variant={"secondary"}>
+                  <Button type="submit" variant={"secondary"} disabled={isSubmitting} className="disabled:cursor-not-allowed">
                      Concluir
                   </Button>
 
@@ -196,6 +170,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                   </DialogClose>
                </div>
             </div>
+
          </form>
       </div>
    )

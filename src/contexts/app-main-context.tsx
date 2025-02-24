@@ -1,6 +1,7 @@
 import { api } from "@/lib/axios";
 
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export interface Ingredient {
    id: number
@@ -11,11 +12,10 @@ export interface PlateType {
    id: number
    name: string
    price: number
-   quantity: number
+   plateIMG: string
    description: string
    ingredients: Ingredient[]
    category: "Refeição" | "Sobremesa" | "Bebida"
-   plateIMG: string
 }
 
 interface AppMainContextType {
@@ -28,6 +28,9 @@ interface AppMainContextType {
    deletePlate: (id: number) => void
    fetchPlates: (query?: string) => void
    onChangeFilter: (value: string) => void
+
+   onAddPlatePhoto: (platePhoto: string) => void
+   onAddPlateData: (data: PlateType) => void
 }
 
 interface AppMainContextProviderProps {
@@ -69,11 +72,60 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
    function deletePlate(id: number) {
       api.delete(`/plates/${id}`)
+      fetchPlates()
+   }
+
+
+
+
+
+
+
+
+
+   const [plateIMG, setPlateIMG] = useState<string | null>(null)
+
+   function onAddPlatePhoto(platePhoto: string) {
+      setPlateIMG(platePhoto)
+   }
+
+   async function onAddPlateData(data: PlateType) {
+      const isNewPlate = !data.id
+
+      const plateData = {
+         ...data,
+         id: isNewPlate ? plates.length + 1 : data.id,
+         plateIMG: plateIMG ? plateIMG?.toString() : data.plateIMG,
+      }
+
+      try {
+         if (isNewPlate) {
+            await api.post("/plates", plateData)
+            toast.success("Prato adicionado com sucesso!")
+
+            console.log("Prato a adicionar", plateData)
+         }
+
+         else {
+            await api.put(`/plates/${data.id}`, plateData)
+            toast.success("Prato atualizado com sucesso!")
+
+            console.log("Prato a atualizar", plateData)
+         }
+
+         setPlateIMG(null)
+      }
+
+      catch {
+         toast.error("Erro ao salvar prato, tente novamente.")
+      }
+
+      fetchPlates()
    }
 
    useEffect(() => {
       fetchPlates()
-   }, [plates])
+   }, [])
       
    return (
       <AppMainContext.Provider
@@ -84,7 +136,9 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             filteredPlates,
             onChangeFilter,
             fetchPlates,
-            deletePlate
+            onAddPlateData,
+            deletePlate,
+            onAddPlatePhoto
          }}
       >
          {children}
