@@ -2,12 +2,13 @@ import { Pencil, Trash2 } from "lucide-react";
 
 import { PlateType } from "@/contexts/app-main-context";
 
+import { AlterPlateModal } from "./alter-plate-modal";
+
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/alert-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlterPlateModal } from "./alter-plate-modal";
 
 interface PlateCardProps {
    plateInfo: PlateType

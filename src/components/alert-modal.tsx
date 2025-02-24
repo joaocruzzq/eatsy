@@ -20,10 +20,11 @@ interface ModalProps {
 }
 
 export function AlertModal(props : ModalProps) {
-   const { deletePlate } = useContext(AppMainContext)
+   const { onDeletePlate, fetchPlates } = useContext(AppMainContext)
 
    function handleDeletePlate() {
-      deletePlate(props.plateId)
+      onDeletePlate(props.plateId)
+      fetchPlates()
    }
    
    return (

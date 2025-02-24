@@ -22,15 +22,17 @@ interface AppMainContextType {
    query: string
 
    plates: PlateType[]
+
    categoryFilter: string
    filteredPlates: PlateType[]
 
-   deletePlate: (id: number) => void
    fetchPlates: (query?: string) => void
    onChangeFilter: (value: string) => void
 
-   onAddPlatePhoto: (platePhoto: string) => void
+   onDeletePlate: (id: number) => void
    onAddPlateData: (data: PlateType) => void
+   
+   onAddPlatePhoto: (platePhoto: string) => void
 }
 
 interface AppMainContextProviderProps {
@@ -70,18 +72,10 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       setCatgoryFilter(value === "all" ? "" : value)
    }
 
-   function deletePlate(id: number) {
+   function onDeletePlate(id: number) {
       api.delete(`/plates/${id}`)
       fetchPlates()
    }
-
-
-
-
-
-
-
-
 
    const [plateIMG, setPlateIMG] = useState<string | null>(null)
 
@@ -134,10 +128,10 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             plates,
             categoryFilter,
             filteredPlates,
-            onChangeFilter,
             fetchPlates,
+            onDeletePlate,
+            onChangeFilter,
             onAddPlateData,
-            deletePlate,
             onAddPlatePhoto
          }}
       >
