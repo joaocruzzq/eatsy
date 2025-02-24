@@ -50,7 +50,8 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
          price: filteredPlate?.price,
          category: filteredPlate?.category,
          plateIMG: filteredPlate?.plateIMG || "",
-         description: filteredPlate?.description
+         description: filteredPlate?.description,
+         ingredients: filteredPlate?.ingredients
       }
    })
 
@@ -118,32 +119,15 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                   placeholder="Utilize esse campo para fazer uma descrição breve sobre o prato."
                />
 
-               <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md" {...register("ingredients")}>
-                  {
-                     filteredPlate ? (
-                        filteredPlate.ingredients.map((ingredient) => {
-                           return (
-                              <IngredientTag
-                                 key={ingredient.id}
-                                 name={ingredient.name}
-                                 id={ingredient.id}
-                                 onDeleteIngredientTag={handleDeleteIngredientTag}
-                              />
-                           )
-                        })
-                     ) : (
-                        fields.map((ingredient) => {
-                           return (
-                              <IngredientTag
-                                 key={ingredient.id}
-                                 name={ingredient.name}
-                                 id={ingredient.id}
-                                 onDeleteIngredientTag={handleDeleteIngredientTag}
-                              />
-                           )
-                        })
-                     )
-                  }
+               <div className="flex h-full overflow-auto custom-scrollbar gap-2 bg-neutral-200 dark:bg-neutral-900 py-2 px-2.5 rounded-md">
+                  {fields.map((ingredient) => (
+                     <IngredientTag
+                        key={ingredient.id}
+                        name={ingredient.name}
+                        id={ingredient.id}
+                        onDeleteIngredientTag={handleDeleteIngredientTag}
+                     />
+                  ))}
 
                   <div className="flex gap-0.5 border-2 border-dashed border-muted-foreground rounded-sm h-6 px-2 focus-within:border-ring transition">
                      <input
