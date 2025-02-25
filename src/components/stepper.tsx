@@ -25,7 +25,7 @@ export function Stepper({ initialValue, onChangeQuantity}: StepperProps) {
    }
 
    return (
-      <div className="flex gap-1.5 items-center bg-muted rounded-md px-2">
+      <div className="flex justify-between items-center bg-muted rounded-md px-2 w-16 h-full">
          <Minus size={14} className="cursor-pointer" onClick={handleDecrementQuantity} />
          <span className="-mt-0.5 text-sm text-muted-foreground outline-none bg-transparent">{itemQuantity}</span>
          <Plus size={14} className="cursor-pointer" onClick={handleIncrementQuantity} />

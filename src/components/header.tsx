@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed, ConciergeBell } from "lucide-react";
+import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed, ConciergeBell, ShoppingCart } from "lucide-react";
 
 import { Separator } from "./ui/separator";
 
@@ -6,6 +6,9 @@ import { NavLink } from "./nav-link";
 import { AccountMenu } from "./account-menu";
 
 import { ThemeToggle } from "./theme/theme-toggle";
+import { OrderCart } from "./order-cart";
+import { Sheet, SheetTrigger } from "./ui/sheet";
+import { Button } from "./ui/button";
 
 export function Header() {
    return (
@@ -50,8 +53,18 @@ export function Header() {
             </nav>
 
             <div className="ml-auto flex items-center gap-2">
-               <ThemeToggle />
 
+               <Sheet>
+                  <SheetTrigger>
+                     <Button variant="outline" size="icon">
+                        <ShoppingCart />
+                     </Button>
+                  </SheetTrigger>
+
+                  <OrderCart />
+               </Sheet>
+
+               <ThemeToggle />
                <AccountMenu />
             </div>
          </div>

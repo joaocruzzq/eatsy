@@ -19,12 +19,13 @@ export interface PlateType {
    category: "Refeição" | "Sobremesa" | "Bebida"
 }
 
-interface PlateOnOrderType {
+export interface PlateOnOrderType {
    id: number
    name: string
    price: number
    quantity: number
    plateIMG: string
+   category: string
 }
 
 interface AppMainContextType {
@@ -136,6 +137,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             name: plate.name,
             price: plate.price,
             plateIMG: plate.plateIMG,
+            category: plate.category,
             quantity: plate.quantity + plateData.quantity
          } : plate)
 

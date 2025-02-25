@@ -24,6 +24,7 @@ export function HomeDishCard({ plate }: PlateProps) {
          name: plate.name,
          price: plate.price,
          quantity: itemQuantity,
+         category: plate.category,
          plateIMG: plate.plateIMG,
       })
    }
@@ -54,7 +55,7 @@ export function HomeDishCard({ plate }: PlateProps) {
                   <div className="flex gap-1.5">
                      <Stepper itemID={plate.id} initialValue={itemQuantity} onChangeQuantity={setItemQuantity} />
                      
-                     <Button className="px-2.5" variant={"default"} onClick={handleAddPlateToOrder}>
+                     <Button size="icon" variant={"default"} onClick={handleAddPlateToOrder}>
                         <ShoppingCart />
                      </Button>
                   </div>

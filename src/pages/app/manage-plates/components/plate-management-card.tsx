@@ -61,7 +61,7 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
 
                      <AlertDialog>
                         <AlertDialogTrigger>
-                           <Button className="px-2.5 w-fit" variant={"default"}>
+                           <Button size="icon" variant={"default"}>
                               <Trash2 />
                            </Button>
                         </AlertDialogTrigger>
