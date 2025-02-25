@@ -46,6 +46,7 @@ interface AppMainContextType {
    onAddPlatePhoto: (platePhoto: string) => void
 
    onAddPlateToOrder: (plate: PlateOnOrderType) => void
+   onChangeItemQuantity: (plateID: number, quantity: number) => void
 }
 
 interface AppMainContextProviderProps {
@@ -149,6 +150,11 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       }
    }
 
+   function onChangeItemQuantity(plateID: number, quantity: number) {
+      setCustomerOrder((prevState) => prevState.map((plate) => plate.id === plateID ? {...plate, quantity} : plate)
+      )
+   }
+
    useEffect(() => {
       fetchPlates()
    }, [customerOrder])
@@ -170,6 +176,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
             customerOrder,
             onAddPlateToOrder,
+            onChangeItemQuantity
          }}
       >
          {children}

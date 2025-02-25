@@ -3,15 +3,19 @@ import { Stepper } from "./stepper";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
-import { PlateOnOrderType } from "@/contexts/app-main-context";
-import { useState } from "react";
+import { useContext } from "react";
+import { AppMainContext, PlateOnOrderType } from "@/contexts/app-main-context";
 
 interface OrderPlateCardProps {
    plate: PlateOnOrderType
 }
 
 export function OrderPlateCard({ plate }: OrderPlateCardProps) {
-   const [itemQuantity, setItemQuantity] = useState(plate.quantity)
+   const { onChangeItemQuantity } = useContext(AppMainContext)
+
+   function handleChangeQuantity(newQuantity: number) {
+      onChangeItemQuantity(plate.id, newQuantity)
+   }
 
    return (
       <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md">
@@ -30,7 +34,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
 
                   <span className="flex items-baseline gap-0.5 font-semibold">
                      <span className="font-normal text-xs">R$</span>
-                     {(plate.price * itemQuantity).toFixed(2)}
+                     {(plate.price * plate.quantity).toFixed(2)}
                   </span>
                </div>
 
@@ -44,7 +48,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                   </div>
 
                   <div className="flex h-8 gap-2 items-center">
-                     <Stepper itemID={plate.id} initialValue={itemQuantity} onChangeQuantity={setItemQuantity} />
+                     <Stepper itemID={plate.id} initialValue={plate.quantity} onChangeQuantity={handleChangeQuantity} />
 
                      <Button size="icon" variant="outline">
                         <Trash2 />
@@ -52,35 +56,6 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                   </div>
                </div>
             </div>
-
-            {/* <div className="flex w-full items-center justify-between">
-               <div className="flex w-full items-center">
-                  <div className="flex flex-col">
-                     {plate.name}
-
-                     <div className="flex gap-1 text-sm">
-                        <div>
-                           <span className="text-xs">R$</span>
-                           {plate.price.toFixed(2)}
-                        </div>
-
-                        &bull;
-
-                        <div>
-                           {plate.category}
-                        </div>
-                     </div>
-                  </div>
-                  
-                  <div className="flex gap-1 items-center ml-auto h-8">
-                     <Stepper itemID={plate.id} initialValue={itemQuantity} onChangeQuantity={setItemQuantity} />
-
-                     <Button size="icon" variant="outline" className="ml-auto">
-                        <Trash2 />
-                     </Button>
-                  </div>
-               </div>
-            </div> */}
          </CardContent>
       </Card>
    )

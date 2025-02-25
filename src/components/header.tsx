@@ -10,7 +10,14 @@ import { OrderCart } from "./order-cart";
 import { Sheet, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
+
 export function Header() {
+   const { customerOrder } = useContext(AppMainContext)
+
+   const totalItemsOnCart = customerOrder.reduce((acc, plate) => acc + plate.quantity, 0)
+
    return (
       <div className="border-b absolute w-full">
          <div className="flex h-16 items-center gap-6 px-6 max-w-screen-xl mx-auto">
@@ -53,19 +60,22 @@ export function Header() {
             </nav>
 
             <div className="ml-auto flex items-center gap-2">
+               <AccountMenu />
+               <ThemeToggle />
 
                <Sheet>
                   <SheetTrigger>
-                     <Button variant="outline" size="icon">
+                     <Button variant="outline" size="icon" className="relative mr-1">
+                        <div className="flex w-5 h-5 items-center justify-center absolute rounded-full bg-primary -translate-y-[75%] translate-x-[75%]">
+                           {totalItemsOnCart}
+                        </div>
+
                         <ShoppingCart />
                      </Button>
                   </SheetTrigger>
 
                   <OrderCart />
                </Sheet>
-
-               <ThemeToggle />
-               <AccountMenu />
             </div>
          </div>
       </div>
