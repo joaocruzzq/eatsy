@@ -20,7 +20,7 @@ export function OrderCart() {
             Pedido {"#"}3543548657
          </SheetDescription>
 
-         <div className="flex flex-col gap-4 py-4 my-6 border-muted border-y-2">
+         <div className="flex flex-col gap-3 py-3 my-6 border-muted border-y-2 h-[74%] overflow-auto custom-scrollbar">
             {
                customerOrder.length > 0 ? (
                   <>

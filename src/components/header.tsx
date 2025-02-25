@@ -66,9 +66,13 @@ export function Header() {
                <Sheet>
                   <SheetTrigger>
                      <Button variant="outline" size="icon" className="relative mr-1">
-                        <div className="flex w-5 h-5 items-center justify-center absolute rounded-full bg-primary -translate-y-[75%] translate-x-[75%]">
-                           {totalItemsOnCart}
-                        </div>
+                        {
+                           customerOrder.length > 0 && (
+                              <div className="flex w-5 h-5 items-center justify-center absolute rounded-full bg-primary -translate-y-[75%] translate-x-[75%]">
+                                 {totalItemsOnCart}
+                              </div>
+                           )
+                        }
 
                         <ShoppingCart />
                      </Button>

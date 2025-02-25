@@ -19,38 +19,45 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
 
    return (
       <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md">
-         <CardContent className="flex gap-3 py-2.5 px-3 relative overflow-hidden">
-            <img src={plate.plateIMG} className="absolute size-36 -translate-x-[50%] translate-y-[30%] opacity-5" />
+         <CardContent className="flex gap-4 p-3 relative overflow-hidden">
+            <img src={plate.plateIMG} className="absolute -z-10 size-36 translate-x-[150%] -translate-y-[50%] opacity-5" />
 
             <div>
                <img src={plate.plateIMG} className="max-w-16" />
             </div>
 
-            <div className="grid w-full gap-1">
-               <div className="flex w-full justify-between text-lg">
-                  <span className="font-semibold">
+            <div className="flex flex-col justify-between flex-1">
+               <div className="flex justify-between items-center">
+                  <span className="text-lg font-bevietnam">
                      {plate.name}
                   </span>
 
-                  <span className="flex items-baseline gap-0.5 font-semibold">
-                     <span className="font-normal text-xs">R$</span>
-                     {(plate.price * plate.quantity).toFixed(2)}
-                  </span>
+                  <div className="text-sm text-muted-foreground">
+                     <span className="text-xs mr-0.5">R$</span>
+                     {plate.price.toFixed(2)}
+                  </div>
                </div>
 
-               <div className="flex justify-between items-center">
-                  <div className="flex gap-1 items-baseline text-sm">
-                     <span>{plate.price.toFixed(2)}</span>
+               <div className="flex items-baseline justify-between">
+                  <div className="flex gap-1.5 items-baseline text-sm">
+                     <span>{plate.quantity}
+                        <span className="ml-0.5">x</span>
+                     </span>
 
                      &bull;
 
-                     <span>{plate.category}</span>
+                     <span className="text-xs">
+                        R$
+                        <span className="font-semibold text-lg ml-0.5">
+                           {(plate.price * plate.quantity).toFixed(2)}
+                        </span>
+                     </span>
                   </div>
 
-                  <div className="flex h-8 gap-2 items-center">
+                  <div className="flex gap-2 h-8 items-center">
                      <Stepper itemID={plate.id} initialValue={plate.quantity} onChangeQuantity={handleChangeQuantity} />
 
-                     <Button size="icon" variant="outline">
+                     <Button size="icon" variant="secondary">
                         <Trash2 />
                      </Button>
                   </div>

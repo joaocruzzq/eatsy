@@ -8,6 +8,8 @@ import { PlateType } from "@/contexts/app-main-context"
 
 import { useContext, useState } from "react"
 import { AppMainContext } from "@/contexts/app-main-context"
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { OrderCart } from "@/components/order-cart";
 
 interface PlateProps {
    plate: PlateType
@@ -55,9 +57,15 @@ export function HomeDishCard({ plate }: PlateProps) {
                   <div className="flex gap-1.5">
                      <Stepper itemID={plate.id} initialValue={itemQuantity} onChangeQuantity={setItemQuantity} />
                      
-                     <Button size="icon" variant={"default"} onClick={handleAddPlateToOrder}>
-                        <ShoppingCart />
-                     </Button>
+                     <Sheet>
+                        <SheetTrigger>
+                           <Button size="icon" variant={"default"} onClick={handleAddPlateToOrder}>
+                              <ShoppingCart />
+                           </Button>
+                        </SheetTrigger>
+
+                        <OrderCart />
+                     </Sheet>
                   </div>
                </div>
             </div>

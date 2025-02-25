@@ -38,7 +38,7 @@ interface EditPlateProps {
 }
 
 export function AlterPlateModal({ plateId }: EditPlateProps) {
-   const { plates, onAddPlateData } = useContext(AppMainContext)
+   const { plates, onAddNewPlate } = useContext(AppMainContext)
 
    const filteredPlate = plates.find((plate) => plate.id === plateId)
 
@@ -62,7 +62,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
    const [newIngredient, setNewIngredient] = useState("")
 
    function handleSetPlateInformations(data: AlterPlateModalInputs) {
-      onAddPlateData(data)
+      onAddNewPlate(data)
    }
 
    function handleAddNewIngredientTag() {
