@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@/components/ui/dialog";
-import { AppMainContext } from "@/contexts/app-main-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import * as z from "zod"
@@ -15,13 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import { useContext, useState } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
 
 const PlateModalFormSchema = z.object({
-   id: z.number().optional(),
+   id: z.number(),
    name: z.string(),
+   price: z.number(),
    plateIMG: z.string(),
    description: z.string(),
-   price: z.coerce.number(),
    category: z.enum(["Refeição", "Sobremesa", "Bebida"]),
    ingredients: z.array(
       z.object({
@@ -45,7 +45,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
    const { register, setValue, handleSubmit, control, formState: { isSubmitting } } = useForm<AlterPlateModalInputs>({
       resolver: zodResolver(PlateModalFormSchema),
       defaultValues: {
-         id: filteredPlate?.id,
+         id: filteredPlate?.id ?? 0,
          name: filteredPlate?.name,
          price: filteredPlate?.price,
          category: filteredPlate?.category,
@@ -68,7 +68,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
    function handleAddNewIngredientTag() {
       if(newIngredient.trim() !== "") {
          append({
-            id: fields.length + 1,
+            id: Math.random(),
             name: newIngredient.trim()
          })
 
@@ -91,7 +91,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                <Input type="text" placeholder="Nome do prato" {...register("name")} />
 
                <div className="flex gap-2">
-                  <Input type="price" step={0.01} placeholder="R$ 00,00" {...register("price")} />
+                  <Input type="number" step={0.01} placeholder="R$ 00,00" {...register("price", {valueAsNumber: true})} />
 
                   <Controller
                      name="category"

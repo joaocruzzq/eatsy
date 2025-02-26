@@ -13,7 +13,6 @@ export interface PlateType {
    name: string
    price: number
    plateIMG: string
-   quantity: number
    description: string
    ingredients: Ingredient[]
    category: "Refeição" | "Sobremesa" | "Bebida"
@@ -65,6 +64,8 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
       const platesList = await api.get("/plates", {
          params: {
+            _sort: "name",
+            _order: "asc",
             q: query
          }
       })
@@ -97,7 +98,8 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
       const plateData = {
          ...data,
-         id: isNewPlate ? plates.length + 1 : data.id,
+         price: data.price.toFixed(2),
+         id: Math.floor(Date.now() + Math.random() * 1000),
          plateIMG: plateIMG ? plateIMG?.toString() : data.plateIMG,
       }
 

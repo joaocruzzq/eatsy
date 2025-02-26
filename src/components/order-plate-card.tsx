@@ -34,7 +34,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
 
                   <div className="text-sm text-muted-foreground">
                      <span className="text-xs mr-0.5">R$</span>
-                     {plate.price.toFixed(2)}
+                     {plate.price}
                   </div>
                </div>
 

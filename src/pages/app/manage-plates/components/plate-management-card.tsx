@@ -21,7 +21,7 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
             <img src={plateInfo.plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
             <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
-               <h1 className="font-semibold text-xl text-foreground tracking-wide">
+               <h1 className="font-semibold text-xl text-foreground tracking-wide line-clamp-1">
                   {plateInfo.name}
                </h1>
 
@@ -34,7 +34,7 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
                      <span className="text-xs text-muted-foreground">R$</span>
 
                      <h1 className="text-xl font-medium">
-                        {plateInfo.price.toFixed(2)}
+                        {plateInfo.price}
                      </h1>
                   </div>
 
