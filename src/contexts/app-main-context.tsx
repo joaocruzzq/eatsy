@@ -125,8 +125,11 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
    }
 
    function onDeletePlate(id: number) {
-      api.delete(`/plates/${id}`)
-      fetchPlates()
+      api.delete(`/plates/${id}`).then(() => {
+         fetchPlates()
+
+         setCustomerOrder((prevState) => prevState.filter((plate) => plate.id !== id))
+      })
    }
 
    const [customerOrder, setCustomerOrder] = useState<PlateOnOrderType[]>([])
