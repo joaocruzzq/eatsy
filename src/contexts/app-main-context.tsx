@@ -27,10 +27,23 @@ export interface PlateOnOrderType {
    category: string
 }
 
+interface OrderDataDescriptionType {
+   name: string
+   quantity: number
+}
+
+export interface OrderDataType {
+   id: number
+   status: "pending" | "preparing" | "delivered"
+   description: OrderDataDescriptionType[]
+   date: Date
+}
+
 interface AppMainContextType {
    query: string
 
    plates: PlateType[]
+   orders: OrderDataType[]
 
    categoryFilter: string
    filteredPlates: PlateType[]
@@ -47,6 +60,8 @@ interface AppMainContextType {
    onAddPlateToOrder: (plate: PlateOnOrderType) => void
    onDeleteItemFromOrder: (plateID: number) => void
    onChangeItemQuantity: (plateID: number, quantity: number) => void
+
+   onAddOrderData: (data: OrderDataType) => void
 }
 
 interface AppMainContextProviderProps {
@@ -167,8 +182,41 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       )
    }
 
+   const [orders, setOrders] = useState<OrderDataType[]>([])
+
+   async function fetchOrders() {
+      const ordersList = await api.get("/orders", {
+         params: {
+            _sort: "date",
+            _order: "desc"
+         }
+      })
+
+      setOrders(ordersList.data)
+   }
+
+   async function onAddOrderData(data: OrderDataType) {
+      const newOrderData = {
+         ...data,
+         id: Math.floor(Date.now() + Math.random() * 1000),
+         status: "pending"
+      }
+
+      try {
+         await api.post("/orders", newOrderData)
+         toast.success("Pedido feito com sucesso!")
+      }
+
+      catch {
+         toast.error("Erro ao finalizar pedido, tente novamente.")
+      }
+
+      setCustomerOrder([])
+   }
+
    useEffect(() => {
       fetchPlates()
+      fetchOrders()
    }, [customerOrder])
       
    return (
@@ -189,7 +237,10 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             customerOrder,
             onAddPlateToOrder,
             onDeleteItemFromOrder,
-            onChangeItemQuantity
+            onChangeItemQuantity,
+
+            orders,
+            onAddOrderData
          }}
       >
          {children}

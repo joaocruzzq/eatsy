@@ -3,13 +3,29 @@ import { Button } from "./ui/button";
 import { SheetContent, SheetDescription, SheetTitle } from "./ui/sheet";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { AppMainContext, OrderDataType } from "@/contexts/app-main-context";
 import { ClipboardPen } from "lucide-react";
 
 export function OrderCart() {
-   const { customerOrder } = useContext(AppMainContext)
+   const { customerOrder, onAddOrderData } = useContext(AppMainContext)
 
    const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
+
+   function handleAddNewOrder() {
+      const filteredDescription = customerOrder.map((plate) => ({
+         name: plate.name,
+         quantity: plate.quantity
+      }))
+
+      const newOrderData: OrderDataType = {
+         id: Math.floor(Date.now() + Math.random() * 1000),
+         description: filteredDescription,
+         status: "pending",
+         date: new Date()
+      }
+
+      onAddOrderData(newOrderData)
+   }
 
    return (
       <SheetContent>
@@ -54,7 +70,7 @@ export function OrderCart() {
                </strong>
             </div>
 
-            <Button className="w-full">
+            <Button className="w-full" onClick={handleAddNewOrder}>
                Finalizar Pedido
             </Button>
          </footer>
