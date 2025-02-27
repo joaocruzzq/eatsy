@@ -45,6 +45,7 @@ interface AppMainContextType {
    onAddPlatePhoto: (platePhoto: string) => void
 
    onAddPlateToOrder: (plate: PlateOnOrderType) => void
+   onDeleteItemFromOrder: (plateID: number) => void
    onChangeItemQuantity: (plateID: number, quantity: number) => void
 }
 
@@ -155,6 +156,12 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       }
    }
 
+   function onDeleteItemFromOrder(plateID: number) {
+      const orderWithoutDeletedItem = customerOrder.filter((plate) => plate.id !== plateID)
+
+      setCustomerOrder(orderWithoutDeletedItem)
+   }
+
    function onChangeItemQuantity(plateID: number, quantity: number) {
       setCustomerOrder((prevState) => prevState.map((plate) => plate.id === plateID ? {...plate, quantity} : plate)
       )
@@ -181,6 +188,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
             customerOrder,
             onAddPlateToOrder,
+            onDeleteItemFromOrder,
             onChangeItemQuantity
          }}
       >

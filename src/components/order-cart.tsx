@@ -4,6 +4,7 @@ import { SheetContent, SheetDescription, SheetTitle } from "./ui/sheet";
 
 import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
+import { ClipboardPen } from "lucide-react";
 
 export function OrderCart() {
    const { customerOrder } = useContext(AppMainContext)
@@ -17,10 +18,10 @@ export function OrderCart() {
          </SheetTitle>
          
          <SheetDescription className="mt-2 tracking-wide">
-            Pedido {"#"}3543548657
+            Pedido
          </SheetDescription>
 
-         <div className="flex flex-col gap-3 py-3 my-6 border-muted border-y-2 h-[74%] overflow-auto custom-scrollbar">
+         <div className="flex flex-col gap-10 pt-10 pb-3 my-6 border-muted border-y-2 h-[74%] overflow-auto custom-scrollbar">
             {
                customerOrder.length > 0 ? (
                   <>
@@ -32,8 +33,12 @@ export function OrderCart() {
                      ))}
                   </>
                ) : (
-                  <div>
-                     <span>Nenhum item no carrinho</span>
+                  <div className="flex flex-col gap-6 text-muted justify-center items-center h-full">
+                     <ClipboardPen size={96} className="mx-auto"/>
+
+                     <span className="text-xl text-center">
+                        Ainda não há <br /> itens no pedido.
+                     </span>
                   </div>
                )
             }
