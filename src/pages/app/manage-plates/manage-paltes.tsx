@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
 
 export function ManagePlates() {
-   const { categoryFilter, filteredPlates, onChangeFilter } = useContext(AppMainContext)
+   const { categoryFilter, filteredPlates, onChangePlateFilter } = useContext(AppMainContext)
 
    return (
       <div>
@@ -23,7 +23,7 @@ export function ManagePlates() {
             <h1 className="text-3xl font-bold tracking-tight">Gerenciar Pratos</h1>
 
             <div className="text-muted-foreground w-[168px]">
-               <Select onValueChange={onChangeFilter} value={categoryFilter}>
+               <Select onValueChange={onChangePlateFilter} value={categoryFilter}>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">
                         <Filter size={16} className="mr-1" />

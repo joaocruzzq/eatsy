@@ -39,30 +39,19 @@
   ],
   "orders": [
     {
-      "id": 1740682524217,
+      "id": 1740685170083,
       "description": [
         {
           "name": "prato 02 ",
           "quantity": 1
-        }
-      ],
-      "status": "pending",
-      "date": "2025-02-27T18:55:23.517Z"
-    },
-    {
-      "id": 1740682949495,
-      "description": [
-        {
-          "name": "Prugna Pie",
-          "quantity": 3
         },
         {
-          "name": "prato 02 ",
-          "quantity": 1
+          "name": "Prugna Pie",
+          "quantity": 2
         }
       ],
       "status": "pending",
-      "date": "2025-02-27T19:02:28.723Z"
+      "date": "2025-02-27T19:39:29.343Z"
     }
   ]
 }

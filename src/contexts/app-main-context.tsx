@@ -48,10 +48,14 @@ interface AppMainContextType {
    categoryFilter: string
    filteredPlates: PlateType[]
 
+   orderStatusFilter: string
+   filteredStatus: OrderDataType[]
+
    customerOrder: PlateOnOrderType[]
 
    fetchPlates: (query?: string) => void
-   onChangeFilter: (value: string) => void
+   onChangePlateFilter: (value: string) => void
+   onChangeStatusFilter: (value: string) => void
 
    onDeletePlate: (id: number) => void
    onAddNewPlate: (data: PlateType) => void
@@ -99,7 +103,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       return plate.category === categoryFilter
    })
 
-   function onChangeFilter(value: string) {
+   function onChangePlateFilter(value: string) {
       setCatgoryFilter(value === "all" ? "" : value)
    }
 
@@ -195,6 +199,20 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       setOrders(ordersList.data)
    }
 
+   const [orderStatusFilter, setOrderStatusFilter] = useState("")
+
+   const filteredStatus = orders.filter((order) => {
+      if(orderStatusFilter === "") {
+         return true
+      }
+
+      return order.status === orderStatusFilter
+   })
+
+   function onChangeStatusFilter(value: string) {
+      setOrderStatusFilter(value === "all" ? "" : value)
+   }
+
    async function onAddOrderData(data: OrderDataType) {
       const newOrderData = {
          ...data,
@@ -227,7 +245,7 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
 
             categoryFilter,
             filteredPlates,
-            onChangeFilter,
+            onChangePlateFilter,
 
             plates,
             onDeletePlate,
@@ -240,7 +258,11 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             onChangeItemQuantity,
 
             orders,
-            onAddOrderData
+            onAddOrderData,
+
+            filteredStatus,
+            onChangeStatusFilter,
+            orderStatusFilter
          }}
       >
          {children}

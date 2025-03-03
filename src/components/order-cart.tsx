@@ -5,27 +5,30 @@ import { SheetContent, SheetDescription, SheetTitle } from "./ui/sheet";
 import { useContext } from "react";
 import { AppMainContext, OrderDataType } from "@/contexts/app-main-context";
 import { ClipboardPen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function OrderCart() {
    const { customerOrder, onAddOrderData } = useContext(AppMainContext)
 
    const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
-   function handleAddNewOrder() {
-      const filteredDescription = customerOrder.map((plate) => ({
-         name: plate.name,
-         quantity: plate.quantity
-      }))
+   const navigate = useNavigate()
 
-      const newOrderData: OrderDataType = {
-         id: Math.floor(Date.now() + Math.random() * 1000),
-         description: filteredDescription,
-         status: "pending",
-         date: new Date()
-      }
+   // function handleAddNewOrder() {
+   //    const filteredDescription = customerOrder.map((plate) => ({
+   //       name: plate.name,
+   //       quantity: plate.quantity
+   //    }))
 
-      onAddOrderData(newOrderData)
-   }
+   //    const newOrderData: OrderDataType = {
+   //       id: Math.floor(Date.now() + Math.random() * 1000),
+   //       description: filteredDescription,
+   //       status: "pending",
+   //       date: new Date()
+   //    }
+
+   //    onAddOrderData(newOrderData)
+   // }
 
    return (
       <SheetContent>
@@ -50,9 +53,9 @@ export function OrderCart() {
                   </>
                ) : (
                   <div className="flex flex-col gap-6 text-muted justify-center items-center h-full">
-                     <ClipboardPen size={96} className="mx-auto"/>
+                     <ClipboardPen size={96} className="mx-auto opacity-50" strokeWidth={1}/>
 
-                     <span className="text-xl text-center">
+                     <span className="text-lg text-center leading-5">
                         Ainda não há <br /> itens no pedido.
                      </span>
                   </div>
@@ -70,7 +73,7 @@ export function OrderCart() {
                </strong>
             </div>
 
-            <Button className="w-full" onClick={handleAddNewOrder}>
+            <Button className="w-full" onClick={() => navigate("/order-payment")} /* onClick={handleAddNewOrder} */>
                Finalizar Pedido
             </Button>
          </footer>
