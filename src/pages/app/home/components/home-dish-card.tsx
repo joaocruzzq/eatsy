@@ -1,15 +1,14 @@
 import { ShoppingCart } from "lucide-react";
 
 import { Stepper } from "@/components/stepper";
+import { OrderCart } from "@/components/order-cart";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
-import { PlateType } from "@/contexts/app-main-context"
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 import { useContext, useState } from "react"
-import { AppMainContext } from "@/contexts/app-main-context"
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { OrderCart } from "@/components/order-cart";
+import { PlateType, AppMainContext } from "@/contexts/app-main-context"
 
 interface PlateProps {
    plate: PlateType

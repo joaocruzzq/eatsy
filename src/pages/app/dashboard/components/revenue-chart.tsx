@@ -1,8 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import colors from "tailwindcss/colors"
 
 import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line } from "recharts"
 
-import colors from "tailwindcss/colors"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const revenueData = [
    { date: "10/12", revenue: 1200 },

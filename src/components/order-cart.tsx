@@ -1,34 +1,21 @@
+import { ClipboardPen } from "lucide-react";
+
 import { OrderPlateCard } from "./order-plate-card";
+
 import { Button } from "./ui/button";
 import { SheetContent, SheetDescription, SheetTitle } from "./ui/sheet";
 
-import { useContext } from "react";
-import { AppMainContext, OrderDataType } from "@/contexts/app-main-context";
-import { ClipboardPen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
+
 export function OrderCart() {
-   const { customerOrder, onAddOrderData } = useContext(AppMainContext)
+   const { customerOrder } = useContext(AppMainContext)
 
    const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
    const navigate = useNavigate()
-
-   // function handleAddNewOrder() {
-   //    const filteredDescription = customerOrder.map((plate) => ({
-   //       name: plate.name,
-   //       quantity: plate.quantity
-   //    }))
-
-   //    const newOrderData: OrderDataType = {
-   //       id: Math.floor(Date.now() + Math.random() * 1000),
-   //       description: filteredDescription,
-   //       status: "pending",
-   //       date: new Date()
-   //    }
-
-   //    onAddOrderData(newOrderData)
-   // }
 
    return (
       <SheetContent>
@@ -73,7 +60,7 @@ export function OrderCart() {
                </strong>
             </div>
 
-            <Button className="w-full" onClick={() => navigate("/order-payment")} /* onClick={handleAddNewOrder} */>
+            <Button className="w-full" onClick={() => navigate("/order-payment")} >
                Finalizar Pedido
             </Button>
          </footer>

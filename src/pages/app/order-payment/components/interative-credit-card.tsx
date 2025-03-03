@@ -1,9 +1,9 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import visaLogo from "@/assets/visa-logo.svg"
+import mastercardLogo from "@/assets/mastercard-logo.svg"
 
 import creditCardChip from "@/assets/credit-card-chip.svg"
 
-import visaLogo from "@/assets/visa-logo.svg"
-import mastercardLogo from "@/assets/mastercard-logo.svg"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface CardType {
    method: string
@@ -28,7 +28,7 @@ export function InterativeCredicCard(props: CardType) {
    const cardBrandLogo = getCardBrand(props.cardNumber)
 
    return (
-      <Card className="flex flex-col justify-between bg-muted rounded-lg h-48 w-80 font-bevietnam font-light">
+      <Card className="flex flex-col justify-between bg-muted rounded-lg h-[202px] w-80 font-bevietnam font-light">
          <CardHeader>
             <div className="flex flex-row justify-between items-center m-0 relative">
                <span className="text-sm">{props.method}</span>

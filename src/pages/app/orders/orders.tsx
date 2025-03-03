@@ -5,9 +5,10 @@ import { ChevronLeft, ChevronRight, Filter } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination"
 
+import { dateFormatter } from "@/utils/formatters"
+
 import { useContext } from "react"
 import { AppMainContext } from "@/contexts/app-main-context"
-import { dateFormatter } from "@/utils/formatters"
 
 export function Orders() {
    const { orders, orderStatusFilter, filteredStatus, onChangeStatusFilter } = useContext(AppMainContext)

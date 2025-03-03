@@ -221,8 +221,10 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       }
 
       try {
-         await api.post("/orders", newOrderData)
-         toast.success("Pedido feito com sucesso!")
+         if (customerOrder.length > 0) {
+            await api.post("/orders", newOrderData)
+            toast.success("Pedido feito com sucesso!")
+         }
       }
 
       catch {
@@ -261,8 +263,8 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
             onAddOrderData,
 
             filteredStatus,
+            orderStatusFilter,
             onChangeStatusFilter,
-            orderStatusFilter
          }}
       >
          {children}
