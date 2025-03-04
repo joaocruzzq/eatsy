@@ -43,7 +43,6 @@ export function MethodCash() {
       onAddOrderData()
    }
 
-
    return (
       <TabsContent value="cash" className="gap-4 px-1 py-2 h-72">
          <div className="grid grid-cols-[1fr_222px] gap-6 h-full rounded-md border border-muted/50 p-6">
@@ -75,7 +74,7 @@ export function MethodCash() {
             <div className={`flex flex-col rounded-lg mt-auto h-full relative overflow-hidden
             ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`} >
 
-               <div className={`absolute size-96 rounded-full  brightness-125
+               <div className={`absolute size-96 rounded-full  brightness-125 opacity-75
                ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`}/>
 
                <div className="grid z-10 m-auto gap-2">

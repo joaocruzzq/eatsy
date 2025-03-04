@@ -28,8 +28,8 @@ export function InterativeCredicCard(props: CardType) {
    const cardBrandLogo = getCardBrand(props.cardNumber)
 
    return (
-      <Card className="flex flex-col justify-between bg-muted rounded-lg h-[202px] w-80 font-bevietnam font-light">
-         <CardHeader>
+      <Card className="h-[202px] w-80 flex flex-col justify-between relative overflow-hidden bg-muted rounded-lg font-bevietnam font-light">
+         <CardHeader className="z-10">
             <div className="flex flex-row justify-between items-center m-0 relative">
                <span className="text-sm">{props.method}</span>
 
@@ -39,7 +39,7 @@ export function InterativeCredicCard(props: CardType) {
             </div>
          </CardHeader>
 
-         <CardContent className="flex justify-between">
+         <CardContent className="flex justify-between z-10">
             <span className="tracking-wider">
                {props.cardNumber}
             </span>
@@ -48,7 +48,7 @@ export function InterativeCredicCard(props: CardType) {
             <img src={creditCardChip} className="-mt-1" />
          </CardContent>
 
-         <CardFooter className="flex justify-between">
+         <CardFooter className="flex justify-between z-10">
             <div className="grid gap-0.5">
                <span className="text-xs font-extralight">Nome no cartão</span>
 
@@ -73,6 +73,13 @@ export function InterativeCredicCard(props: CardType) {
                </span>
             </div>
          </CardFooter>
+
+         <div className="absolute">
+            <div className="absolute bg-muted brightness-125 size-96 -rotate-[30deg] translate-x-14 translate-y-16 opacity-40 shadow-2xl shadow-black" />
+            <div className="absolute bg-muted brightness-150 size-96 rotate-45 opacity-15" />
+
+            <div className="absolute bg-muted brightness-150 size-96 rotate-[25deg] -translate-x-28 translate-y-28 shadow-2xl shadow-black opacity-25" />
+         </div>
       </Card>
    )
 }
