@@ -1,17 +1,15 @@
-import { ShoppingCart } from "lucide-react";
-
 import { HandleBackButton } from "./handle-back-button";
+import { FinishOrderButton } from "./finish-order-button";
 import { InterativeCredicCard } from "./interative-credit-card";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { onFormatCPF, onFormatCardNumber } from "@/utils/formatters"
 
 import { useContext } from "react";
-import { AppMainContext, OrderDataType } from "@/contexts/app-main-context";
+import { AppMainContext } from "@/contexts/app-main-context";
 
 import * as z from "zod"
 import { useForm } from "react-hook-form"
@@ -30,7 +28,7 @@ const CardDataFormSchema = z.object({
 type CardDataInputs = z.infer<typeof CardDataFormSchema>
 
 export function MethodCard() {
-   const { customerOrder, onAddOrderData } = useContext(AppMainContext)
+   const { onAddOrderData } = useContext(AppMainContext)
 
    const { watch, register, setValue, handleSubmit } = useForm<CardDataInputs>({
       resolver: zodResolver(CardDataFormSchema)
@@ -47,24 +45,12 @@ export function MethodCard() {
    const FormattedMethod = cardPaymentMethod === "credit" ? "Crédito" : cardPaymentMethod === "debit" ? "Débito" : "-"
 
    function handleAddNewOrder() {
-      const filteredDescription = customerOrder.map((plate) => ({
-         name: plate.name,
-         quantity: plate.quantity
-      }))
-
-      const newOrderData: OrderDataType = {
-         id: Math.floor(Date.now() + Math.random() * 1000),
-         description: filteredDescription,
-         status: "pending",
-         date: new Date()
-      }
-
-      onAddOrderData(newOrderData)
+      onAddOrderData()
    }
 
    return (
       <TabsContent value="card" className="gap-4 px-1 py-2 h-72">
-         <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid grid-cols-[auto_1fr] gap-4">
+         <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid grid-cols-[auto_1fr] gap-4 h-full">
             <InterativeCredicCard
                method={FormattedMethod}
                cardNumber={cardNumberValue}
@@ -73,7 +59,7 @@ export function MethodCard() {
                expirationYear={expirationY}
             />
 
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between mb-3">
                <Input
                   type="text"
                   placeholder="Nome no cartão"
@@ -160,11 +146,7 @@ export function MethodCard() {
             </div>
 
             <HandleBackButton />
-
-            <Button size="lg" type="submit" className="mt-3">
-               <ShoppingCart />
-               Finalizar pedido
-            </Button>
+            <FinishOrderButton />
          </form>
       </TabsContent>
    )

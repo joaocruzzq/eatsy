@@ -65,7 +65,7 @@ interface AppMainContextType {
    onDeleteItemFromOrder: (plateID: number) => void
    onChangeItemQuantity: (plateID: number, quantity: number) => void
 
-   onAddOrderData: (data: OrderDataType) => void
+   onAddOrderData: () => void
 }
 
 interface AppMainContextProviderProps {
@@ -213,22 +213,32 @@ export function AppMainContextProvider({children}: AppMainContextProviderProps) 
       setOrderStatusFilter(value === "all" ? "" : value)
    }
 
-   async function onAddOrderData(data: OrderDataType) {
-      const newOrderData = {
-         ...data,
+   async function onAddOrderData() {
+      const filteredDescription = customerOrder.map((plate) => ({
+         name: plate.name,
+         quantity: plate.quantity
+      }))
+
+      const newOrderData: OrderDataType = {
          id: Math.floor(Date.now() + Math.random() * 1000),
-         status: "pending"
+         description: filteredDescription,
+         status: "pending",
+         date: new Date()
       }
 
-      try {
-         if (customerOrder.length > 0) {
+      if (customerOrder.length > 0) {
+         try {
             await api.post("/orders", newOrderData)
             toast.success("Pedido feito com sucesso!")
          }
+   
+         catch {
+            toast.error("Erro ao finalizar pedido, tente novamente.")
+         }
       }
 
-      catch {
-         toast.error("Erro ao finalizar pedido, tente novamente.")
+      else {
+         toast.error("Não foi possível finalizar o pedido. O carrinho se encontra vazio.")
       }
 
       setCustomerOrder([])
