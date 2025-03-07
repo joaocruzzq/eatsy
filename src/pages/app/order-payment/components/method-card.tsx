@@ -1,26 +1,27 @@
 import { InterativeCredicCard } from "./interative-credit-card";
 
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import { Receipt } from "lucide-react";
 
+import { useState } from "react";
 import { onFormatCPF, onFormatCardNumber } from "@/utils/formatters"
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import * as z from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button";
-import { Receipt } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
 
 const CardDataFormSchema = z.object({
    method: z.string(),
    cardName: z.string().min(1),
-   ownerCPF: z.string().min(14),
-   cardNumber: z.string().min(19),
    expirationM: z.string().min(2),
    expirationY: z.string().min(2),
-   verificationCode: z.string().min(3)
+   ownerCPF: z.string().length(14),
+   cardNumber: z.string().length(19),
+   verificationCode: z.string().length(3)
 })
 
 type CardInputs = z.infer<typeof CardDataFormSchema>

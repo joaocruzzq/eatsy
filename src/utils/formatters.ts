@@ -57,3 +57,22 @@ export function onFormatCardNumber(e: React.ChangeEvent<HTMLInputElement>, setVa
 
    setValue("cardNumber", formattedCardNumber)
 }
+
+function changeCEP(CEP: string) {
+   const numbers = CEP.replace(/\D/g, "")
+
+   if (numbers.length <= 5) {
+      return numbers.replace(/(\d{1,5})/, "$1")
+   }
+
+   else {
+      return numbers.replace(/(\d{5})(\d{1,3})/, "$1-$2")
+   }
+}
+
+export function onFormatCEP(e: React.ChangeEvent<HTMLInputElement>, setValue: any) {
+   const initialValue = e.target.value
+   const formattedCEP = changeCEP(initialValue)
+
+   setValue("CEP", formattedCEP)
+}

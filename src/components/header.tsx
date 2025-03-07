@@ -19,7 +19,7 @@ export function Header() {
    const totalItemsOnCart = customerOrder.reduce((acc, plate) => acc + plate.quantity, 0)
 
    return (
-      <div className="border-b absolute w-full">
+      <div className="border-b absolute w-full select-none">
          <div className="flex h-16 items-center gap-6 px-6 max-w-screen-xl mx-auto">
             <div className="flex gap-3 items-center">
                <CookingPot className="h-6 w-6" />

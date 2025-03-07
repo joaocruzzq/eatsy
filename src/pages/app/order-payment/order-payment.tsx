@@ -1,4 +1,4 @@
-import { ClipboardPen, CreditCard, DollarSign, HousePlus, QrCode } from "lucide-react";
+import { ClipboardPen, CreditCard, DollarSign, QrCode } from "lucide-react";
 
 import { Helmet } from "react-helmet-async";
 
@@ -7,89 +7,15 @@ import { MethodCash } from "./components/method-cash";
 import { MethodCard } from "./components/method-card";
 import { OrderPlateCard } from "@/components/order-plate-card";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
-
-
-import * as z from "zod"
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-
-const AddressFormSchema = z.object({
-   CEP: z.string(),
-   city: z.string(),
-   state: z.string(),
-   street: z.string(),
-   number: z.string(),
-   neighborhood: z.string(),
-   complement: z.string().optional(),
-   additionalInfo: z.string().optional()
-})
-
-type AddressInputs = z.infer<typeof AddressFormSchema>
-
-const BrazilianStates = [
-   'AC',
-   'AL',
-   'AP',
-   'AM',
-   'BA',
-   'CE',
-   'DF',
-   'ES',
-   'GO',
-   'MA',
-   'MS',
-   'MT',
-   'MG',
-   'PA',
-   'PB',
-   'PR',
-   'PE',
-   'PI',
-   'RJ',
-   'RN',
-   'RS',
-   'RO',
-   'RR',
-   'SC',
-   'SP',
-   'SE',
-   'TO',
-]
+import { DeliveryInfoForm } from "./components/delivery-info-form";
 
 export function OrderPayment() {
    const { customerOrder } = useContext(AppMainContext)
-
-   const { register, control, handleSubmit, watch, reset } = useForm<AddressInputs>({
-      resolver: zodResolver(AddressFormSchema)
-   })
-
-   const { CEP, city, neighborhood, number, state, street} = watch()
-   const isAddressInputsEmpty = !CEP || !city || !neighborhood || !number || !state || !street
-
-   const [address, setAddress] = useState<AddressInputs>()
-
-   function handleAddAddress(data: AddressInputs) {
-      try {
-         setAddress(data)
-         toast.success("Endereço adicionado com sucesso!")
-
-         reset()
-      }
-   
-      catch {
-         toast.error("Endereço inválido. Verifique os campos e tente novamente.")
-      }
-   }
 
    return (
       <>
@@ -108,107 +34,7 @@ export function OrderPayment() {
                </TabsList>
 
                <TabsContent value="deliveryInfo">
-                  <Card>
-                     <CardHeader>
-                        <CardTitle className="text-xl">
-                           Endereço de entrega
-                        </CardTitle>
-
-                        <CardDescription>
-                           Informe o endereço onde deseja receber seu pedido.
-                        </CardDescription>
-                     </CardHeader>
-
-                     <CardContent>
-                        <form onSubmit={handleSubmit(handleAddAddress)} className="flex flex-col h-full gap-5">
-                           <div className="grid grid-cols-6 gap-4">
-                              <Input
-                                 type="text"
-                                 placeholder="CEP"
-                                 className="col-span-2"
-                                 {...register("CEP")}
-                              />
-
-                              <Input
-                                 type="text"
-                                 placeholder="Rua"
-                                 className="col-span-6"
-                                 {...register("street")}
-                              />
-                           </div>
-
-                           <div className="grid grid-cols-6 gap-3">
-                              <Input
-                                 type="text"
-                                 placeholder="Número"
-                                 className="col-span-2"
-                                 {...register("number")}
-                              />
-
-                              <Input
-                                 type="text"
-                                 placeholder="Complemento"
-                                 className="col-span-4"
-                                 {...register("complement")}
-                              />
-                           </div>
-
-                           <div className="grid grid-cols-6 gap-3">
-                              <Input
-                                 type="text"
-                                 placeholder="Bairro"
-                                 className="col-span-2"
-                                 {...register("neighborhood")}
-                              />
-                              
-                              <div className="grid col-span-4 grid-cols-5 gap-3">
-                                 <Input
-                                    type="text"
-                                    placeholder="Cidade"
-                                    className="col-span-4"
-                                    {...register("city")}
-                                 />
-
-                                 <Controller
-                                    name="state"
-                                    control={control}
-                                    render={({ field }) => (
-                                       <Select value={field.value} onValueChange={field.onChange}>
-                                          <SelectTrigger>
-                                             <SelectValue placeholder="UF" />
-                                          </SelectTrigger>
-
-                                          <SelectContent>
-                                             {
-                                                BrazilianStates.map((state, i) => (
-                                                   <SelectItem key={i} value={state}>
-                                                      {state}
-                                                   </SelectItem>
-                                                ))
-                                             }
-                                          </SelectContent>
-                                       </Select>
-                                    )}
-                                 />
-                              </div>
-                           </div>
-
-                           <Textarea
-                              rows={4}
-                              className="h-full resize-none"
-                              {...register("additionalInfo")}
-                              placeholder="Observações adicionais"
-                           />
-                           
-                           <div className="w-52 ml-auto mt-1">
-                              <Button type="submit" disabled={isAddressInputsEmpty} className="w-full transition" variant={"secondary"} size={"lg"}>
-                                 <HousePlus />
-                                 Adicionar endereço
-                              </Button>
-                           </div>
-                        </form>
-                     </CardContent>
-                  </Card>
+                  <DeliveryInfoForm />
                </TabsContent>
 
                <TabsContent value="paymentMethod">
