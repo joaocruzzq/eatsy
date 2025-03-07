@@ -24,7 +24,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
    }
 
    return (
-      <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md">
+      <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md h-fit">
          <CardContent className="flex relative gap-3 p-0">
             <div className="absolute min-h-full min-w-full overflow-clip -z-10">
                <img src={plate.plateIMG} className="size-36 absolute translate-x-[170%]  opacity-5" />

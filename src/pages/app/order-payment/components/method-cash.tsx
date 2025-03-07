@@ -1,12 +1,6 @@
-import { Calculator, Wallet } from "lucide-react";
+import { Calculator, Receipt, Wallet } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-import { TabsContent } from "@/components/ui/tabs";
-
-import { HandleBackButton } from "./handle-back-button";
-import { FinishOrderButton } from "./finish-order-button";
-
-import { toast } from "sonner";
 
 import * as z from "zod"
 import { useForm } from "react-hook-form"
@@ -14,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
+import { Button } from "@/components/ui/button";
 
 const CashDataFormSchema = z.object({
    cash: z.coerce.number()
@@ -22,76 +17,69 @@ const CashDataFormSchema = z.object({
 type CashDataInput = z.infer<typeof CashDataFormSchema>
 
 export function MethodCash() {
-   const { customerOrder, onAddOrderData } = useContext(AppMainContext)
+   const { customerOrder } = useContext(AppMainContext)
 
-   const { watch, register, handleSubmit } = useForm<CashDataInput>({
+   const { watch, register } = useForm<CashDataInput>({
       resolver: zodResolver(CashDataFormSchema)
    })
 
    const CustomerPayment = watch("cash")
    const orderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
-   const moneyExchange = (CustomerPayment || 0) - orderPrice
-
-   function handleAddNewOrder() {
-      if (moneyExchange < 0) {
-         toast.error("Valor insuficiente. Por favor, digite um valor válido.")
-
-         return
-      }
-
-      onAddOrderData()
-   }
+   const moneyExchange = CustomerPayment - orderPrice || 0
 
    return (
-      <TabsContent value="cash" className="gap-4 px-1 py-2 h-72">
-         <div className="grid grid-cols-[1fr_222px] gap-6 h-full rounded-md border border-muted/50 p-6">
-            <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid gap-2">
-               <p className="text-justify text-muted-foreground">
-                  Informe o valor que será passado ao entregador para que possamos calcular o seu troco.
-               </p>
+      <form className="grid grid-cols-[1fr_auto] gap-4">
+         <div className="p-8 flex flex-col justify-center gap-6 rounded-lg border border-muted/50">
+            <p className="text-justify text-muted-foreground">
+               Informe o valor que será entregue ao entregador para que possamos calcular o troco corretamente.
+            </p>
 
-               <div className="bg-muted rounded-md flex items-center justify-between p-1 pl-4 mb-auto focus-within:ring-1 focus-within:ring-ring">
-                  <Wallet size={16} />
+            <div className="bg-muted rounded-md flex items-center justify-between p-1.5 pl-5 focus-within:ring-1 focus-within:ring-ring">
+               <Wallet size={18} />
 
-                  <span className="ml-2 text-xs mt-1 text-muted-foreground">R$</span>
+               <span className="ml-2 text-xs mt-0.5 text-muted-foreground">R$</span>
 
-                  <Input
-                     type="number"
-                     placeholder="00,00"
-                     {...register("cash")}
-                     className="focus-visible:ring-0 p-1"
-                  />
-               </div>
+               <Input
+                  type="number"
+                  placeholder="00,00"
+                  {...register("cash")}
+                  className="focus-visible:ring-0 p-1"
+               />
+            </div>
+         </div>
 
-               <div className="flex flex-col gap-2 mt-auto">
-                  <HandleBackButton />
+         <div className={`flex h-52 w-52 rounded-lg mt-auto relative overflow-hidden
+         ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`} >
 
-                  <FinishOrderButton />
-               </div>
-            </form>
+            <div className={`absolute size-96 rounded-full  brightness-125 opacity-75
+            ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`}/>
 
-            <div className={`flex flex-col rounded-lg mt-auto h-full relative overflow-hidden
-            ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`} >
+            <div className="grid z-10 m-auto gap-2">
+               <Calculator strokeWidth={1} size={56} className="m-auto" />
 
-               <div className={`absolute size-96 rounded-full  brightness-125 opacity-75
-               ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`}/>
+               <div className="grid text-center">
+                  <span className="text-xs leading-4 tracking-wide font-light">
+                     Troco a receber:
+                  </span>
 
-               <div className="grid z-10 m-auto gap-2">
-                  <Calculator strokeWidth={1} size={56} className="m-auto" />
+                  <span className="text-xl font-semibold">
+                     R$ {" "}
 
-                  <div className="grid text-center">
-                     <span className="text-xs leading-4 tracking-wide font-light">
-                        Troco a receber:
+                     <span className="text-3xl">
+                        {moneyExchange.toFixed(2)}
                      </span>
-
-                     <span className="text-xl font-semibold">
-                        R$ {moneyExchange.toFixed(2)}
-                     </span>
-                  </div>
+                  </span>
                </div>
             </div>
          </div>
-      </TabsContent>
+
+         <div className="flex justify-start col-span-2 mt-1">
+            <Button type="submit" className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+               <Receipt />
+               Adicionar pagamento
+            </Button>
+         </div>
+      </form>
    )
 }

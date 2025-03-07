@@ -8,9 +8,9 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 interface CardType {
    method: string
    cardNumber: string
+   expirationM: string
+   expirationY: string
    cardOwnerName: string
-   expirationMonth: string
-   expirationYear: string
 }
 
 const cardBrands = [
@@ -28,7 +28,7 @@ export function InterativeCredicCard(props: CardType) {
    const cardBrandLogo = getCardBrand(props.cardNumber)
 
    return (
-      <Card className="h-[202px] w-80 flex flex-col justify-between relative overflow-hidden bg-muted rounded-lg font-bevietnam font-light">
+      <Card className="h-52 w-80 flex flex-col justify-between relative overflow-hidden bg-muted rounded-lg font-bevietnam font-light">
          <CardHeader className="z-10">
             <div className="flex flex-row justify-between items-center m-0 relative">
                <span className="text-sm">{props.method}</span>
@@ -43,16 +43,15 @@ export function InterativeCredicCard(props: CardType) {
             <span className="tracking-wider">
                {props.cardNumber}
             </span>
-
             
             <img src={creditCardChip} className="-mt-1" />
          </CardContent>
 
-         <CardFooter className="flex justify-between z-10">
+         <CardFooter className="grid grid-cols-[1fr_auto] gap-4 justify-between z-10">
             <div className="grid gap-0.5">
                <span className="text-xs font-extralight">Nome no cartão</span>
 
-               <span className="text-sm">
+               <span className="text-sm truncate">
                   {props.cardOwnerName}
                </span>
             </div>
@@ -62,13 +61,13 @@ export function InterativeCredicCard(props: CardType) {
 
                <span className="grid grid-cols-[1fr_auto_1fr] text-sm">
                   <span className="flex tracking-widest justify-start">
-                     {props.expirationMonth}
+                     {props.expirationM}
                   </span>
 
                   <span> / </span>
 
                   <span className="flex tracking-widest justify-end">
-                     {props.expirationYear}
+                     {props.expirationY}
                   </span>
                </span>
             </div>

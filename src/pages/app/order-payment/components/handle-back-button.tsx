@@ -8,7 +8,7 @@ export function HandleBackButton() {
    const navigate = useNavigate()
 
    return (
-      <Button variant="secondary" onClick={() => navigate(-1)}>
+      <Button variant="outline" size={"lg"} onClick={() => navigate(-1)}>
          <ArrowLeftToLine />
          Voltar
       </Button>

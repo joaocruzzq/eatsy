@@ -8,7 +8,7 @@ interface ButtonProps {
 
 export function FinishOrderButton({ onClick }: ButtonProps) {
    return (
-      <Button type="submit" onClick={onClick}>
+      <Button size={"lg"} type="submit" onClick={onClick}>
          <ShoppingCart />
          Finalizar pedido
       </Button>

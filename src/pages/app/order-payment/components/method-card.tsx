@@ -1,19 +1,17 @@
-import { HandleBackButton } from "./handle-back-button";
-import { FinishOrderButton } from "./finish-order-button";
 import { InterativeCredicCard } from "./interative-credit-card";
 
 import { Input } from "@/components/ui/input";
-import { TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { onFormatCPF, onFormatCardNumber } from "@/utils/formatters"
 
-import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
-
 import * as z from "zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button";
+import { Receipt } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const CardDataFormSchema = z.object({
    method: z.string(),
@@ -25,129 +23,160 @@ const CardDataFormSchema = z.object({
    verificationCode: z.string().min(3)
 })
 
-type CardDataInputs = z.infer<typeof CardDataFormSchema>
+type CardInputs = z.infer<typeof CardDataFormSchema>
 
 export function MethodCard() {
-   const { onAddOrderData } = useContext(AppMainContext)
-
-   const { watch, register, setValue, handleSubmit } = useForm<CardDataInputs>({
+   const { watch, register, control, reset, handleSubmit, setValue } = useForm<CardInputs>({
       resolver: zodResolver(CardDataFormSchema)
    })
-   
-   const expirationM = watch("expirationM") || "MM"
-   const expirationY = watch("expirationY") || "YY"
 
-   const cardOwnerName = watch("cardName") || "XXXX XXXX XXXX"
+   const setCardPaymentMethod = watch("method") || "-"
+   const formattedPaymentMethod = setCardPaymentMethod === "credit" ? "Crédito" : setCardPaymentMethod === "debit" ? "Débito" : "-"
 
-   const cardNumberValue = watch("cardNumber") || "**** **** **** 0000"
+   const setCardOwnerName = watch("cardName") || "XXXX XXXX XXXX"
+   const setCardNumber = watch("cardNumber") || "**** **** **** 0000"
 
-   const cardPaymentMethod = watch("method") || "-"
-   const FormattedMethod = cardPaymentMethod === "credit" ? "Crédito" : cardPaymentMethod === "debit" ? "Débito" : "-"
+   const setExpirationM = watch("expirationM") || "MM"
+   const setExpirationY = watch("expirationM") || "YY"
 
-   function handleAddNewOrder() {
-      onAddOrderData()
+   const [paymentMethod, setPaymentMethod] = useState<CardInputs>()
+
+   const { cardName, cardNumber, expirationM, expirationY, method, ownerCPF, verificationCode} = watch()
+   const isCardInputsEmpty = !cardName || !cardNumber || !expirationM || !expirationY || !method || !ownerCPF || !verificationCode
+
+   function handleAddCard(data: CardInputs) {
+      try {
+         setPaymentMethod(data)
+         toast.success("Método de pagamento aprovado com sucesso!")
+
+         reset()
+      }
+
+      catch {
+         toast.error("Erro ao adicionar cartão. Tente novamente.")
+      }
    }
 
    return (
-      <TabsContent value="card" className="gap-4 px-1 py-2 h-72">
-         <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid grid-cols-[auto_1fr] gap-4 h-full">
-            <InterativeCredicCard
-               method={FormattedMethod}
-               cardNumber={cardNumberValue}
-               cardOwnerName={cardOwnerName}
-               expirationMonth={expirationM}
-               expirationYear={expirationY}
+      <form onSubmit={handleSubmit(handleAddCard)} className="grid grid-cols-[auto_1fr] gap-4 h-fit">
+         <InterativeCredicCard
+            method = {formattedPaymentMethod}
+            cardNumber = {setCardNumber}
+            expirationM = {setExpirationM}
+            expirationY = {setExpirationY}
+            cardOwnerName = {setCardOwnerName}
+         />
+
+         <div className="flex flex-col justify-between">
+            <Input
+               type="text"
+               placeholder="Nome no cartão"
+               {...register("cardName")}
             />
 
-            <div className="flex flex-col justify-between mb-3">
+            <Input
+               type="text"
+               maxLength={19}
+               value={watch("cardNumber") || ""}
+               onChange={(e) => onFormatCardNumber(e, setValue)}
+               placeholder="Número do cartão"
+            />
+
+            <div className="grid grid-cols-2 gap-3">
                <Input
                   type="text"
-                  placeholder="Nome no cartão"
-                  {...register("cardName")}
+                  maxLength={3}
+                  placeholder="CVV"
+                  {...register("verificationCode")}
                />
 
-               <Input
-                  type="text"
-                  maxLength={19}
-                  value={watch("cardNumber")}
-                  onChange={(e) => onFormatCardNumber(e, setValue)}
-                  placeholder="Número do cartão"
-               />
+               <div className="grid grid-cols-[64px_auto_64px] gap-1 items-center">
+                  <Controller 
+                     name="expirationM"
+                     control={control}
+                     render={({ field }) => (
+                        <Select value={field.value} onValueChange={field.onChange}>
+                           <SelectTrigger>
+                              <SelectValue placeholder="MM" />
+                           </SelectTrigger>
 
-               <div className="grid grid-cols-2 gap-3">
-                  <Input
-                     type="text"
-                     maxLength={3}
-                     placeholder="CVV"
-                     {...register("verificationCode")}
+                           <SelectContent>
+                              {Array.from({ length: 12 }, (_, i) => {
+                                 const month = (i + 1).toString().padStart(2, "0")
+
+                                 return (
+                                    <SelectItem key={month} value={`${month}`}>
+                                       {month}
+                                    </SelectItem>
+                                 )
+                              })}
+                           </SelectContent>
+                        </Select>
+                     )}
                   />
 
-                  <div className="grid grid-cols-[64px_auto_64px] gap-1 items-center">
-                     <Select onValueChange={(value) => setValue("expirationM", value)}>
-                        <SelectTrigger>
-                           <SelectValue placeholder="MM" />
-                        </SelectTrigger>
+                  <span className="text-muted text-xl">/</span>
 
-                        <SelectContent>
-                           {Array.from({ length: 12 }, (_, i) => {
-                              const month = (i + 1).toString().padStart(2, "0")
+                  <Controller
+                     name="expirationY"
+                     control={control}
+                     render={({ field }) => (
+                        <Select value={field.value} onValueChange={field.onChange}>
+                           <SelectTrigger>
+                              <SelectValue placeholder="YY" />
+                           </SelectTrigger>
 
-                              return (
-                                 <SelectItem key={month} value={`${month}`}>
-                                    {month}
-                                 </SelectItem>
-                              )
-                           })}
-                        </SelectContent>
-                     </Select>
+                           <SelectContent>
+                              {Array.from({ length: 12 }, (_, i) => {
+                                 const year = new Date().getFullYear() %  100 + i
 
-                     <span className="text-muted text-xl">/</span>
-
-                     <Select onValueChange={(value) => setValue("expirationY", value)}>
-                        <SelectTrigger>
-                           <SelectValue placeholder="YY" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                           {Array.from({ length: 12 }, (_, i) => {
-                              const year = new Date().getFullYear() %  100 + i
-
-                              return (
-                                 <SelectItem key={year} value={`${year}`}>
-                                    {year}
-                                 </SelectItem>
-                              )
-                           })}
-                        </SelectContent>
-                     </Select>
-                  </div>
-               </div>
-
-               <div className="grid grid-cols-2 gap-3">
-                  <Input
-                     type="text"
-                     maxLength={14}
-                     value={watch("ownerCPF")}
-                     onChange={(e) => onFormatCPF(e, setValue)}
-                     placeholder="CPF"
+                                 return (
+                                    <SelectItem key={year} value={`${year}`}>
+                                       {year}
+                                    </SelectItem>
+                                 )
+                              })}
+                           </SelectContent>
+                        </Select>
+                     )}
                   />
-
-                  <Select onValueChange={(value) => setValue("method", value)} >
-                     <SelectTrigger>
-                        <SelectValue placeholder="Método" />
-                     </SelectTrigger>
-
-                     <SelectContent>
-                        <SelectItem value="credit">Crédito</SelectItem>
-                        <SelectItem value="debit">Débito</SelectItem>
-                     </SelectContent>
-                  </Select>
                </div>
             </div>
 
-            <HandleBackButton />
-            <FinishOrderButton />
-         </form>
-      </TabsContent>
+            <div className="grid grid-cols-2 gap-3">
+               <Input
+                  type="text"
+                  maxLength={14}
+                  value={watch("ownerCPF") || ""}
+                  onChange={(e) => onFormatCPF(e, setValue)}
+                  placeholder="CPF"
+               />
+
+               <Controller
+                  name="method"
+                  control={control}
+                  render={({ field }) => (
+                     <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger>
+                           <SelectValue placeholder="Método" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                           <SelectItem value="credit">Crédito</SelectItem>
+                           <SelectItem value="debit">Débito</SelectItem>
+                        </SelectContent>
+                     </Select>
+                  )}
+               />
+            </div>
+         </div>
+
+         <div className="flex justify-start col-span-2 mt-1">
+            <Button type="submit" disabled={isCardInputsEmpty} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+               <Receipt />
+               Adicionar pagamento
+            </Button>
+         </div>
+      </form>
    )
 }
