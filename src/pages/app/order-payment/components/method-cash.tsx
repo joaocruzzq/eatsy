@@ -6,9 +6,10 @@ import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const CashDataFormSchema = z.object({
    cash: z.coerce.number()
@@ -19,17 +20,38 @@ type CashDataInput = z.infer<typeof CashDataFormSchema>
 export function MethodCash() {
    const { customerOrder } = useContext(AppMainContext)
 
-   const { watch, register } = useForm<CashDataInput>({
+   const { watch, register, handleSubmit, reset } = useForm<CashDataInput>({
       resolver: zodResolver(CashDataFormSchema)
    })
 
-   const CustomerPayment = watch("cash")
+   const cashInput = watch("cash")
    const orderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
-   const moneyExchange = CustomerPayment - orderPrice || 0
+   const moneyExchange = cashInput - orderPrice || 0
+
+   const [cashData, setCashData] = useState<CashDataInput>()
+
+   function addCashPayment(data: CashDataInput) {
+      try {
+         if(moneyExchange >= 0) {
+            setCashData(data)
+            toast.success("Método de pagamento aprovado com sucesso!")
+
+            reset()
+         }
+
+         else {
+            toast.error("O valor inserido é insuficiente para a compra.")
+         }
+      }
+
+      catch {
+         toast.error("Algo deu errado. Tente novamente.")
+      }
+   }
 
    return (
-      <form className="grid grid-cols-[1fr_auto] gap-4">
+      <form onSubmit={handleSubmit(addCashPayment)} className="grid grid-cols-[1fr_auto] gap-4">
          <div className="p-8 flex flex-col justify-center gap-6 rounded-lg border border-muted/50">
             <p className="text-justify text-muted-foreground">
                Informe o valor que será entregue ao entregador para que possamos calcular o troco corretamente.
@@ -75,7 +97,7 @@ export function MethodCash() {
          </div>
 
          <div className="flex justify-start col-span-2 mt-1">
-            <Button type="submit" className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+            <Button type="submit" disabled={!cashInput} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
                <Receipt />
                Adicionar pagamento
             </Button>

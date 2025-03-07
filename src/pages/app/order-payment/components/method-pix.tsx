@@ -5,20 +5,33 @@ import qrCode from "@/assets/pix-qr-code.svg"
 import { Button } from "@/components/ui/button";
 
 import { useState } from "react";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 export function MethodPix() {
    const pixKey = "7fbc3b85-633e-46a8-a0f0-d45eb9f40405"
+
    const [copiedPix, setCopiedPix] = useState(false)
+   const [isPixCopied, setIsPixCopied] = useState(false)
+
+   const { handleSubmit } = useForm()
 
    function handleCopyPix() {
       navigator.clipboard.writeText(pixKey).then(() => {
+         setIsPixCopied(true)
+         setTimeout(() => setIsPixCopied(false), 180000)
+
          setCopiedPix(true)
          setTimeout(() => setCopiedPix(false), 2000)
       })
    }
 
+   function addPixPayment() {
+      toast.success("Método de pagamento aprovado com sucesso!")
+   }
+
    return (
-      <form className="grid grid-cols-[1fr_auto] gap-4">
+      <form onSubmit={handleSubmit(addPixPayment)} className="grid grid-cols-[1fr_auto] gap-4">
          <div className="p-8 flex flex-col justify-center gap-6 rounded-lg border border-muted/50">
             <p className="text-justify text-muted-foreground">
                Escaneie o QR Code para efetuar o pagamento ou, se preferir, copie o código fornecido abaixo.
@@ -40,7 +53,7 @@ export function MethodPix() {
          </div>
 
          <div className="flex justify-start col-span-2 mt-1">
-            <Button type="submit" className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+            <Button type="submit" disabled={!isPixCopied} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
                <Receipt />
                Adicionar pagamento
             </Button>

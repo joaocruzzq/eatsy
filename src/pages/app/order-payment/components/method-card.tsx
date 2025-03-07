@@ -40,14 +40,14 @@ export function MethodCard() {
    const setExpirationM = watch("expirationM") || "MM"
    const setExpirationY = watch("expirationM") || "YY"
 
-   const [paymentMethod, setPaymentMethod] = useState<CardInputs>()
+   const [cardData, setCardData] = useState<CardInputs>()
 
    const { cardName, cardNumber, expirationM, expirationY, method, ownerCPF, verificationCode} = watch()
    const isCardInputsEmpty = !cardName || !cardNumber || !expirationM || !expirationY || !method || !ownerCPF || !verificationCode
 
-   function handleAddCard(data: CardInputs) {
+   function addCardPayment(data: CardInputs) {
       try {
-         setPaymentMethod(data)
+         setCardData(data)
          toast.success("Método de pagamento aprovado com sucesso!")
 
          reset()
@@ -59,7 +59,7 @@ export function MethodCard() {
    }
 
    return (
-      <form onSubmit={handleSubmit(handleAddCard)} className="grid grid-cols-[auto_1fr] gap-4 h-fit">
+      <form onSubmit={handleSubmit(addCardPayment)} className="grid grid-cols-[auto_1fr] gap-4 h-fit">
          <InterativeCredicCard
             method = {formattedPaymentMethod}
             cardNumber = {setCardNumber}
