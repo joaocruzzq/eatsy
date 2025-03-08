@@ -6,17 +6,19 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 
 type PlateCategory = "refeicao" | "sobremesa" | "bebida"
 
-interface PlateType {
+type Ingredientes = {
+   id: number
+   name: string
+}
+
+export interface PlateType {
    id: number
    name: string
    price: number
    image: string
    description: string
    category: PlateCategory
-   ingredients: {
-      id: number
-      name: string
-   }
+   ingredients: Ingredientes[]
 }
 
 interface PlatesContextType {
@@ -27,10 +29,11 @@ interface PlatesContextType {
    plateFilter: string
    filteredPlates: PlateType[]
 
-   onDeletePlate: (plateID: number) => void
+   onAddPlateIMG: (image: string) => void
    onAddNewPlate: (data: PlateType) => void
-   onAddPlateIMG: (platePhoto: string) => void
+   onDeletePlate: (plateID: number) => void
 
+   fetchPlates: (query?: string) => void
    onFilterPlates: (category: string) => void
 }
 
@@ -77,8 +80,8 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
 
    const [plateIMG, setPlateIMG] = useState<string | null>(null)
 
-   function onAddPlateIMG(platePhoto: string) {
-      setPlateIMG(platePhoto)
+   function onAddPlateIMG(image: string) {
+      setPlateIMG(image)
    }
 
    async function onAddNewPlate(data: PlateType) {
@@ -118,7 +121,7 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
 
    useEffect(() => {
       fetchPlates()
-   }, [plates])
+   }, [])
 
    return (
       <PlatesContext.Provider
@@ -131,6 +134,7 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
             onAddPlateIMG,
             onAddNewPlate,
             onDeletePlate,
+            fetchPlates,
          }}
       >
          { children }

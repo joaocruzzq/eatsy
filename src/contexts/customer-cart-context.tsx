@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useState } from "react";
 
-interface ItemOnCartType {
+export interface ItemOnCartType {
    id: number
    name: string
    price: number
+   image: string
    quantity: number
-   plateIMG: string
+   description: string
 }
 
 interface CustomerCartType {
@@ -27,11 +28,11 @@ export function CustomerCartProvider({ children }: CustomerCartProviderProps) {
    const [customerOrder, setCustomerOrder] = useState<ItemOnCartType[]>([])
 
    function onAddItemToCart(data: ItemOnCartType) {
-      const itemAlreadyOnCart = customerOrder.map((item) => item.id === data.id)
+      const itemAlreadyOnCart = customerOrder.some((item) => item.id === data.id)
 
       if(itemAlreadyOnCart) {
          const updatedQuantity = customerOrder.map((item) => item.id === data.id ? {
-            ...data,
+            ...item,
             quantity: item.quantity + data.quantity
          } : item)
 

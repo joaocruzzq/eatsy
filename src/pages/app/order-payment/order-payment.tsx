@@ -5,17 +5,18 @@ import { Helmet } from "react-helmet-async";
 import { MethodPix } from "./components/method-pix";
 import { MethodCash } from "./components/method-cash";
 import { MethodCard } from "./components/method-card";
+
 import { OrderPlateCard } from "@/components/order-plate-card";
+import { DeliveryInfoForm } from "./components/delivery-info-form";
 
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
-import { DeliveryInfoForm } from "./components/delivery-info-form";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 export function OrderPayment() {
-   const { customerOrder } = useContext(AppMainContext)
+   const { customerOrder } = useContext(CustomerCartContext)
 
    return (
       <>

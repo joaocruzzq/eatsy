@@ -8,32 +8,29 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 import { useContext, useState } from "react"
-import { PlateType, AppMainContext } from "@/contexts/app-main-context"
+import { PlateType } from "@/contexts/plates-context";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
-interface PlateProps {
+interface HomePlateCardType {
    plate: PlateType
 }
 
-export function HomeDishCard({ plate }: PlateProps) {
-   const { onAddPlateToOrder } = useContext(AppMainContext)
+export function HomeDishCard({ plate }: HomePlateCardType) {
+   const { onAddItemToCart } = useContext(CustomerCartContext)
 
    const [itemQuantity, setItemQuantity] = useState(1)
    
    function handleAddPlateToOrder() {
-      onAddPlateToOrder({
-         id: plate.id,
-         name: plate.name,
-         price: plate.price,
-         quantity: itemQuantity,
-         category: plate.category,
-         plateIMG: plate.plateIMG,
+      onAddItemToCart({
+         ...plate,
+         quantity: itemQuantity
       })
    }
 
    return (
       <Card className="bg-stone-100 dark:bg-stone-900">
          <CardContent>
-            <img src={plate.plateIMG} className="size-32 mx-auto mb-2 -translate-y-1/4" />
+            <img src={plate.image} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
             <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
                <h1 className="font-semibold text-xl text-foreground tracking-wide line-clamp-1">

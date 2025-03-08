@@ -1,15 +1,16 @@
 import { Calculator, Receipt, Wallet } from "lucide-react";
 
+import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useContext, useState } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 const CashDataFormSchema = z.object({
    cash: z.coerce.number()
@@ -18,7 +19,7 @@ const CashDataFormSchema = z.object({
 type CashDataInput = z.infer<typeof CashDataFormSchema>
 
 export function MethodCash() {
-   const { customerOrder } = useContext(AppMainContext)
+   const { customerOrder } = useContext(CustomerCartContext)
 
    const { watch, register, handleSubmit, reset } = useForm<CashDataInput>({
       resolver: zodResolver(CashDataFormSchema)

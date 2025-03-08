@@ -14,15 +14,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import { useContext, useState } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { PlatesContext } from "@/contexts/plates-context";
 
 const PlateModalFormSchema = z.object({
    id: z.number(),
    name: z.string(),
    price: z.number(),
-   plateIMG: z.string(),
+   image: z.string(),
    description: z.string(),
-   category: z.enum(["Refeição", "Sobremesa", "Bebida"]),
+   category: z.enum(["refeicao", "sobremesa", "bebida"]),
    ingredients: z.array(
       z.object({
          id: z.number(),
@@ -38,7 +38,7 @@ interface EditPlateProps {
 }
 
 export function AlterPlateModal({ plateId }: EditPlateProps) {
-   const { plates, onAddNewPlate } = useContext(AppMainContext)
+   const { plates, onAddNewPlate } = useContext(PlatesContext)
 
    const filteredPlate = plates.find((plate) => plate.id === plateId)
 
@@ -48,8 +48,8 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
          id: filteredPlate?.id ?? 0,
          name: filteredPlate?.name,
          price: filteredPlate?.price,
+         image: filteredPlate?.image || "",
          category: filteredPlate?.category,
-         plateIMG: filteredPlate?.plateIMG || "",
          description: filteredPlate?.description,
          ingredients: filteredPlate?.ingredients
       }

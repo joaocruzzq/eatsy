@@ -11,15 +11,15 @@ import { Sheet, SheetTrigger } from "./ui/sheet";
 import { ThemeToggle } from "./theme/theme-toggle";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 export function Header() {
-   const { customerOrder } = useContext(AppMainContext)
+   const { customerOrder } = useContext(CustomerCartContext)
 
    const totalItemsOnCart = customerOrder.reduce((acc, plate) => acc + plate.quantity, 0)
 
    return (
-      <div className="border-b absolute w-full select-none">
+      <div className="border-b fixed z-50 w-full select-none">
          <div className="flex h-16 items-center gap-6 px-6 max-w-screen-xl mx-auto">
             <div className="flex gap-3 items-center">
                <CookingPot className="h-6 w-6" />

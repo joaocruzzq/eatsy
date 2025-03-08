@@ -6,14 +6,16 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 
 type OrderStatus = "pending" | "preparing" | "delivered"
 
+type FilteredDescription = {
+   plateName: string
+   plateQuantity: number
+}
+
 interface OrderType {
    id: number
    date: Date
    status: OrderStatus
-   description: {
-      plateName: string
-      plateQuantity: number
-   }
+   description: FilteredDescription[]
 }
 
 interface OrdersContextType {
@@ -95,7 +97,7 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
 
    useEffect(() => {
       fetchOrders()
-   }, [orders])
+   }, [])
 
    return (
       <OrdersContext.Provider

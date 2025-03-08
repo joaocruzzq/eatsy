@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { PlatesContext } from "@/contexts/plates-context";
 
 const SearchFormSchema = z.object({
    query: z.string()
@@ -17,7 +17,7 @@ const SearchFormSchema = z.object({
 type SearchFormInput = z.infer<typeof SearchFormSchema>
 
 export function SearchForm() {
-   const { fetchPlates } = useContext(AppMainContext)
+   const { fetchPlates } = useContext(PlatesContext)
 
    const { register, handleSubmit } = useForm<SearchFormInput>({
       resolver: zodResolver(SearchFormSchema)

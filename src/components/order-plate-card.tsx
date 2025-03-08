@@ -6,37 +6,33 @@ import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
 import { useContext } from "react";
-import { AppMainContext, PlateOnOrderType } from "@/contexts/app-main-context";
+import { ItemOnCartType, CustomerCartContext } from "@/contexts/customer-cart-context";
 
 interface OrderPlateCardProps {
-   plate: PlateOnOrderType
+   plate: ItemOnCartType
 }
 
 export function OrderPlateCard({ plate }: OrderPlateCardProps) {
-   const { onDeleteItemFromOrder, onChangeItemQuantity } = useContext(AppMainContext)
+   const { onRemoveItemFromCart, onChangeItemQuantity } = useContext(CustomerCartContext)
 
    function handleChangeQuantity(newQuantity: number) {
       onChangeItemQuantity(plate.id, newQuantity)
    }
 
    function handleDeleteItemFromCart() {
-      onDeleteItemFromOrder(plate.id)
+      onRemoveItemFromCart(plate.id)
    }
 
    return (
       <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md h-fit">
          <CardContent className="flex relative gap-3 p-0">
             <div className="absolute min-h-full min-w-full overflow-clip -z-10">
-               <img src={plate.plateIMG} className="size-36 absolute translate-x-[170%]  opacity-5" />
+               <img src={plate.image} className="size-36 absolute translate-x-[170%]  opacity-5" />
             </div>
 
             <div className="flex w-full px-4 pt-2 pb-3">
                <div className="grid w-fit absolute gap-1 -translate-y-8 justify-center">
-                  <img src={plate.plateIMG} className="max-w-20" />
-
-                  <span className="text-xs mx-auto text-muted-foreground opacity-30">
-                     {plate.category}
-                  </span>
+                  <img src={plate.image} className="max-w-20" />
                </div>
 
                <div className="grid w-2/3 ml-auto gap-2.5">

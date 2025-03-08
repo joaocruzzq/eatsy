@@ -8,11 +8,11 @@ interface AppMainContextProviderProps {
    children: ReactNode
 }
 
-export const AppMainContex = createContext({})
+export const AppMainContext = createContext({})
 
-export function AppMainContexProvider({ children }: AppMainContextProviderProps) {
+export function AppMainContextProvider({ children }: AppMainContextProviderProps) {
    return (
-      <AppMainContex.Provider value={{}}>
+      <AppMainContext.Provider value={{}}>
          <CustomerCartProvider>
             <OrdersContextProvider>
                <PlatesContextProvider>
@@ -20,6 +20,6 @@ export function AppMainContexProvider({ children }: AppMainContextProviderProps)
                </PlatesContextProvider>
             </OrdersContextProvider>
          </CustomerCartProvider>
-      </AppMainContex.Provider>
+      </AppMainContext.Provider>
    )
 }

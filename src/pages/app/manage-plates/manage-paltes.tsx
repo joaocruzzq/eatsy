@@ -10,10 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { PlatesContext } from "@/contexts/plates-context"; 
 
 export function ManagePlates() {
-   const { categoryFilter, filteredPlates, onChangePlateFilter } = useContext(AppMainContext)
+   const { plateFilter, filteredPlates, onFilterPlates } = useContext(PlatesContext)
 
    return (
       <div>
@@ -23,7 +23,7 @@ export function ManagePlates() {
             <h1 className="text-3xl font-bold tracking-tight">Gerenciar Pratos</h1>
 
             <div className="text-muted-foreground w-[168px]">
-               <Select onValueChange={onChangePlateFilter} value={categoryFilter}>
+               <Select onValueChange={onFilterPlates} value={plateFilter}>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">
                         <Filter size={16} className="mr-1" />

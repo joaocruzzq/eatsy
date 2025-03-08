@@ -8,10 +8,10 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@
 import { dateFormatter } from "@/utils/formatters"
 
 import { useContext } from "react"
-import { AppMainContext } from "@/contexts/app-main-context"
+import { OrdersContext } from "@/contexts/orders-context"
 
 export function Orders() {
-   const { orders, orderStatusFilter, filteredStatus, onChangeStatusFilter } = useContext(AppMainContext)
+   const { orders, filteredOrders, ordersFilter, onFilterOrders } = useContext(OrdersContext)
 
    return (
       <>
@@ -21,7 +21,7 @@ export function Orders() {
             <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
 
             <div className="text-muted-foreground">
-               <Select onValueChange={onChangeStatusFilter} value={orderStatusFilter}>
+               <Select onValueChange={onFilterOrders} value={ordersFilter}>
                   <SelectTrigger className="w-[148px]">
                      <div className="flex items-center gap-1">
                         <Filter size={16} className="mr-1" />
@@ -42,7 +42,7 @@ export function Orders() {
          <div className="mt-5">
             <table className="w-full">
 
-               {filteredStatus.length > 0 ? (
+               {filteredOrders.length > 0 ? (
                   <>
                      <tbody className="grid gap-3 max-h-[552px] overflow-hidden">
                         {orders.map((order) => (
@@ -77,7 +77,7 @@ export function Orders() {
                               </td>
          
                               <td className="flex-1 py-4 px-3 text-justify">
-                                 {order.description.map((plate) => `${plate.quantity} x ${plate.name}`).join(", ")}
+                                 {order.description.map((plate) => `${plate.plateQuantity} x ${plate.plateName}`).join(", ")}
                               </td>
          
                               <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">

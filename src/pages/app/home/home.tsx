@@ -7,10 +7,10 @@ import { Banner } from "./components/banner"
 import { HomeDishCard } from "./components/home-dish-card"
 
 import { useContext } from "react"
-import { AppMainContext } from "@/contexts/app-main-context"
+import { PlatesContext } from "@/contexts/plates-context"
 
 export function Home() {
-   const { filteredPlates, categoryFilter, onChangePlateFilter } = useContext(AppMainContext)
+   const { filteredPlates, plateFilter, onFilterPlates } = useContext(PlatesContext)
 
    return (
       <>
@@ -19,7 +19,7 @@ export function Home() {
          <Banner />
 
          <div className="flex flex-col my-8">
-            <RadioGroup onValueChange={onChangePlateFilter} value={categoryFilter} className="flex gap-2">
+            <RadioGroup onValueChange={onFilterPlates} value={plateFilter} className="flex gap-2">
                <div className="flex justify-center items-center relative h-6">
                   <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Todos</Label>
                   <RadioGroupItem value="" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />

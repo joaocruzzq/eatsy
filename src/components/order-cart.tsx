@@ -8,10 +8,10 @@ import { SheetContent, SheetDescription, SheetTitle } from "./ui/sheet";
 import { useNavigate } from "react-router-dom";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { CustomerCartContext } from "@/contexts/customer-cart-context"; 
 
 export function OrderCart() {
-   const { customerOrder } = useContext(AppMainContext)
+   const { customerOrder } = useContext(CustomerCartContext)
 
    const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
