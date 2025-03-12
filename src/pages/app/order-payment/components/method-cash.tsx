@@ -9,7 +9,7 @@ import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 const CashDataFormSchema = z.object({
@@ -19,7 +19,7 @@ const CashDataFormSchema = z.object({
 type CashDataInput = z.infer<typeof CashDataFormSchema>
 
 export function MethodCash() {
-   const { customerOrder } = useContext(CustomerCartContext)
+   const { customerOrder, onSetPaymentMethod } = useContext(CustomerCartContext)
 
    const { watch, register, handleSubmit, reset } = useForm<CashDataInput>({
       resolver: zodResolver(CashDataFormSchema)
@@ -30,12 +30,14 @@ export function MethodCash() {
 
    const moneyExchange = cashInput - orderPrice || 0
 
-   const [cashData, setCashData] = useState<CashDataInput>()
-
-   function addCashPayment(data: CashDataInput) {
+   function addCashPayment({ cash }: CashDataInput) {
       try {
          if(moneyExchange >= 0) {
-            setCashData(data)
+            onSetPaymentMethod({
+               method: "cash",
+               cashData: cash
+            })
+
             toast.success("Método de pagamento aprovado com sucesso!")
 
             reset()

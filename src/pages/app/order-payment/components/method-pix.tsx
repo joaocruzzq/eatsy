@@ -1,14 +1,17 @@
 import { ClipboardCopy, Check, Receipt } from "lucide-react";
 
-import qrCode from "@/assets/pix-qr-code.svg"
+import { toast } from "sonner";
 
+import qrCode from "@/assets/pix-qr-code.svg"
 import { Button } from "@/components/ui/button";
 
-import { useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import { useContext, useState } from "react";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 export function MethodPix() {
+   const { onSetPaymentMethod} = useContext(CustomerCartContext)
+
    const pixKey = "7fbc3b85-633e-46a8-a0f0-d45eb9f40405"
 
    const [copiedPix, setCopiedPix] = useState(false)
@@ -27,6 +30,8 @@ export function MethodPix() {
    }
 
    function addPixPayment() {
+      onSetPaymentMethod({ method: "pix" })
+
       toast.success("Método de pagamento aprovado com sucesso!")
    }
 

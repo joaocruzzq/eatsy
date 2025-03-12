@@ -24,8 +24,8 @@ interface OrdersContextType {
    ordersFilter: string
    filteredOrders: OrderType[]
 
+   onAddNewOrder: () => void
    onFilterOrders: (status: string) => void
-   onAddNewOrder: (data: OrderType) => void
 }
 
 interface OrdersContextProviderProps {
@@ -35,7 +35,7 @@ interface OrdersContextProviderProps {
 export const OrdersContext = createContext({} as OrdersContextType)
 
 export function OrdersContextProvider({ children }: OrdersContextProviderProps) {
-   const { customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
+   const { address, payment, customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
 
    const [orders, setOrders] = useState<OrderType[]>([])
 
@@ -75,24 +75,29 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
          status: "pending",
          description: formattedDescription,
          id: Math.floor(Date.now() + Math.random() * 1000),
+         
+         payment,
+         address
       }
 
       if (customerOrder.length > 0) {
          try {
             await api.post("/orders", newOrder)
             toast.success("Pedido feito com sucesso!")
+
+            onRemoveItemFromCart()
          }
-   
+         
          catch {
             toast.error("Erro ao finalizar pedido.")
          }
       }
-
+      
       else {
          toast.error("O carrinho se encontra vazio.")
       }
 
-      onRemoveItemFromCart([])
+      console.log(newOrder)
    }
 
    useEffect(() => {

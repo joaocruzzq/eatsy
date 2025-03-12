@@ -3,7 +3,9 @@ import { InterativeCredicCard } from "./interative-credit-card";
 import { toast } from "sonner";
 import { Receipt } from "lucide-react";
 
-import { useState } from "react";
+import { useContext } from "react";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
+
 import { onFormatCPF, onFormatCardNumber } from "@/utils/formatters"
 
 import { Input } from "@/components/ui/input";
@@ -40,14 +42,18 @@ export function MethodCard() {
    const setExpirationM = watch("expirationM") || "MM"
    const setExpirationY = watch("expirationM") || "YY"
 
-   const [cardData, setCardData] = useState<CardInputs>()
-
    const { cardName, cardNumber, expirationM, expirationY, method, ownerCPF, verificationCode} = watch()
    const isCardInputsEmpty = !cardName || !cardNumber || !expirationM || !expirationY || !method || !ownerCPF || !verificationCode
 
+   const { onSetPaymentMethod } = useContext(CustomerCartContext)
+
    function addCardPayment(data: CardInputs) {
       try {
-         setCardData(data)
+         onSetPaymentMethod({
+            method: "card",
+            cardData: data
+         })
+
          toast.success("Método de pagamento aprovado com sucesso!")
 
          reset()

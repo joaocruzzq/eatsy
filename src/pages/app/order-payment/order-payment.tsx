@@ -1,4 +1,4 @@
-import { ClipboardPen, CreditCard, DollarSign, QrCode } from "lucide-react";
+import { ArrowLeftToLine, ClipboardPen, CreditCard, DollarSign, QrCode, ShoppingCart } from "lucide-react";
 
 import { Helmet } from "react-helmet-async";
 
@@ -9,14 +9,24 @@ import { MethodCard } from "./components/method-card";
 import { OrderPlateCard } from "@/components/order-plate-card";
 import { DeliveryInfoForm } from "./components/delivery-info-form";
 
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
 import { useContext } from "react";
+import { OrdersContext } from "@/contexts/orders-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 export function OrderPayment() {
+   const { onAddNewOrder } = useContext(OrdersContext)
    const { customerOrder } = useContext(CustomerCartContext)
+
+   const { handleSubmit } = useForm()
+
+   const navigate = useNavigate()
 
    return (
       <>
@@ -97,42 +107,51 @@ export function OrderPayment() {
                   </CardDescription>
                </CardHeader>
 
-               <CardContent className="grid grid-rows-[1fr_auto]">
-                  <div className="grid grid-cols-2 gap-6 border-muted border-y-2 pt-8 pb-2 justify-between">
-                     {
-                        customerOrder.length > 0 ? (
-                           <>
-                              {customerOrder.map((plate) => (
-                                 <OrderPlateCard
-                                    key={plate.id}
-                                    plate={plate}
-                                 />
-                              ))}
-                           </>
-                        ) : (
-                           <div className="flex flex-col col-span-2 gap-6 text-muted justify-center items-center h-full">
-                              <ClipboardPen size={96} className="mx-auto opacity-50" strokeWidth={1}/>
+               <CardContent className="">
+                  <form onSubmit={handleSubmit(onAddNewOrder)} className="h-full grid grid-rows-[1fr_auto]">
+                     <div className="grid grid-cols-2 gap-6 border-muted border-y-2 pt-8 pb-2 justify-between">
+                        {
+                           customerOrder.length > 0 ? (
+                              <>
+                                 {customerOrder.map((plate) => (
+                                    <OrderPlateCard
+                                       key={plate.id}
+                                       plate={plate}
+                                    />
+                                 ))}
+                              </>
+                           ) : (
+                              <div className="flex flex-col col-span-2 gap-6 text-muted justify-center items-center h-full">
+                                 <ClipboardPen size={96} className="mx-auto opacity-50" strokeWidth={1}/>
 
-                              <span className="text-lg text-center leading-5">
-                                 Ainda não há <br /> itens no pedido.
-                              </span>
-                           </div>
-                        )
-                     }
-                  </div>
+                                 <span className="text-lg text-center leading-5">
+                                    Ainda não há <br /> itens no pedido.
+                                 </span>
+                              </div>
+                           )
+                        }
+                     </div>
 
-                  <div className="flex mt-auto justify-between py-3">
-                     <span>Total</span>
+                     <div className="flex mt-auto justify-between py-3">
+                        <span>Total</span>
 
-                     <span className="text-sm">R$
-                        <strong className="text-xl"> 00,00</strong>
-                     </span>
-                  </div>
+                        <span className="text-sm">R$
+                           <strong className="text-xl"> 00,00</strong>
+                        </span>
+                     </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-1">
-                     {/* <HandleBackButton /> */}
-                     {/* <FinishOrderButton /> */}
-                  </div>
+                     <div className="grid grid-cols-2 gap-4 mt-1">
+                        <Button type="button" variant="outline" size={"lg"} onClick={() => navigate(-1)}>
+                           <ArrowLeftToLine />
+                           Voltar
+                        </Button>
+
+                        <Button type="submit" size={"lg"}>
+                           <ShoppingCart />
+                           Finalizar pedido
+                        </Button>
+                     </div>
+                  </form>
                </CardContent>
             </Card>
          </div>

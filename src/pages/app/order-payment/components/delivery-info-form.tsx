@@ -2,7 +2,9 @@ import { HousePlus } from "lucide-react";
 
 import { toast } from "sonner";
 
-import React, { useState } from "react";
+import { useContext, useState } from "react";
+import { CustomerCartContext } from "@/contexts/customer-cart-context";
+
 import { onFormatCEP } from "@/utils/formatters";
 import { BrazilianStatesList } from "@/utils/brazilian-states-list";
 
@@ -30,14 +32,14 @@ const AddressFormSchema = z.object({
 type AddressInputs = z.infer<typeof AddressFormSchema>
 
 export function DeliveryInfoForm() {
+   const { onAddAddress } = useContext(CustomerCartContext)
+
    const { register, control, handleSubmit, watch, reset, setValue } = useForm<AddressInputs>({
       resolver: zodResolver(AddressFormSchema)
    })
 
    const { CEP, city, neighborhood, number, state, street} = watch()
    const isAddressInputsEmpty = !CEP || !city || !neighborhood || !number || !state || !street
-
-   const [address, setAddress] = useState<AddressInputs>()
    
    const [isDisabled, setIsDisabled] = useState({
       city: false,
@@ -101,7 +103,7 @@ export function DeliveryInfoForm() {
 
    function handleAddAddress(data: AddressInputs) {
       try {
-         setAddress(data)
+         onAddAddress(data)
          toast.success("Endereço adicionado com sucesso!")
 
          setIsDisabled({
