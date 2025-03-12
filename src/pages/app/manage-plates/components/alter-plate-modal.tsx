@@ -17,7 +17,7 @@ import { useContext, useState } from "react";
 import { PlatesContext } from "@/contexts/plates-context";
 
 const PlateModalFormSchema = z.object({
-   id: z.number(),
+   id: z.number().optional(),
    name: z.string(),
    price: z.number(),
    image: z.string(),
@@ -25,7 +25,7 @@ const PlateModalFormSchema = z.object({
    category: z.enum(["refeicao", "sobremesa", "bebida"]),
    ingredients: z.array(
       z.object({
-         id: z.number(),
+         id: z.number().optional(),
          name: z.string()
       })
    )
@@ -42,13 +42,13 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
 
    const filteredPlate = plates.find((plate) => plate.id === plateId)
 
-   const { register, setValue, handleSubmit, control, formState: { isSubmitting } } = useForm<AlterPlateModalInputs>({
+   const { register, reset, setValue, handleSubmit, control, formState: { isSubmitting } } = useForm<AlterPlateModalInputs>({
       resolver: zodResolver(PlateModalFormSchema),
       defaultValues: {
-         id: filteredPlate?.id ?? 0,
+         id: filteredPlate?.id,
          name: filteredPlate?.name,
          price: filteredPlate?.price,
-         image: filteredPlate?.image || "",
+         image: filteredPlate?.image,
          category: filteredPlate?.category,
          description: filteredPlate?.description,
          ingredients: filteredPlate?.ingredients
@@ -63,6 +63,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
 
    function handleSetPlateInformations(data: AlterPlateModalInputs) {
       onAddNewPlate(data)
+      reset()
    }
 
    function handleAddNewIngredientTag() {
@@ -85,7 +86,7 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
    return (
       <div>
          <form onSubmit={handleSubmit(handleSetPlateInformations)} className="grid gap-4">
-            <PlatePhotoInput register={register} setValue={setValue} />
+            <PlatePhotoInput name={filteredPlate?.name} register={register} setValue={setValue} />
 
             <div className="grid gap-3">
                <Input type="text" placeholder="Nome do prato" {...register("name")} />
@@ -103,9 +104,9 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
                            </SelectTrigger>
 
                            <SelectContent>
-                              <SelectItem value="Refeição">Refeição</SelectItem>
-                              <SelectItem value="Sobremesa">Sobremesa</SelectItem>
-                              <SelectItem value="Bebida">Bebida</SelectItem>
+                              <SelectItem value="refeicao">Refeição</SelectItem>
+                              <SelectItem value="sobremesa">Sobremesa</SelectItem>
+                              <SelectItem value="bebida">Bebida</SelectItem>
                            </SelectContent>
                         </Select>
                      )}

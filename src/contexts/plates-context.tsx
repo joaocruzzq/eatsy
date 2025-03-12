@@ -7,12 +7,12 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 type PlateCategory = "refeicao" | "sobremesa" | "bebida"
 
 type Ingredientes = {
-   id: number
+   id?: number
    name: string
 }
 
 export interface PlateType {
-   id: number
+   id?: number
    name: string
    price: number
    image: string
@@ -111,12 +111,16 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
       catch {
          toast.error("Erro ao salvar prato.")
       }
+
+      fetchPlates()
    }
 
-   function onDeletePlate(plateID: number) {
-      api.delete(`/plates/${plateID}`).then(() => {
+   async function onDeletePlate(plateID: number) {
+      await api.delete(`/plates/${plateID}`).then(() => {
          onRemoveItemFromCart(plateID)
       })
+
+      fetchPlates()
    }
 
    useEffect(() => {

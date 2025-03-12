@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { useContext } from "react";
-import { AppMainContext } from "@/contexts/app-main-context";
+import { PlatesContext } from "@/contexts/plates-context";
 
 interface ModalProps {
    title: string
@@ -20,12 +20,13 @@ interface ModalProps {
 }
 
 export function AlertModal(props : ModalProps) {
-   const { onDeletePlate, fetchPlates } = useContext(AppMainContext)
+   const { onDeletePlate } = useContext(PlatesContext)
 
    function handleDeletePlate() {
-      onDeletePlate(props.plateId)
-      fetchPlates()
+      console.log("Tentando deletar o prato com ID:", props.plateId);
+      onDeletePlate(props.plateId);
    }
+   
    
    return (
       <AlertDialogContent>

@@ -1,14 +1,15 @@
 import { ImageUp } from "lucide-react";
 
 import { PlatesContext } from "@/contexts/plates-context";
-import { ChangeEvent, useContext, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 
 interface PlatePhotoInputProps {
-   register: any;
-   setValue: (name: "image", value: string) => void;
+   name: string | undefined
+   register: any
+   setValue: (name: "image", value: string) => void
 }
 
-export function PlatePhotoInput({ register, setValue }: PlatePhotoInputProps) {
+export function PlatePhotoInput({ name, register, setValue }: PlatePhotoInputProps) {
    const { onAddPlateIMG } = useContext(PlatesContext)
 
    const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -36,6 +37,13 @@ export function PlatePhotoInput({ register, setValue }: PlatePhotoInputProps) {
          }
       }
    }
+
+   useEffect(() => {
+      if(name) {
+         const fileName = name
+         setFileName(fileName);
+      }
+   }, [name])
 
    return (
       <div className="flex flex-col h-full border border-dashed text-muted-foreground/60 border-input bg-transparent shadow-sm justify-center items-center rounded-lg p-6 hover:border-ring hover:text-foreground hover:bg-muted/20 transition">
