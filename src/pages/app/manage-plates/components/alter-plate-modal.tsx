@@ -17,18 +17,18 @@ import { useContext, useState } from "react";
 import { PlatesContext } from "@/contexts/plates-context";
 
 const PlateModalFormSchema = z.object({
-   id: z.number().optional(),
-   name: z.string(),
-   price: z.number(),
    image: z.string(),
-   description: z.string(),
+   id: z.number().optional(),
+   name: z.string().min(1, "O nome é obrigatório."),
    category: z.enum(["refeicao", "sobremesa", "bebida"]),
+   description: z.string().min(1, "A descrição é obrigatória."),
+   price: z.preprocess((val) => Number(val), z.number().min(0.01)),
    ingredients: z.array(
       z.object({
-         id: z.number().optional(),
+         id: z.number(),
          name: z.string()
       })
-   )
+   ).min(1, "Adicione pelo menos um ingrediente.")
 })
 
 type AlterPlateModalInputs = z.infer<typeof PlateModalFormSchema>
@@ -40,18 +40,18 @@ interface EditPlateProps {
 export function AlterPlateModal({ plateId }: EditPlateProps) {
    const { plates, onAddNewPlate } = useContext(PlatesContext)
 
-   const filteredPlate = plates.find((plate) => plate.id === plateId)
+   const plateToEdit = plateId ? plates.find((plate) => plate.id === plateId) : null
 
    const { register, reset, setValue, handleSubmit, control, formState: { isSubmitting } } = useForm<AlterPlateModalInputs>({
       resolver: zodResolver(PlateModalFormSchema),
       defaultValues: {
-         id: filteredPlate?.id,
-         name: filteredPlate?.name,
-         price: filteredPlate?.price,
-         image: filteredPlate?.image,
-         category: filteredPlate?.category,
-         description: filteredPlate?.description,
-         ingredients: filteredPlate?.ingredients
+         name: plateToEdit?.name ?? "",
+         image: plateToEdit?.image ?? "",
+         id: plateToEdit?.id ?? undefined,
+         price: plateToEdit?.price ?? undefined,
+         ingredients: plateToEdit?.ingredients ?? [],
+         description: plateToEdit?.description ?? "",
+         category: plateToEdit?.category ?? undefined,
       }
    })
 
@@ -60,11 +60,6 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
    })
 
    const [newIngredient, setNewIngredient] = useState("")
-
-   function handleSetPlateInformations(data: AlterPlateModalInputs) {
-      onAddNewPlate(data)
-      reset()
-   }
 
    function handleAddNewIngredientTag() {
       if(newIngredient.trim() !== "") {
@@ -82,11 +77,17 @@ export function AlterPlateModal({ plateId }: EditPlateProps) {
       
       remove(ingredientID)
    }
+   
+   function handleSetPlateInformations(data: AlterPlateModalInputs) {
+      onAddNewPlate(data)
+
+      reset()
+   }
 
    return (
       <div>
          <form onSubmit={handleSubmit(handleSetPlateInformations)} className="grid gap-4">
-            <PlatePhotoInput name={filteredPlate?.name} register={register} setValue={setValue} />
+            <PlatePhotoInput name={plateToEdit?.name} register={register} setValue={setValue} />
 
             <div className="grid gap-3">
                <Input type="text" placeholder="Nome do prato" {...register("name")} />

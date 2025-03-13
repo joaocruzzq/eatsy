@@ -12,7 +12,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from 
 import { useContext } from "react";
 import { PlatesContext } from "@/contexts/plates-context"; 
 
-export function ManagePlates() {
+export function ManagePlates(plateId: number) {
    const { plateFilter, filteredPlates, onFilterPlates } = useContext(PlatesContext)
 
    return (
@@ -33,9 +33,9 @@ export function ManagePlates() {
 
                   <SelectContent>
                      <SelectItem value="all">Todos os pratos</SelectItem>
-                     <SelectItem value="Refeição">Refeições</SelectItem>
-                     <SelectItem value="Sobremesa">Sobremesas</SelectItem>
-                     <SelectItem value="Bebida">Bebidas</SelectItem>
+                     <SelectItem value="refeicao">Refeições</SelectItem>
+                     <SelectItem value="sobremesa">Sobremesas</SelectItem>
+                     <SelectItem value="bebida">Bebidas</SelectItem>
                   </SelectContent>
                </Select>
             </div>
@@ -55,7 +55,7 @@ export function ManagePlates() {
                   </DialogHeader>
 
                   <AlterPlateModal
-                     plateId={undefined}
+                     plateId={plateId}
                   />
                </DialogContent>
             </Dialog>

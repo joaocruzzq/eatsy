@@ -15,7 +15,7 @@ interface OrderType {
    id: number
    date: Date
    status: OrderStatus
-   description: FilteredDescription[]
+   description: FilteredDescription
 }
 
 interface OrdersContextType {
@@ -26,6 +26,8 @@ interface OrdersContextType {
 
    onAddNewOrder: () => void
    onFilterOrders: (status: string) => void
+
+   onUpdateOrderStatus: (orderId: number, newOrderStatus: string) => void
 }
 
 interface OrdersContextProviderProps {
@@ -49,6 +51,8 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
 
       setOrders(ordersList.data)
    }
+
+   console.log(orders)
 
    const [ordersFilter, setOrdersFilter] = useState("")
 
@@ -97,7 +101,18 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
          toast.error("O carrinho se encontra vazio.")
       }
 
-      console.log(newOrder)
+      fetchOrders()
+   }
+
+   async function onUpdateOrderStatus(orderId: number, newOrderStatus: string) {
+      try {
+         await api.patch(`/orders/${orderId}`, { status: newOrderStatus })
+         toast.success("Status alterado com sucesso.")
+      }
+
+      catch {
+         toast.error("Erro ao atualziar status.")
+      }
    }
 
    useEffect(() => {
@@ -112,6 +127,7 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
             filteredOrders,
             onFilterOrders,
             onAddNewOrder,
+            onUpdateOrderStatus,
          }}
       >
          { children }

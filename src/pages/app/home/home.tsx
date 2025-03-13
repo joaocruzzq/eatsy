@@ -27,31 +27,39 @@ export function Home() {
 
                <div className="flex justify-center items-center relative h-6">
                   <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Refeições</Label>
-                  <RadioGroupItem value="Refeição" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                  <RadioGroupItem value="refeicao" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
                </div>
 
                <div className="flex justify-center items-center relative h-6">
                   <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Sobremesas</Label>
-                  <RadioGroupItem value="Sobremesa" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                  <RadioGroupItem value="sobremesa" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
                </div>
 
                <div className="flex justify-center items-center relative h-6">
                   <Label className="p-4 font-bevietnam text-xs font-normal tracking-wide">Bebidas</Label>
-                  <RadioGroupItem value="Bebida" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
+                  <RadioGroupItem value="bebida" className="min-h-full w-full absolute data-[state=checked]:bg-[#f5474738]" />
                </div>
             </RadioGroup>
              
             <div className="grid grid-cols-5 justify-center gap-x-5 gap-y-14 pt-20">
-               {filteredPlates.length > 0 && (
-                  filteredPlates.map((plate) => {
-                     return (
-                        <HomeDishCard
-                           key={plate.id}
-                           plate={plate}
-                        />
-                     )
-                  })
-               )}
+               {
+                  filteredPlates.length > 0 ? (
+                     filteredPlates.map((plate) => {
+                        return (
+                           <HomeDishCard
+                              key={plate.id}
+                              plate={plate}
+                           />
+                        )
+                     })
+                  ) : (
+                     <div className="col-span-5 grid justify-center border-2 border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg p-12 -mt-10">
+                        <h1 className="text-lg text-muted-foreground dark:text-muted">
+                           Nenhum prato encontrado.
+                        </h1>
+                     </div>
+                  )
+               }
             </div>
          </div>
       </>

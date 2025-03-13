@@ -11,7 +11,7 @@ import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
 
 export function Orders() {
-   const { orders, filteredOrders, ordersFilter, onFilterOrders } = useContext(OrdersContext)
+   const { orders, filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)
 
    return (
       <>
@@ -48,7 +48,7 @@ export function Orders() {
                         {orders.map((order) => (
                            <tr className="flex text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
                               <td className="w-[15%] text-center rounded-s-lg p-2.5">
-                                 <Select defaultValue={order.status}>
+                                 <Select defaultValue={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
                                     <SelectTrigger>
                                        <SelectValue className="" placeholder="Status" />
                                     </SelectTrigger>
@@ -77,7 +77,13 @@ export function Orders() {
                               </td>
          
                               <td className="flex-1 py-4 px-3 text-justify">
-                                 {order.description.map((plate) => `${plate.plateQuantity} x ${plate.plateName}`).join(", ")}
+                                 {
+                                    Array.isArray(order.description) && (
+                                       order.description.map((plate) => (
+                                          <p>{plate.quantity} x {plate.name}</p>
+                                       ))
+                                    )
+                                 }
                               </td>
          
                               <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
@@ -112,8 +118,8 @@ export function Orders() {
                      </Pagination>
                   </>
                ) : (
-                  <div className="grid min-h-[70dvh] justify-center items-center border border-muted/50 rounded-sm">
-                     <span className="text-lg text-muted">Ainda não há pedidos registrados.</span>
+                  <div className="grid min-h-[70dvh] justify-center items-center border border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg">
+                     <span className="text-lg text-muted-foreground dark:text-muted">Ainda não há pedidos registrados.</span>
                   </div>
                )}
             </table>

@@ -13,17 +13,16 @@ import { PlatesContext } from "@/contexts/plates-context";
 
 interface ModalProps {
    title: string
-   option2: string
    description?: string
    shouldNavigate?: boolean
-   plateId: number
+   customizedButton: string
+   plateId: number | undefined
 }
 
 export function AlertModal(props : ModalProps) {
    const { onDeletePlate } = useContext(PlatesContext)
 
    function handleDeletePlate() {
-      console.log("Tentando deletar o prato com ID:", props.plateId);
       onDeletePlate(props.plateId);
    }
    
@@ -36,13 +35,13 @@ export function AlertModal(props : ModalProps) {
             </AlertDialogTitle>
 
             <AlertDialogDescription className="leading-6">
-            {props.description} Esta ação não poderá ser desfeita.
+               {props.description} Esta ação não poderá ser desfeita.
             </AlertDialogDescription>
          </AlertDialogHeader>
                      
          <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeletePlate}>{props.option2}</AlertDialogAction>
+            <AlertDialogAction onClick={handleDeletePlate}>{props.customizedButton}</AlertDialogAction>
          </AlertDialogFooter>
       </AlertDialogContent>
    )

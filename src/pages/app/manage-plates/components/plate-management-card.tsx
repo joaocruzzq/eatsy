@@ -18,15 +18,15 @@ interface PlateCardProps {
 export function PlateManagementCard({plateInfo}: PlateCardProps) {
    return (
       <Card className="bg-stone-100 dark:bg-stone-900">
-         <CardContent>
+         <CardContent className="h-full">
             <img src={plateInfo.image} className="size-32 mx-auto mb-2 -translate-y-1/4" />
 
-            <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
+            <div className="flex flex-col justify-between items-center gap-y-3 pt-0 -mt-5">
                <h1 className="font-semibold text-xl text-foreground tracking-wide line-clamp-1">
                   {plateInfo.name}
                </h1>
 
-               <span className="text-xs text-muted-foreground text-justify leading-5 line-clamp-2 tracking-wide">
+               <span className="line-clamp-2 tracking-wide min-h-[3.4em] text-xs text-muted-foreground text-justify leading-5">
                   {plateInfo.description}
                </span>
 
@@ -69,7 +69,7 @@ export function PlateManagementCard({plateInfo}: PlateCardProps) {
 
                         <AlertModal
                            plateId={plateInfo.id}
-                           option2="Continuar"
+                           customizedButton="Continuar"
                            title="Tem certeza que deseja excluir?"
                            description="Isso excluirá permanentemente o prato."
                         />

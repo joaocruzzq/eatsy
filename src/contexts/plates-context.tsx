@@ -7,12 +7,12 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 type PlateCategory = "refeicao" | "sobremesa" | "bebida"
 
 type Ingredientes = {
-   id?: number
+   id: number
    name: string
 }
 
 export interface PlateType {
-   id?: number
+   id: number
    name: string
    price: number
    image: string
@@ -87,11 +87,13 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
    async function onAddNewPlate(data: PlateType) {
       const isNewPlate = !data.id
 
+      const plateId = data.id ?? Math.floor(Date.now() + Math.random() * 1000)
+
       const plateData = {
          ...data,
+         id: plateId,
          price: data.price.toFixed(2),
-         id: Math.floor(Date.now() + Math.random() * 1000),
-         plateIMG: plateIMG ? plateIMG?.toString() : data.image
+         image: plateIMG ? plateIMG?.toString() : data.image
       }
 
       try {
@@ -115,7 +117,7 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
       fetchPlates()
    }
 
-   async function onDeletePlate(plateID: number) {
+   async function onDeletePlate(plateID?: number) {
       await api.delete(`/plates/${plateID}`).then(() => {
          onRemoveItemFromCart(plateID)
       })
@@ -126,6 +128,10 @@ export function PlatesContextProvider({ children }: PlatesContextProviderProps) 
    useEffect(() => {
       fetchPlates()
    }, [])
+
+   useEffect(() => {
+      setPlateFilter("");
+   }, [location])
 
    return (
       <PlatesContext.Provider

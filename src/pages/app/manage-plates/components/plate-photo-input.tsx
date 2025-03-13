@@ -35,25 +35,25 @@ export function PlatePhotoInput({ name, register, setValue }: PlatePhotoInputPro
             onAddPlateIMG(imageBase64)
             setValue("image", imageBase64);
          }
+
       }
    }
 
    useEffect(() => {
       if(name) {
-         const fileName = name
-         setFileName(fileName);
+         setFileName(name);
       }
    }, [name])
 
    return (
       <div className="flex flex-col h-full border border-dashed text-muted-foreground/60 border-input bg-transparent shadow-sm justify-center items-center rounded-lg p-6 hover:border-ring hover:text-foreground hover:bg-muted/20 transition">
-         <input type="file" {...register("plateIMG", {required: true})} ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+         <input type="file" {...register("image", {required: true})} ref={fileInputRef} onChange={handleFileChange} className="hidden" />
 
          <button type="button" onClick={handleUploadPhoto} className="flex flex-col items-center justify-center h-full w-full">
             <ImageUp size={36} className="mb-2" />
 
-            <h1 className="text-lg">
-               {fileName ? fileName : "Selecionar arquivo"}
+            <h1 className="text-lg lowercase">
+               {fileName ? `${fileName}.png` : "Selecionar arquivo"}
             </h1>
          </button>
       </div>
