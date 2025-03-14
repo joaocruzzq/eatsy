@@ -57,16 +57,17 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
    const [ordersFilter, setOrdersFilter] = useState("")
 
    const filteredOrders = orders.filter((order) => {
-      if(ordersFilter === "") {
-         return true
+      if (ordersFilter === "all" || ordersFilter === "") {
+         return true;
       }
 
-      return order.status === ordersFilter
-   })
-
+      return order.status === ordersFilter;
+   });
+   
    function onFilterOrders(status: string) {
-      setOrdersFilter(status === "all" ? "" : status)
+      setOrdersFilter(status === "all" ? "" : status);
    }
+   
 
    async function onAddNewOrder() {
       const formattedDescription = customerOrder.map((item) => ({
@@ -108,6 +109,8 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
       try {
          await api.patch(`/orders/${orderId}`, { status: newOrderStatus })
          toast.success("Status alterado com sucesso.")
+
+         fetchOrders()
       }
 
       catch {

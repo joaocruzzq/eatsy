@@ -41,58 +41,58 @@ export function Orders() {
 
          <div className="mt-5">
             <table className="w-full">
-
-
-
-               {filteredOrders.length > 0 ? (
-                  <>
+               {
+                  orders.length > 0 ? (
+                     <>
                      <tbody className="grid gap-3 max-h-[552px] overflow-hidden">
-                        {orders.map((order) => (
-                           <tr className="flex text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
-                              <td className="w-[15%] text-center rounded-s-lg p-2.5">
-                                 <Select defaultValue={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
-                                    <SelectTrigger>
-                                       <SelectValue className="" placeholder="Status" />
-                                    </SelectTrigger>
-         
-                                    <SelectContent>
-                                       <SelectItem value="pending">
-                                          <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
-                                          Pendente
-                                       </SelectItem>
+                        {
+                           filteredOrders.map((order) => (
+                              <tr className="flex text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
+                                 <td className="w-[15%] text-center rounded-s-lg p-2.5">
+                                    <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
+                                       <SelectTrigger>
+                                          <SelectValue className="" placeholder="Status" />
+                                       </SelectTrigger>
+            
+                                       <SelectContent>
+                                          <SelectItem value="pending">
+                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
+                                             Pendente
+                                          </SelectItem>
 
-                                       <SelectItem value="preparing">
-                                          <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
-                                          Em preparo
-                                       </SelectItem>
-                                                      
-                                       <SelectItem value="delivered">
-                                          <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
-                                          Entregue
-                                       </SelectItem>
-                                    </SelectContent>
-                                 </Select>
-                              </td>
-         
-                              <td className="w-[15%] text-center py-4 px-3">
-                                 {order.id}
-                              </td>
-         
-                              <td className="flex-1 py-4 px-3 text-justify">
-                                 {
-                                    Array.isArray(order.description) && (
-                                       order.description.map((plate) => (
-                                          <p>{plate.quantity} x {plate.name}</p>
-                                       ))
-                                    )
-                                 }
-                              </td>
-         
-                              <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
-                                 {dateFormatter.format(new Date(order.date))}
-                              </td>
-                           </tr>
-                        ))}
+                                          <SelectItem value="preparing">
+                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
+                                             Em preparo
+                                          </SelectItem>
+                                                         
+                                          <SelectItem value="delivered">
+                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
+                                             Entregue
+                                          </SelectItem>
+                                       </SelectContent>
+                                    </Select>
+                                 </td>
+            
+                                 <td className="w-[15%] text-center py-4 px-3">
+                                    {order.id}
+                                 </td>
+            
+                                 <td className="flex-1 py-4 px-3 text-justify">
+                                    {
+                                       Array.isArray(order.description) && (
+                                          order.description.map((plate) => (
+                                             <p>{plate.quantity} x {plate.name}</p>
+                                          ))
+                                       )
+                                    }
+                                 </td>
+            
+                                 <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
+                                    {dateFormatter.format(new Date(order.date))}
+                                 </td>
+                              </tr>
+                           ))
+                        }
                      </tbody>
 
                      <Pagination className="mt-4">
@@ -118,13 +118,13 @@ export function Orders() {
                            </PaginationLink>
                         </PaginationContent>
                      </Pagination>
-                  </>
-               ) : (
-                  <div className="grid min-h-[70dvh] justify-center items-center border border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg">
-                     <span className="text-lg text-muted-foreground dark:text-muted">Ainda não há pedidos registrados.</span>
-                  </div>
-               )}
-
+                     </>
+                  ) : (
+                     <div className="grid min-h-[70dvh] justify-center items-center border border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg">
+                        <span className="text-lg text-muted-foreground dark:text-muted">Ainda não há pedidos registrados.</span>
+                     </div>
+                  )
+               }
             </table>
          </div>
       </>

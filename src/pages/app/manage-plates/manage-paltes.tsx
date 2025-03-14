@@ -41,7 +41,7 @@ export function ManagePlates(plateId: number) {
             </div>
          </div>
 
-         <div className="grid grid-cols-5 mt-12 gap-x-5 gap-y-14">
+         <div className="grid grid-cols-5 mt-12 mb-8 gap-x-5 gap-y-14">
             <Dialog>
                <DialogTrigger asChild>
                   <AddNewPlateButton />
