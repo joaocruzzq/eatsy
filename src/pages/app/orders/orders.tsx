@@ -42,6 +42,8 @@ export function Orders() {
          <div className="mt-5">
             <table className="w-full">
 
+
+
                {filteredOrders.length > 0 ? (
                   <>
                      <tbody className="grid gap-3 max-h-[552px] overflow-hidden">
@@ -122,6 +124,7 @@ export function Orders() {
                      <span className="text-lg text-muted-foreground dark:text-muted">Ainda não há pedidos registrados.</span>
                   </div>
                )}
+
             </table>
          </div>
       </>
