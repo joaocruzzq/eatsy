@@ -26,6 +26,12 @@ export function OrderPayment() {
 
    const { handleSubmit } = useForm()
 
+   
+
+   function handleAddNewOrder(data: any) {
+      onAddNewOrder(data)
+   }
+
    const navigate = useNavigate()
 
    return (
@@ -108,7 +114,7 @@ export function OrderPayment() {
                </CardHeader>
 
                <CardContent className="">
-                  <form onSubmit={handleSubmit(onAddNewOrder)} className="h-full grid grid-rows-[1fr_auto]">
+                  <form onSubmit={handleSubmit(handleAddNewOrder)} className="h-full grid grid-rows-[1fr_auto]">
                      <div className="grid grid-cols-2 gap-6 border-muted border-y-2 pt-8 pb-2 justify-between">
                         {
                            customerOrder.length > 0 ? (

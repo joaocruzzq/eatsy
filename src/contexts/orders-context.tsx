@@ -24,7 +24,12 @@ interface OrdersContextType {
    ordersFilter: string
    filteredOrders: OrderType[]
 
-   onAddNewOrder: () => void
+   totalPages: number
+   currentPage: number
+
+   ordersPagination: (page: number) => void
+
+   onAddNewOrder: (data: OrderType) => void
    onFilterOrders: (status: string) => void
 
    onUpdateOrderStatus: (orderId: number, newOrderStatus: string) => void
@@ -40,69 +45,81 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
    const { address, payment, customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
 
    const [orders, setOrders] = useState<OrderType[]>([])
+   const [ordersFilter, setOrdersFilter] = useState("")
 
-   async function fetchOrders() {
-      const ordersList = await api.get("orders", {
+   const [totalPages, setTotalPages] = useState(1)
+   const [currentPage, setCurrentPage] = useState(1)
+
+   const itemsPerPage = 7
+
+   async function fetchOrders(page = 1, filter: typeof ordersFilter) {
+      const { data, headers } = await api.get("orders", {
          params: {
             _sort: "date",
-            _order: "desc"
+            _order: "desc",
+
+            _limit: itemsPerPage,
+            _page:page,
+            status: filter || undefined
          }
       })
 
-      setOrders(ordersList.data)
+      setOrders(data)
+
+      const totalCount = Number(headers["x-total-count"])
+      setTotalPages(Math.ceil(totalCount / itemsPerPage))
    }
 
-   console.log(orders)
-
-   const [ordersFilter, setOrdersFilter] = useState("")
-
-   const filteredOrders = orders.filter((order) => {
-      if (ordersFilter === "all" || ordersFilter === "") {
-         return true;
-      }
-
-      return order.status === ordersFilter;
-   });
+   const filteredOrders = ordersFilter ? orders.filter((order) => order.status === ordersFilter) : orders
    
    function onFilterOrders(status: string) {
-      setOrdersFilter(status === "all" ? "" : status);
+      const newFilter = status === "all" ? "" : status
+      setOrdersFilter(newFilter);
+      setCurrentPage(1)
+      
+      fetchOrders(1, newFilter)
    }
-   
 
-   async function onAddNewOrder() {
+   async function onAddNewOrder(data: OrderType) {
       const formattedDescription = customerOrder.map((item) => ({
          name: item.name,
          quantity: item.quantity
       }))
 
-      const newOrder = {
-         date: new Date(),
-         status: "pending",
-         description: formattedDescription,
-         id: Math.floor(Date.now() + Math.random() * 1000),
-         
-         payment,
-         address
-      }
-
-      if (customerOrder.length > 0) {
+      if(customerOrder.length > 0) {
          try {
-            await api.post("/orders", newOrder)
+            const response = await api.post("/orders", {
+               ...data,
+               date: new Date,
+               status: "pending",
+               description: formattedDescription,
+               id: Math.floor(Date.now() + Math.random() * 1000),
+         
+               payment,
+               address
+            })
+
             toast.success("Pedido feito com sucesso!")
 
             onRemoveItemFromCart()
+            setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
          }
-         
+
          catch {
             toast.error("Erro ao finalizar pedido.")
          }
       }
-      
+
       else {
-         toast.error("O carrinho se encontra vazio.")
+         toast.error("Erro ao finalizar pedido.")
       }
 
-      fetchOrders()
+      fetchOrders(1, ordersFilter)
+   }
+
+   function ordersPagination(page: number) {
+      setCurrentPage(page)
+      fetchOrders(page, ordersFilter)
    }
 
    async function onUpdateOrderStatus(orderId: number, newOrderStatus: string) {
@@ -110,7 +127,7 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
          await api.patch(`/orders/${orderId}`, { status: newOrderStatus })
          toast.success("Status alterado com sucesso.")
 
-         fetchOrders()
+         fetchOrders(currentPage, ordersFilter)
       }
 
       catch {
@@ -119,17 +136,20 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
    }
 
    useEffect(() => {
-      fetchOrders()
+      fetchOrders(currentPage, ordersFilter)
    }, [])
 
    return (
       <OrdersContext.Provider
          value={{
             orders,
+            totalPages,
+            currentPage,
             ordersFilter,
             filteredOrders,
-            onFilterOrders,
             onAddNewOrder,
+            onFilterOrders,
+            ordersPagination,
             onUpdateOrderStatus,
          }}
       >

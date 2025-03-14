@@ -1,17 +1,18 @@
 import { Helmet } from "react-helmet-async"
 
-import { ChevronLeft, ChevronRight, Filter } from "lucide-react"
-
+import { Filter } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination"
 
 import { dateFormatter } from "@/utils/formatters"
 
 import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
+import { OrdersPagination } from "./orders-pagination/orders-pagination"
 
 export function Orders() {
    const { orders, filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)
+
+   console.log(orders)
 
    return (
       <>
@@ -44,7 +45,7 @@ export function Orders() {
                {
                   orders.length > 0 ? (
                      <>
-                     <tbody className="grid gap-3 max-h-[552px] overflow-hidden">
+                     <tbody className="grid gap-3 max-h-[552px] overflow-hidden mb-4">
                         {
                            filteredOrders.map((order) => (
                               <tr className="flex text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
@@ -80,9 +81,9 @@ export function Orders() {
                                  <td className="flex-1 py-4 px-3 text-justify">
                                     {
                                        Array.isArray(order.description) && (
-                                          order.description.map((plate) => (
-                                             <p>{plate.quantity} x {plate.name}</p>
-                                          ))
+                                          order.description
+                                             .map((plate) => `${plate.quantity} x ${plate.name}`)
+                                             .join(", ")
                                        )
                                     }
                                  </td>
@@ -95,29 +96,7 @@ export function Orders() {
                         }
                      </tbody>
 
-                     <Pagination className="mt-4">
-                        <PaginationContent>
-                           <PaginationLink className="cursor-pointer">
-                              <PaginationItem>
-                                 <ChevronLeft />
-                              </PaginationItem>
-                           </PaginationLink>
-
-                           <PaginationLink className="cursor-pointer">
-                              <PaginationItem>1</PaginationItem>
-                           </PaginationLink>
-
-                           <PaginationLink className="cursor-pointer">
-                              <PaginationItem>2</PaginationItem>
-                           </PaginationLink>
-
-                           <PaginationLink className="cursor-pointer">
-                              <PaginationItem>
-                                 <ChevronRight />
-                              </PaginationItem>
-                           </PaginationLink>
-                        </PaginationContent>
-                     </Pagination>
+                     <OrdersPagination />
                      </>
                   ) : (
                      <div className="grid min-h-[70dvh] justify-center items-center border border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg">
