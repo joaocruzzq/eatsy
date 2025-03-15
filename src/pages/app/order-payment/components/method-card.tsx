@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Receipt } from "lucide-react";
 
 import { useContext } from "react";
-import { CustomerCartContext } from "@/contexts/customer-cart-context";
+import { OrdersContext } from "@/contexts/orders-context";
 
 import { onFormatCPF, onFormatCardNumber } from "@/utils/formatters"
 
@@ -45,7 +45,7 @@ export function MethodCard() {
    const { cardName, cardNumber, expirationM, expirationY, method, ownerCPF, verificationCode} = watch()
    const isCardInputsEmpty = !cardName || !cardNumber || !expirationM || !expirationY || !method || !ownerCPF || !verificationCode
 
-   const { onSetPaymentMethod } = useContext(CustomerCartContext)
+   const { onSetPaymentMethod } = useContext(OrdersContext)
 
    function addCardPayment(data: CardInputs) {
       try {

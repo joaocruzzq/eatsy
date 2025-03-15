@@ -18,6 +18,32 @@ interface OrderType {
    description: FilteredDescription
 }
 
+type AddressInputs = {
+   CEP: string
+   city: string
+   state: string
+   street: string
+   number: string
+   complement?: string
+   neighborhood: string
+   additionalInfo?: string
+}
+
+type CardInputs = {
+   method: string
+   cardName: string
+   ownerCPF: string
+   cardNumber: string
+   expirationM: string
+   expirationY: string
+   verificationCode: string
+}
+
+type PaymentMethod = 
+   { method: "pix" } |
+   { method: "cash"; cashData: number } |
+   { method: "card"; cardData: CardInputs }
+
 interface OrdersContextType {
    orders: OrderType[]
 
@@ -26,6 +52,9 @@ interface OrdersContextType {
 
    totalPages: number
    currentPage: number
+
+   onAddAddress: (data: AddressInputs) => void
+   onSetPaymentMethod: (data: PaymentMethod) => void
 
    ordersPagination: (page: number) => void
 
@@ -42,7 +71,7 @@ interface OrdersContextProviderProps {
 export const OrdersContext = createContext({} as OrdersContextType)
 
 export function OrdersContextProvider({ children }: OrdersContextProviderProps) {
-   const { address, payment, customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
+   const { customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
 
    const [orders, setOrders] = useState<OrderType[]>([])
    const [ordersFilter, setOrdersFilter] = useState("")
@@ -80,29 +109,75 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
       fetchOrders(1, newFilter)
    }
 
-   async function onAddNewOrder(data: OrderType) {
-      const formattedDescription = customerOrder.map((item) => ({
-         name: item.name,
-         quantity: item.quantity
-      }))
+   const [address, setAddress] = useState<AddressInputs>()
 
+   function onAddAddress(addressData: AddressInputs) {
+      setAddress(addressData)
+   }
+
+   const [payment, setPayment] = useState<PaymentMethod>()
+
+   function onSetPaymentMethod(method: PaymentMethod) {
+      setPayment(method)
+   }
+
+   async function onAddNewOrder(data: OrderType) {
       if(customerOrder.length > 0) {
          try {
-            const response = await api.post("/orders", {
-               ...data,
-               date: new Date,
-               status: "pending",
-               description: formattedDescription,
-               id: Math.floor(Date.now() + Math.random() * 1000),
+            if (!address) {
+               toast.error("Insira um endereço de entrega.")
+            }
+
+            if (!payment) {
+               toast.error("Insira um metódo de pagamento.")
+            }
+
+            else {
+               const formattedDescription = customerOrder.map((item) => ({
+                  name: item.name,
+                  quantity: item.quantity
+               }))
+
+               const formattedOrder = {
+                  ...data,
+                  date: new Date,
+                  status: "pending",
+                  description: formattedDescription,
+                  id: Math.floor(Date.now() + Math.random() * 1000),
+               }
+
+               const response = await api.post("/orders", {
+                  address,
+                  payment,
+                  ...formattedOrder,
+               })
+
+               toast.success("Pedido feito com sucesso!")
+
+               onRemoveItemFromCart()
+               setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
+            }
+
+            // const formattedDescription = customerOrder.map((item) => ({
+            //    name: item.name,
+            //    quantity: item.quantity
+            // }))
+
+            // const response = await api.post("/orders", {
+            //    ...data,
+            //    date: new Date,
+            //    status: "pending",
+            //    description: formattedDescription,
+            //    id: Math.floor(Date.now() + Math.random() * 1000),
          
-               payment,
-               address
-            })
+            //    payment,
+            //    address
+            // })
 
-            toast.success("Pedido feito com sucesso!")
+            // toast.success("Pedido feito com sucesso!")
 
-            onRemoveItemFromCart()
-            setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
+            // onRemoveItemFromCart()
+            // setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
          }
 
          catch {
@@ -151,6 +226,8 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
             onFilterOrders,
             ordersPagination,
             onUpdateOrderStatus,
+            onSetPaymentMethod,
+            onAddAddress,
          }}
       >
          { children }

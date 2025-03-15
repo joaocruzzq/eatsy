@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useContext } from "react";
+import { OrdersContext } from "@/contexts/orders-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 const CashDataFormSchema = z.object({
@@ -19,7 +20,8 @@ const CashDataFormSchema = z.object({
 type CashDataInput = z.infer<typeof CashDataFormSchema>
 
 export function MethodCash() {
-   const { customerOrder, onSetPaymentMethod } = useContext(CustomerCartContext)
+   const { onSetPaymentMethod } = useContext(OrdersContext)
+   const { customerOrder } = useContext(CustomerCartContext)
 
    const { watch, register, handleSubmit, reset } = useForm<CashDataInput>({
       resolver: zodResolver(CashDataFormSchema)

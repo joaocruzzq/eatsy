@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
-import { CustomerCartContext } from "@/contexts/customer-cart-context";
+import { OrdersContext } from "@/contexts/orders-context";
 
 export function MethodPix() {
-   const { onSetPaymentMethod} = useContext(CustomerCartContext)
+   const { onSetPaymentMethod } = useContext(OrdersContext)
 
    const pixKey = "7fbc3b85-633e-46a8-a0f0-d45eb9f40405"
 

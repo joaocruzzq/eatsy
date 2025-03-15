@@ -3,7 +3,7 @@ import { HousePlus } from "lucide-react";
 import { toast } from "sonner";
 
 import { useContext, useState } from "react";
-import { CustomerCartContext } from "@/contexts/customer-cart-context";
+import { OrdersContext } from "@/contexts/orders-context"; 
 
 import { onFormatCEP } from "@/utils/formatters";
 import { BrazilianStatesList } from "@/utils/brazilian-states-list";
@@ -15,8 +15,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import * as z from "zod"
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
 const AddressFormSchema = z.object({
    city: z.string().min(1),
@@ -32,7 +32,7 @@ const AddressFormSchema = z.object({
 type AddressInputs = z.infer<typeof AddressFormSchema>
 
 export function DeliveryInfoForm() {
-   const { onAddAddress } = useContext(CustomerCartContext)
+   const { onAddAddress } = useContext(OrdersContext)
 
    const { register, control, handleSubmit, watch, reset, setValue } = useForm<AddressInputs>({
       resolver: zodResolver(AddressFormSchema)

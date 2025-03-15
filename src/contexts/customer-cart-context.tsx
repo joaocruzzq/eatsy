@@ -9,42 +9,10 @@ export interface ItemOnCartType {
    description: string
 }
 
-type AddressInputs = {
-   CEP: string
-   city: string
-   state: string
-   street: string
-   number: string
-   complement?: string
-   neighborhood: string
-   additionalInfo?: string
-}
-
-type CardInputs = {
-   method: string
-   cardName: string
-   ownerCPF: string
-   cardNumber: string
-   expirationM: string
-   expirationY: string
-   verificationCode: string
-}
-
-type PaymentMethod = 
-   { method: "pix" } |
-   { method: "cash"; cashData: number } |
-   { method: "card"; cardData: CardInputs }
-
 interface CustomerCartType {
-   payment: PaymentMethod | undefined
-   address: AddressInputs | null
-   
    customerOrder: ItemOnCartType[]
 
    fetchCustomerCart: () => void
-   
-   onAddAddress: (data: AddressInputs) => void
-   onSetPaymentMethod: (data: PaymentMethod) => void
 
    onAddItemToCart: (address: ItemOnCartType) => void
    onRemoveItemFromCart: (itemID?: number) => void
@@ -99,18 +67,6 @@ export function CustomerCartProvider({ children }: CustomerCartProviderProps) {
       setCustomerOrder((prevState) => prevState.map((item) => item.id === itemID ? {...item, quantity} : item))
    }
 
-   const [address, setAddress] = useState<AddressInputs | null>(null)
-
-   function onAddAddress(addressData: AddressInputs) {
-      setAddress(addressData)
-   }
-
-   const [payment, setPayment] = useState<PaymentMethod | undefined>(undefined)
-
-   function onSetPaymentMethod(method: PaymentMethod) {
-      setPayment(method)
-   }
-
    useEffect(() => {
       fetchCustomerCart
    }, [])
@@ -118,15 +74,11 @@ export function CustomerCartProvider({ children }: CustomerCartProviderProps) {
    return (
       <CustomerCartContext.Provider
          value={{
-            address,
-            payment,
             customerOrder,
             onAddItemToCart,
-            onSetPaymentMethod,
             onChangeItemQuantity,
             onRemoveItemFromCart,
             fetchCustomerCart,
-            onAddAddress,
          }}
       >
          { children }

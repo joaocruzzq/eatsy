@@ -28,6 +28,7 @@ export function OrderPayment() {
 
    function handleAddNewOrder(data: any) {
       onAddNewOrder(data)
+      console.log(data)
    }
 
    const navigate = useNavigate()
