@@ -77,13 +77,15 @@ export function Orders() {
                                     </td>
                
                                     <td className="flex-1 py-4 px-3 text-justify">
-                                       {
-                                          Array.isArray(order.description) && (
-                                             order.description
-                                                .map((plate) => `${plate.quantity} x ${plate.name}`)
-                                                .join(", ")
-                                          )
-                                       }
+                                       <div className="line-clamp-1">
+                                          {
+                                             Array.isArray(order.description) && (
+                                                order.description
+                                                   .map((plate) => `${plate.quantity} x ${plate.name}`)
+                                                   .join(", ")
+                                             )
+                                          }
+                                       </div>
                                     </td>
                
                                     <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">

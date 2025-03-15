@@ -25,17 +25,17 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
 
    return (
       <Card className="bg-stone-100/50 dark:bg-stone-900/50 rounded-md h-fit">
-         <CardContent className="flex relative gap-3 p-0">
+         <CardContent className="flex relative p-0">
             <div className="absolute min-h-full min-w-full overflow-clip -z-10">
-               <img src={plate.image} className="size-36 absolute translate-x-[170%]  opacity-5" />
+               <img src={plate.image} className="size-36 absolute translate-x-[170%] opacity-5" />
             </div>
 
-            <div className="flex w-full px-4 pt-2 pb-3">
-               <div className="grid w-fit absolute gap-1 -translate-y-8 justify-center">
-                  <img src={plate.image} className="max-w-20" />
+            <div className="flex w-full gap-3.5 px-3 pt-2 pb-2.5">
+               <div className="grid w-fit justify-center">
+                  <img src={plate.image} className="max-w-[72px]" />
                </div>
 
-               <div className="grid w-2/3 ml-auto gap-2.5">
+               <div className="grid flex-1 w-2/3 gap-2.5">
                   <div className="flex justify-between items-center">
                      <span>{plate.name}</span>
 
@@ -51,10 +51,10 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                         {(plate.price * plate.quantity).toFixed(2)}
                      </span>
 
-                     <div className="flex gap-2 ml-auto h-8 items-baseline">
+                     <div className="flex gap-2 ml-auto h-9 items-baseline">
                         <Stepper initialValue={plate.quantity} itemID={plate.id} onChangeQuantity={handleChangeQuantity} />
 
-                        <Button size="icon" variant="outline" onClick={handleDeleteItemFromCart} >
+                        <Button size="icon" variant="ghost" onClick={handleDeleteItemFromCart} className="text-destructive hover:bg-destructive/50 hover:text-foreground/70" >
                            <Trash2 />
                         </Button>
                      </div>

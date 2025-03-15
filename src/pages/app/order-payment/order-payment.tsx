@@ -26,8 +26,6 @@ export function OrderPayment() {
 
    const { handleSubmit } = useForm()
 
-   
-
    function handleAddNewOrder(data: any) {
       onAddNewOrder(data)
    }
@@ -102,7 +100,7 @@ export function OrderPayment() {
                </TabsContent>
             </Tabs>
 
-            <Card className="col-span-3 grid grid-rows-[auto_1fr] ">
+            <Card className="col-span-3 grid grid-rows-[auto_1fr]">
                <CardHeader>
                   <CardTitle className="text-xl">
                      Resumo do pedido
@@ -113,9 +111,9 @@ export function OrderPayment() {
                   </CardDescription>
                </CardHeader>
 
-               <CardContent className="">
-                  <form onSubmit={handleSubmit(handleAddNewOrder)} className="h-full grid grid-rows-[1fr_auto]">
-                     <div className="grid grid-cols-2 gap-6 border-muted border-y-2 pt-8 pb-2 justify-between">
+               <CardContent>
+                  <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid grid-rows-[1fr_auto_auto] h-[438px]">
+                     <div className="flex flex-col overflow-y-auto custom-scrollbar pr-3 border-y border-muted py-4 gap-4">
                         {
                            customerOrder.length > 0 ? (
                               <>
@@ -127,7 +125,7 @@ export function OrderPayment() {
                                  ))}
                               </>
                            ) : (
-                              <div className="flex flex-col col-span-2 gap-6 text-muted justify-center items-center h-full">
+                              <div className="flex flex-col col-span-2 gap-6 text-muted justify-center items-center flex-1">
                                  <ClipboardPen size={96} className="mx-auto opacity-50" strokeWidth={1}/>
 
                                  <span className="text-lg text-center leading-5">
