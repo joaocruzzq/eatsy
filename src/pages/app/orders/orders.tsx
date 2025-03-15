@@ -18,86 +18,84 @@ export function Orders() {
       <>
          <Helmet title="Pedidos" />
 
-         <div className="flex items-center justify-between">
+         <div className="grid grid-cols-[1fr_auto] items-center justify-between">
             <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
 
-            <div className="text-muted-foreground">
-               <Select onValueChange={onFilterOrders} value={ordersFilter}>
-                  <SelectTrigger className="w-[148px]">
-                     <div className="flex items-center gap-1">
-                        <Filter size={16} className="mr-1" />
-                        <SelectValue placeholder="Filtrar status" />
-                     </div>
-                  </SelectTrigger>
+            <Select onValueChange={onFilterOrders} value={ordersFilter}>
+               <SelectTrigger className="w-[148px] text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                     <Filter size={16} className="mr-1" />
+                     <SelectValue placeholder="Filtrar status" />
+                  </div>
+               </SelectTrigger>
 
-                  <SelectContent>
-                     <SelectItem value="all">Todos</SelectItem>
-                     <SelectItem value="pending">Pendente</SelectItem>
-                     <SelectItem value="preparing">Em preparo</SelectItem>
-                     <SelectItem value="delivered">Entregue</SelectItem>
-                  </SelectContent>
-               </Select>
-            </div>
+               <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="pending">Pendente</SelectItem>
+                  <SelectItem value="preparing">Em preparo</SelectItem>
+                  <SelectItem value="delivered">Entregue</SelectItem>
+               </SelectContent>
+            </Select>
          </div>
 
-         <div className="mt-5">
-            <table className="w-full">
+         <div className="grid mt-5 flex-1">
+            <table className="grid flex-1">
                {
                   orders.length > 0 ? (
-                     <>
-                     <tbody className="grid gap-3 max-h-[552px] overflow-hidden mb-4">
-                        {
-                           filteredOrders.map((order) => (
-                              <tr className="flex text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
-                                 <td className="w-[15%] text-center rounded-s-lg p-2.5">
-                                    <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
-                                       <SelectTrigger>
-                                          <SelectValue className="" placeholder="Status" />
-                                       </SelectTrigger>
-            
-                                       <SelectContent>
-                                          <SelectItem value="pending">
-                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
-                                             Pendente
-                                          </SelectItem>
+                     <div className="flex flex-col justify-between">
+                        <tbody className="grid gap-3 overflow-hidden mb-4">
+                           {
+                              filteredOrders.map((order) => (
+                                 <tr className="flex h-fit text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
+                                    <td className="w-[15%] text-center rounded-s-lg p-2.5">
+                                       <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
+                                          <SelectTrigger>
+                                             <SelectValue className="" placeholder="Status" />
+                                          </SelectTrigger>
+               
+                                          <SelectContent>
+                                             <SelectItem value="pending">
+                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
+                                                Pendente
+                                             </SelectItem>
 
-                                          <SelectItem value="preparing">
-                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
-                                             Em preparo
-                                          </SelectItem>
-                                                         
-                                          <SelectItem value="delivered">
-                                             <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
-                                             Entregue
-                                          </SelectItem>
-                                       </SelectContent>
-                                    </Select>
-                                 </td>
-            
-                                 <td className="w-[15%] text-center py-4 px-3">
-                                    {order.id}
-                                 </td>
-            
-                                 <td className="flex-1 py-4 px-3 text-justify">
-                                    {
-                                       Array.isArray(order.description) && (
-                                          order.description
-                                             .map((plate) => `${plate.quantity} x ${plate.name}`)
-                                             .join(", ")
-                                       )
-                                    }
-                                 </td>
-            
-                                 <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
-                                    {dateFormatter.format(new Date(order.date))}
-                                 </td>
-                              </tr>
-                           ))
-                        }
-                     </tbody>
+                                             <SelectItem value="preparing">
+                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
+                                                Em preparo
+                                             </SelectItem>
+                                                            
+                                             <SelectItem value="delivered">
+                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
+                                                Entregue
+                                             </SelectItem>
+                                          </SelectContent>
+                                       </Select>
+                                    </td>
+               
+                                    <td className="w-[15%] text-center py-4 px-3">
+                                       {order.id}
+                                    </td>
+               
+                                    <td className="flex-1 py-4 px-3 text-justify">
+                                       {
+                                          Array.isArray(order.description) && (
+                                             order.description
+                                                .map((plate) => `${plate.quantity} x ${plate.name}`)
+                                                .join(", ")
+                                          )
+                                       }
+                                    </td>
+               
+                                    <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
+                                       {dateFormatter.format(new Date(order.date))}
+                                    </td>
+                                 </tr>
+                              ))
+                           }
+                        </tbody>
 
-                     <OrdersPagination />
-                     </>
+                        <OrdersPagination />
+                     </div>
                   ) : (
                      <div className="grid min-h-[70dvh] justify-center items-center border border-dashed border-muted-foreground/50 dark:border-muted/50 rounded-lg">
                         <span className="text-lg text-muted-foreground dark:text-muted">Ainda não há pedidos registrados.</span>

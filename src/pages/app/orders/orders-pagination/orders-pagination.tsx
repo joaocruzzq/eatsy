@@ -38,8 +38,10 @@ export function OrdersPagination() {
 
             {
                pages.map((page) => (
-                  <PaginationLink className="cursor-pointer">
-                     <PaginationItem>{page}</PaginationItem>
+                  <PaginationLink className={`cursor-pointer ${page === currentPage ? "bg-muted/40" : "bg-transparent"}`}>
+                     <PaginationItem>
+                        {page}
+                     </PaginationItem>
                   </PaginationLink>
                ))
             }
