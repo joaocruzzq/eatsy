@@ -18,7 +18,7 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
 
    return (
       <div className="font-mono">
-         <div className="px-4 py-2 bg-muted/50 rounded-md text-sm">
+         <div className="px-5 py-4 bg-muted/50 rounded-md text-sm">
             {Array.isArray(orderToShow?.description) && (
                orderToShow.description.map((order) => `${order.quantity} x ${order.name}`).join(", ")
             )}

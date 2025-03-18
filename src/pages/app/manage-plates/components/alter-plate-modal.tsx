@@ -17,8 +17,8 @@ import { useContext, useState } from "react";
 import { PlatesContext } from "@/contexts/plates-context";
 
 const PlateModalFormSchema = z.object({
+   id: z.number(),
    image: z.string(),
-   id: z.number().optional(),
    name: z.string().min(1, "O nome é obrigatório."),
    category: z.enum(["refeicao", "sobremesa", "bebida"]),
    description: z.string().min(1, "A descrição é obrigatória."),

@@ -54,7 +54,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                      <div className="flex gap-2 ml-auto h-9 items-baseline">
                         <Stepper initialValue={plate.quantity} itemID={plate.id} onChangeQuantity={handleChangeQuantity} />
 
-                        <Button size="icon" variant="ghost" onClick={handleDeleteItemFromCart} className="text-destructive hover:bg-destructive/50 hover:text-foreground/70" >
+                        <Button size="icon" variant="ghost" onClick={handleDeleteItemFromCart} className="text-destructive hover:bg-destructive/50 hover:text-foreground" >
                            <Trash2 />
                         </Button>
                      </div>

@@ -11,8 +11,11 @@ import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from 
 
 import { useContext } from "react";
 import { PlatesContext } from "@/contexts/plates-context"; 
+import { useParams } from "react-router-dom";
 
-export function ManagePlates(plateId: number) {
+export function ManagePlates() {
+   const { plateId } = useParams()
+
    const { plateFilter, filteredPlates, onFilterPlates } = useContext(PlatesContext)
 
    return (
@@ -55,7 +58,7 @@ export function ManagePlates(plateId: number) {
                   </DialogHeader>
 
                   <AlterPlateModal
-                     plateId={plateId}
+                     plateId={Number(plateId)}
                   />
                </DialogContent>
             </Dialog>

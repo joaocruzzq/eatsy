@@ -11,6 +11,7 @@ import { Orders } from "./pages/app/orders/orders";
 import { DashBoard } from "./pages/app/dashboard/dashboard";
 import { ManagePlates } from "./pages/app/manage-plates/manage-paltes";
 import { OrderPayment } from "./pages/app/order-payment/order-payment";
+import { PlateDetails } from "./pages/app/plate-details/plate-details";
 
 export const router = createBrowserRouter([
    {
@@ -21,8 +22,9 @@ export const router = createBrowserRouter([
          { path: '/', element: <Home /> },
          { path: '/orders', element: <Orders /> },
          { path: '/dashboard', element: <DashBoard /> },
-         { path: '/manage-plates', element: <ManagePlates /> },
          { path: '/order-payment', element: <OrderPayment /> },
+         { path: '/plate-details/:id', element: <PlateDetails /> },
+         { path: '/manage-plates/:id?', element: <ManagePlates /> },
       ]
    },
 

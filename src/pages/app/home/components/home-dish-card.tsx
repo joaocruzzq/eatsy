@@ -10,6 +10,7 @@ import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { useContext, useState } from "react"
 import { PlateType } from "@/contexts/plates-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
+import { useNavigate } from "react-router-dom";
 
 interface HomePlateCardType {
    plate: PlateType
@@ -27,10 +28,16 @@ export function HomeDishCard({ plate }: HomePlateCardType) {
       })
    }
 
+   const navigate = useNavigate()
+
+   function navigateToPlate() {
+      navigate(`/plate-details/${plate.id}`)
+   }
+
    return (
       <Card className="bg-stone-100 dark:bg-stone-900">
          <CardContent>
-            <img src={plate.image} className="size-32 mx-auto mb-2 -translate-y-1/4" />
+            <img src={plate.image} className="size-32 mx-auto mb-2 -translate-y-1/4 cursor-pointer" onClick={navigateToPlate} />
 
             <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
                <h1 className="font-semibold text-xl text-foreground tracking-wide line-clamp-1">
