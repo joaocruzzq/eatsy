@@ -14,7 +14,10 @@ type FilteredDescription = {
 interface OrderType {
    id: number
    date: Date
+   total: number
    status: OrderStatus
+   address: AddressInputs
+   payment: PaymentMethod
    description: FilteredDescription
 }
 
@@ -43,7 +46,7 @@ type PaymentMethod =
    { method: "pix" } |
    { method: "cash"; cashData: number } |
    { method: "card"; cardData: CardInputs }
-
+   
 interface OrdersContextType {
    orders: OrderType[]
 
@@ -126,10 +129,12 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
          try {
             if (!address) {
                toast.error("Insira um endereço de entrega.")
+               return
             }
 
             if (!payment) {
                toast.error("Insira um metódo de pagamento.")
+               return
             }
 
             else {
@@ -144,11 +149,13 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
                   status: "pending",
                   description: formattedDescription,
                   id: Math.floor(Date.now() + Math.random() * 1000),
+                  total: customerOrder.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2),
+
+                  payment,
+                  address
                }
 
                const response = await api.post("/orders", {
-                  address,
-                  payment,
                   ...formattedOrder,
                })
 
@@ -157,27 +164,6 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
                onRemoveItemFromCart()
                setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
             }
-
-            // const formattedDescription = customerOrder.map((item) => ({
-            //    name: item.name,
-            //    quantity: item.quantity
-            // }))
-
-            // const response = await api.post("/orders", {
-            //    ...data,
-            //    date: new Date,
-            //    status: "pending",
-            //    description: formattedDescription,
-            //    id: Math.floor(Date.now() + Math.random() * 1000),
-         
-            //    payment,
-            //    address
-            // })
-
-            // toast.success("Pedido feito com sucesso!")
-
-            // onRemoveItemFromCart()
-            // setOrders(state => [response.data, ...state.slice(0, itemsPerPage - 1)])
          }
 
          catch {

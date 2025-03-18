@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async"
 
-import { Filter } from "lucide-react"
+import { Filter, Search } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 import { dateFormatter } from "@/utils/formatters"
@@ -8,6 +8,9 @@ import { dateFormatter } from "@/utils/formatters"
 import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
 import { OrdersPagination } from "./orders-pagination/orders-pagination"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { OrderDetails } from "./order-details/order-details"
 
 export function Orders() {
    const { orders, filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)
@@ -88,8 +91,40 @@ export function Orders() {
                                        </div>
                                     </td>
                
-                                    <td className="w-[15%] text-center rounded-e-lg py-4 px-3 pr-5">
+                                    <td className="w-[15%] text-center rounded-e-lg py-4 px-3">
                                        {dateFormatter.format(new Date(order.date))}
+                                    </td>
+
+                                    <td className="flex items-center justify-center pr-4">
+                                       <Dialog>
+                                          <DialogTrigger asChild>
+                                             <Button variant={"ghost"} size={"icon"}>
+                                                <Search />
+                                             </Button>
+                                          </DialogTrigger>
+
+                                          <DialogContent>
+                                             <DialogHeader>
+                                                <span>
+                                                   Informações do Pedido
+                                                </span>
+
+                                                <div className="flex justify-between text-sm text-muted-foreground">
+                                                   <span className="font-mono tracking-wide">
+                                                      #{order.id}
+                                                   </span>
+
+                                                   <span className="text-xs ">
+                                                      {dateFormatter.format(new Date(order.date))}
+                                                   </span>
+                                                </div>
+                                             </DialogHeader>
+
+                                             <OrderDetails
+                                                orderId={order.id}
+                                             />
+                                          </DialogContent>
+                                       </Dialog>
                                     </td>
                                  </tr>
                               ))

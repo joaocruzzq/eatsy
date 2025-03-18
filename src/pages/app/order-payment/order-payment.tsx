@@ -33,6 +33,8 @@ export function OrderPayment() {
 
    const navigate = useNavigate()
 
+   const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
+
    return (
       <>
          <Helmet title="Finalizar Pedido" />
@@ -141,7 +143,7 @@ export function OrderPayment() {
                         <span>Total</span>
 
                         <span className="text-sm">R$
-                           <strong className="text-xl"> 00,00</strong>
+                           <strong className="text-xl ml-1">{totalOrderPrice.toFixed(2)}</strong>
                         </span>
                      </div>
 
