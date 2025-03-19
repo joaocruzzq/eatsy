@@ -2,7 +2,14 @@ import { DollarSign } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { useContext } from "react";
+import { DashboardContext } from "@/contexts/dashboard-context";
+
 export function MothRevenueCard() {
+   const { ordersLastMonth } = useContext(DashboardContext)
+
+   const monthRevenue = ordersLastMonth.reduce((acc, order) => acc + Number(order.total) || 0, 0)
+
    return (
       <Card>
          <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
@@ -15,7 +22,7 @@ export function MothRevenueCard() {
 
          <CardContent className="space-y-1">
             <span className="text-2xl font-bold">
-               R$ 1248,60
+               R$ {monthRevenue.toFixed(2)}
             </span>
 
             <p className="text-xs text-muted-foreground">

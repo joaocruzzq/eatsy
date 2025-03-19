@@ -17,8 +17,8 @@ export function DashBoard() {
 
          <div className="grid grid-cols-4 gap-4">
             <MothRevenueCard />
-            <MonthOrdersAmountCard />
             <DayOrdersAmountCard />
+            <MonthOrdersAmountCard />
             <MonthCanceledOrdersAmountCard />
          </div>
 

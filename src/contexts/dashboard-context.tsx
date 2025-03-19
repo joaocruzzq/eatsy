@@ -4,6 +4,7 @@ import { api } from "@/lib/axios";
 import { OrderType } from "./orders-context";
 
 interface DashboardContextType {
+   ordersToday: OrderType[]
    ordersLastMonth: OrderType[]
 }
 
@@ -14,6 +15,7 @@ interface DashboardContextProviderProps {
 export const DashboardContext = createContext({} as DashboardContextType)
 
 export function DashboardContextProvider({ children }: DashboardContextProviderProps) {
+   const [ordersToday, setOrdersToday] = useState<OrderType[]>([])
    const [ordersLastMonth, setOrdersLastMonth] = useState<OrderType[]>([])
 
    async function getRevenueData() {
@@ -23,6 +25,10 @@ export function DashboardContextProvider({ children }: DashboardContextProviderP
       pastDate.setDate(today.getDate() - 30)
 
       const { data: orders } = await api.get<OrderType[]>("/orders")
+
+      const todayOrders = orders.filter((order) => order.date === new Date())
+
+      setOrdersToday(todayOrders)
 
       const lastMonthOrders = orders.filter((order) => {
          const orderDate = new Date(order.date)
@@ -39,6 +45,7 @@ export function DashboardContextProvider({ children }: DashboardContextProviderP
    return (
       <DashboardContext.Provider
          value={{
+            ordersToday,
             ordersLastMonth
          }}
       >
