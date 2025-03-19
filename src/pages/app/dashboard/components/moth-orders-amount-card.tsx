@@ -6,7 +6,12 @@ import { useContext } from "react";
 import { DashboardContext } from "@/contexts/dashboard-context";
 
 export function MonthOrdersAmountCard() {
-   const { ordersLastMonth } = useContext(DashboardContext)
+   const { ordersThisMonth, ordersLastMonth } = useContext(DashboardContext)
+
+   const counterThisMonth = ordersThisMonth.length
+   const counterLastMonth = ordersLastMonth.length
+
+   const ordersMonthPercentage = counterLastMonth > 0 ? ((counterThisMonth - counterLastMonth) / counterLastMonth) * 100 : counterThisMonth * 100
 
    return (
       <Card>
@@ -20,11 +25,13 @@ export function MonthOrdersAmountCard() {
 
          <CardContent className="space-y-1">
             <span className="text-2xl font-bold">
-               {ordersLastMonth.length}
+               {ordersThisMonth.length}
             </span>
 
             <p className="text-xs text-muted-foreground">
-               <span className="text-emerald-500 dark:text-emerald-400">+6%</span> em relação ao mês passado
+               <span className={`${ordersMonthPercentage > 0 ? "text-emerald-500 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
+                  {ordersMonthPercentage > 0 ? `+${ordersMonthPercentage}` : `-${ordersMonthPercentage}`}%
+               </span> em relação ao mês passado
             </p>
          </CardContent>
       </Card>

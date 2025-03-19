@@ -6,7 +6,12 @@ import { useContext } from "react";
 import { DashboardContext } from "@/contexts/dashboard-context";
 
 export function DayOrdersAmountCard() {
-   const { ordersToday } = useContext(DashboardContext)
+   const { ordersToday, ordersYesterday } = useContext(DashboardContext)
+
+   const counterToday = ordersToday.length
+   const counterYesterday = ordersYesterday.length
+
+   const ordersDayPercentage = counterYesterday > 0 ? ((counterToday - counterYesterday) / counterYesterday) * 100 : counterToday * 100
 
    return (
       <Card>
@@ -24,7 +29,9 @@ export function DayOrdersAmountCard() {
             </span>
 
             <p className="text-xs text-muted-foreground">
-               <span className="text-rose-500 dark:text-rose-400">-4%</span> em relação a ontem
+               <span className={`${ordersDayPercentage > 0 ? "text-emerald-500 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
+                  {ordersDayPercentage > 0 ? `+${ordersDayPercentage}` : `-${ordersDayPercentage}`}%
+               </span> em relação a ontem
             </p>
          </CardContent>
       </Card>

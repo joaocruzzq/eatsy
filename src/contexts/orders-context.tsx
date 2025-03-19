@@ -145,7 +145,7 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
 
                const formattedOrder = {
                   ...data,
-                  date: new Date,
+                  date: new Date(),
                   status: "pending",
                   description: formattedDescription,
                   id: Math.floor(Date.now() + Math.random() * 1000),
