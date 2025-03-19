@@ -1,7 +1,5 @@
 import { Filter } from "lucide-react";
 
-import { Helmet } from "react-helmet-async";
-
 import { AlterPlateModal } from "./components/alter-plate-modal";
 import { AddNewPlateButton } from "./components/add-new-plate-button";
 import { PlateManagementCard } from "./components/plate-management-card";
@@ -9,9 +7,11 @@ import { PlateManagementCard } from "./components/plate-management-card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogHeader, DialogTitle, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
+import { Helmet } from "react-helmet-async";
+import { useParams } from "react-router-dom";
+
 import { useContext } from "react";
 import { PlatesContext } from "@/contexts/plates-context"; 
-import { useParams } from "react-router-dom";
 
 export function ManagePlates() {
    const { plateId } = useParams()

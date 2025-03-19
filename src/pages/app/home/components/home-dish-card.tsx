@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
+import { useNavigate } from "react-router-dom";
+
 import { useContext, useState } from "react"
 import { PlateType } from "@/contexts/plates-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
-import { useNavigate } from "react-router-dom";
 
 interface HomePlateCardType {
    plate: PlateType

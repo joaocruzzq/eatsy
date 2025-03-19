@@ -15,6 +15,8 @@ export function OrderCart() {
 
    const totalOrderPrice = customerOrder.reduce((acc, plate) => acc + (plate.price * plate.quantity), 0)
 
+   const isCartEmpty = customerOrder.length === 0
+
    const navigate = useNavigate()
 
    return (
@@ -60,7 +62,7 @@ export function OrderCart() {
                </strong>
             </div>
 
-            <Button className="w-full" onClick={() => navigate("/order-payment")} >
+            <Button className="w-full" disabled={isCartEmpty} onClick={() => navigate("/order-payment")} >
                Finalizar Pedido
             </Button>
          </footer>

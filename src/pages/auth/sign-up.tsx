@@ -7,10 +7,9 @@ import { useForm } from "react-hook-form"
 
 import { Link } from "react-router-dom"
 
-import { Label } from "@radix-ui/react-label"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
 
 const signUpForm = z.object({
    partnerName: z.string(),

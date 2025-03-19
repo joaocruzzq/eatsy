@@ -1,6 +1,7 @@
+import { Label } from "@/components/ui/label"
+
 import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
-import { Label } from "@/components/ui/label"
 
 interface OrderDetailsProps {
    orderId: number

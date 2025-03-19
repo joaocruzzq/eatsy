@@ -2,7 +2,12 @@ import { Utensils } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { useContext } from "react";
+import { DashboardContext } from "@/contexts/dashboard-context";
+
 export function MonthOrdersAmountCard() {
+   const { ordersLastMonth } = useContext(DashboardContext)
+
    return (
       <Card>
          <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
@@ -15,7 +20,7 @@ export function MonthOrdersAmountCard() {
 
          <CardContent className="space-y-1">
             <span className="text-2xl font-bold">
-               246
+               {ordersLastMonth.length}
             </span>
 
             <p className="text-xs text-muted-foreground">

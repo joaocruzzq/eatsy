@@ -1,16 +1,17 @@
 import { Helmet } from "react-helmet-async"
 
 import { Filter, Search } from "lucide-react"
+import { dateFormatter } from "@/utils/formatters"
+
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-import { dateFormatter } from "@/utils/formatters"
+import { OrderDetails } from "./order-details/order-details"
+import { OrdersPagination } from "./orders-pagination/orders-pagination"
 
 import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
-import { OrdersPagination } from "./orders-pagination/orders-pagination"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
-import { OrderDetails } from "./order-details/order-details"
 
 export function Orders() {
    const { orders, filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)

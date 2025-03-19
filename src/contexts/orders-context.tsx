@@ -11,7 +11,7 @@ type FilteredDescription = {
    plateQuantity: number
 }
 
-interface OrderType {
+export interface OrderType {
    id: number
    date: Date
    total: number
