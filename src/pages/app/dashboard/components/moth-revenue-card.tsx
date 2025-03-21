@@ -8,8 +8,8 @@ import { DashboardContext } from "@/contexts/dashboard-context";
 export function MothRevenueCard() {
    const { ordersThisMonth, ordersLastMonth } = useContext(DashboardContext)
 
-   const thisMonthRevenue = ordersThisMonth.reduce((acc, order) => acc + Number(order.total) | 0, 0)
-   const lastMonthRevenue = ordersLastMonth.reduce((acc, order) => acc + Number(order.total) | 0, 0)
+   const thisMonthRevenue = ordersThisMonth.reduce((acc, order) => acc + Number(order.total), 0)
+   const lastMonthRevenue = ordersLastMonth.reduce((acc, order) => acc + Number(order.total), 0)
 
    const monthRevenuePercentage = Math.floor(lastMonthRevenue > 0 ? ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 : thisMonthRevenue * 100)
 
