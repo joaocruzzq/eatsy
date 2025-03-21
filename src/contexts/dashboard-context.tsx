@@ -19,7 +19,7 @@ export const DashboardContext = createContext({} as DashboardContextType)
 export function DashboardContextProvider({ children }: DashboardContextProviderProps) {
 
    const [ordersToday, setOrdersToday] = useState<OrderType[]>([])
-
+   
    const [ordersYesterday, setOrdersYesterday] = useState<OrderType[]>([])
 
    const [ordersThisMonth, setOrdersThisMonth] = useState<OrderType[]>([])
@@ -27,14 +27,12 @@ export function DashboardContextProvider({ children }: DashboardContextProviderP
    const [ordersLastMonth, setOrdersLastMonth] = useState<OrderType[]>([])
 
    async function getRevenueData() {
-      const { data: orders } = await api.get<OrderType[]>("/orders")
+      const { data } = await api.get<OrderType[]>("/orders")
 
       const today = new Date()
-      const todayString = today.toDateString()
 
-      const todayOrders = orders.filter((order) => {
-         const orderDate = new Date(order.date)
-         return orderDate.toDateString() === todayString
+      const todayOrders = data.filter((order) => {
+         return new Date(order.date).toDateString() === today.toDateString()
       })
 
       setOrdersToday(todayOrders)
@@ -42,29 +40,24 @@ export function DashboardContextProvider({ children }: DashboardContextProviderP
       const yesterday = new Date()
       yesterday.setDate(today.getDate() - 1)
 
-      const yesterdayOrders = orders.filter((order) => {
-         const orderDate = new Date(order.date)
-         return orderDate === yesterday
+      const yesterdayOrders = data.filter((order) => {
+         return new Date(order.date).toDateString() === yesterday.toDateString()
       })
 
       setOrdersYesterday(yesterdayOrders)
 
-      const past30Days = new Date()
-      past30Days.setDate(today.getDate() - 30)
-      
-      const thisMonthOrders = orders.filter((order) => {
-         const orderDate = new Date(order.date)
-         return orderDate >= past30Days && orderDate <= today
+      const thisMonth = today.getMonth()
+
+      const thisMonthOrders = data.filter((order) => {
+         return new Date(order.date).getMonth() === thisMonth
       })
 
       setOrdersThisMonth(thisMonthOrders)
 
-      const past60Days = new Date()
-      past60Days.setDate(today.getDate() - 60)
+      const lastMonth = thisMonth === 0 ? 11 : thisMonth -1
 
-      const lastMonthOrders = orders.filter((order) => {
-         const orderDate = new Date(order.date)
-         return orderDate >= past60Days && orderDate <= past30Days
+      const lastMonthOrders = data.filter((order) => {
+         return new Date(order.date).getMonth() === lastMonth
       })
 
       setOrdersLastMonth(lastMonthOrders)

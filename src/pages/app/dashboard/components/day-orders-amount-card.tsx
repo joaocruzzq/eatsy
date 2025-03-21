@@ -11,7 +11,7 @@ export function DayOrdersAmountCard() {
    const counterToday = ordersToday.length
    const counterYesterday = ordersYesterday.length
 
-   const ordersDayPercentage = counterYesterday > 0 ? ((counterToday - counterYesterday) / counterYesterday) * 100 : counterToday * 100
+   const ordersDayPercentage = Math.floor(counterYesterday > 0 ? ((counterToday - counterYesterday) / counterYesterday) * 100 : counterToday * 100)
 
    return (
       <Card>
@@ -30,7 +30,7 @@ export function DayOrdersAmountCard() {
 
             <p className="text-xs text-muted-foreground">
                <span className={`${ordersDayPercentage > 0 ? "text-emerald-500 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
-                  {ordersDayPercentage > 0 ? `+${ordersDayPercentage}` : `-${ordersDayPercentage}`}%
+                  {ordersDayPercentage > 0 ? `+${ordersDayPercentage}` : `${ordersDayPercentage}`}%
                </span> em relação a ontem
             </p>
          </CardContent>

@@ -145,9 +145,9 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
 
                const formattedOrder = {
                   ...data,
-                  date: new Date(),
                   status: "pending",
                   description: formattedDescription,
+                  date: new Date(new Date().setHours(0, 0, 0, 0)),
                   id: Math.floor(Date.now() + Math.random() * 1000),
                   total: customerOrder.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2),
 

@@ -11,7 +11,7 @@ export function MonthOrdersAmountCard() {
    const counterThisMonth = ordersThisMonth.length
    const counterLastMonth = ordersLastMonth.length
 
-   const ordersMonthPercentage = counterLastMonth > 0 ? ((counterThisMonth - counterLastMonth) / counterLastMonth) * 100 : counterThisMonth * 100
+   const ordersMonthPercentage = Math.floor(counterLastMonth > 0 ? ((counterThisMonth - counterLastMonth) / counterLastMonth) * 100 : counterThisMonth * 100)
 
    return (
       <Card>
@@ -30,7 +30,7 @@ export function MonthOrdersAmountCard() {
 
             <p className="text-xs text-muted-foreground">
                <span className={`${ordersMonthPercentage > 0 ? "text-emerald-500 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
-                  {ordersMonthPercentage > 0 ? `+${ordersMonthPercentage}` : `-${ordersMonthPercentage}`}%
+                  {ordersMonthPercentage > 0 ? `+${ordersMonthPercentage}` : `${ordersMonthPercentage}`}%
                </span> em relação ao mês passado
             </p>
          </CardContent>

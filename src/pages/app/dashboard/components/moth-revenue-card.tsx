@@ -6,9 +6,12 @@ import { useContext } from "react";
 import { DashboardContext } from "@/contexts/dashboard-context";
 
 export function MothRevenueCard() {
-   const { ordersLastMonth } = useContext(DashboardContext)
+   const { ordersThisMonth, ordersLastMonth } = useContext(DashboardContext)
 
-   const monthRevenue = ordersLastMonth.reduce((acc, order) => acc + Number(order.total) || 0, 0)
+   const thisMonthRevenue = ordersThisMonth.reduce((acc, order) => acc + Number(order.total) | 0, 0)
+   const lastMonthRevenue = ordersLastMonth.reduce((acc, order) => acc + Number(order.total) | 0, 0)
+
+   const monthRevenuePercentage = Math.floor(lastMonthRevenue > 0 ? ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 : thisMonthRevenue * 100)
 
    return (
       <Card>
@@ -22,11 +25,13 @@ export function MothRevenueCard() {
 
          <CardContent className="space-y-1">
             <span className="text-2xl font-bold">
-               R$ {monthRevenue.toFixed(2)}
+               R$ {thisMonthRevenue.toFixed(2)}
             </span>
 
             <p className="text-xs text-muted-foreground">
-               <span className="text-emerald-500 dark:text-emerald-400">+2%</span> em relação ao mês passado
+               <span className={`${monthRevenuePercentage > 0 ? "text-emerald-500 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
+                  {monthRevenuePercentage > 0 ? `+${monthRevenuePercentage}` : `${monthRevenuePercentage}`}%
+               </span> em relação ao mês passado
             </p>
          </CardContent>
       </Card>
