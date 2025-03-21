@@ -14,15 +14,15 @@ export const AppMainContext = createContext({})
 export function AppMainContextProvider({ children }: AppMainContextProviderProps) {
    return (
       <AppMainContext.Provider value={{}}>
-         <DashboardContextProvider>
-            <CustomerCartProvider>
-               <OrdersContextProvider>
+         <CustomerCartProvider>
+            <OrdersContextProvider>
+               <DashboardContextProvider>
                   <PlatesContextProvider>
                      {children}
                   </PlatesContextProvider>
-               </OrdersContextProvider>
-            </CustomerCartProvider>
-         </DashboardContextProvider>
+               </DashboardContextProvider>
+            </OrdersContextProvider>
+         </CustomerCartProvider>
       </AppMainContext.Provider>
    )
 }

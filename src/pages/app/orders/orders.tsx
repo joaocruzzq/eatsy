@@ -38,6 +38,7 @@ export function Orders() {
                   <SelectItem value="pending">Pendente</SelectItem>
                   <SelectItem value="preparing">Em preparo</SelectItem>
                   <SelectItem value="delivered">Entregue</SelectItem>
+                  <SelectItem value="canceled">Cancelados</SelectItem>
                </SelectContent>
             </Select>
          </div>
@@ -50,8 +51,8 @@ export function Orders() {
                         <tbody className="grid gap-3 overflow-hidden mb-4">
                            {
                               filteredOrders.map((order) => (
-                                 <tr className="flex h-fit text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg">
-                                    <td className="w-[15%] text-center rounded-s-lg p-2.5">
+                                 <tr className={`${order.status === "canceled" && "opacity-50"} flex h-fit text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg`}>
+                                    <td className={`${order.status === "canceled" && "pointer-events-none"} w-[15%] text-center rounded-s-lg p-2.5`}>
                                        <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
                                           <SelectTrigger>
                                              <SelectValue className="" placeholder="Status" />
@@ -71,6 +72,11 @@ export function Orders() {
                                              <SelectItem value="delivered">
                                                 <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
                                                 Entregue
+                                             </SelectItem>
+
+                                             <SelectItem value="canceled">
+                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-stone-500" />
+                                                Cancelado
                                              </SelectItem>
                                           </SelectContent>
                                        </Select>

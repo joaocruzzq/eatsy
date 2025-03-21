@@ -1,7 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 import { api } from "@/lib/axios";
-import { OrderType } from "./orders-context";
+import { OrdersContext, OrderType } from "./orders-context";
 
 interface DashboardContextType {
    ordersToday: OrderType[]
@@ -17,6 +17,7 @@ interface DashboardContextProviderProps {
 export const DashboardContext = createContext({} as DashboardContextType)
 
 export function DashboardContextProvider({ children }: DashboardContextProviderProps) {
+   const { orders } = useContext(OrdersContext)
 
    const [ordersToday, setOrdersToday] = useState<OrderType[]>([])
    
@@ -65,7 +66,7 @@ export function DashboardContextProvider({ children }: DashboardContextProviderP
 
    useEffect(() => {
       getRevenueData()
-   }, [])
+   }, [orders])
 
    return (
       <DashboardContext.Provider

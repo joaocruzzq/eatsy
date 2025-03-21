@@ -4,7 +4,7 @@ import { api } from "@/lib/axios";
 import { CustomerCartContext } from "./customer-cart-context";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
-type OrderStatus = "pending" | "preparing" | "delivered"
+type OrderStatus = "pending" | "preparing" | "delivered" | "canceled"
 
 type FilteredDescription = {
    plateName: string

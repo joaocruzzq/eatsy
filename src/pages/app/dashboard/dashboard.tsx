@@ -22,7 +22,7 @@ export function DashBoard() {
 
             <MothRevenueCard />
 
-            {/* <MonthCanceledOrdersAmountCard /> */}
+            <MonthCanceledOrdersAmountCard />
          </div>
 
          <div className="grid grid-cols-9 gap-4">
