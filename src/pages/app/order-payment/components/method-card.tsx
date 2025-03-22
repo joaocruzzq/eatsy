@@ -40,7 +40,7 @@ export function MethodCard() {
    const setCardNumber = watch("cardNumber") || "**** **** **** 0000"
 
    const setExpirationM = watch("expirationM") || "MM"
-   const setExpirationY = watch("expirationM") || "YY"
+   const setExpirationY = watch("expirationY") || "YY"
 
    const { cardName, cardNumber, expirationM, expirationY, method, ownerCPF, verificationCode} = watch()
    const isCardInputsEmpty = !cardName || !cardNumber || !expirationM || !expirationY || !method || !ownerCPF || !verificationCode

@@ -6,23 +6,48 @@ import { ResponsiveContainer, Pie, PieChart, Cell } from "recharts"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const revenueData = [
-   { product: "Prato 01", amount: 40 },
-   { product: "Prato 02", amount: 30 },
-   { product: "Prato 03", amount: 50 },
-   { product: "Prato 04", amount: 16 },
-   { product: "Prato 05", amount: 26 },
-]
+import { useContext } from "react";
+import { OrdersContext } from "@/contexts/orders-context";
 
 const COLORS = [
-   colors.sky[600],
-   colors.amber[600],
-   colors.violet[600],
-   colors.emerald[600],
-   colors.rose[600],
+   colors.red[500],
+   colors.orange[500],
+   colors.amber[500],
+   colors.green[500],
+   colors.teal[500],
+   colors.indigo[400],
 ]
 
+type PlateCount = {
+   [key: string]: number
+}
+
+type DescriptionItem = {
+   name: string;
+   quantity: number;
+ }
+
 export function PopularProductsChart() {
+   const { orders } = useContext(OrdersContext)
+
+   const plateCount: PlateCount = orders.reduce((acc, order) => {
+      if (Array.isArray(order.description)) {
+         order.description.forEach((item: DescriptionItem) => {
+            const { name, quantity } = item;
+     
+            if (name && quantity) {
+               acc[name] = (acc[name] || 0) + quantity;
+            }
+         });
+      }
+
+      return acc
+   }, {} as PlateCount)
+
+   const revenueData = Object.entries(plateCount)
+   .map(([product, amount]) => ({ product, amount}))
+   .sort((a, b) => b.amount - a.amount).slice(0, 6)
+
    return (
       <Card className="col-span-3">
          <CardHeader className="pb-8">
@@ -69,7 +94,7 @@ export function PopularProductsChart() {
                             dominantBaseline="central"
                           >
                             {revenueData[index].product.length > 12
-                              ? revenueData[index].product.substring(0, 12).concat('...')
+                              ? revenueData[index].product.substring(0, 8).concat('...')
                               : revenueData[index].product}{' '}
                             ({value})
                           </text>
