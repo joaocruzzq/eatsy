@@ -22,11 +22,16 @@ export function RevenueChart() {
       return graphicDateFormatter.format(today)
    })
 
-   const revenueData = filter7LastDays.map((date) => ({
-      date,
+   const revenueData = filter7LastDays.map((date) => {
+      const filterRevenue = orders
+      .filter((order) => graphicDateFormatter.format(new Date(order.date)) === date)
+      .reduce((acc, order) => isNaN(Number(order.total)) ? acc : acc + Number(order.total), 0)
 
-      revenue: orders.reduce((acc, order) => graphicDateFormatter.format(new Date(order.date)) === date ? acc + order.total : acc, 0)
-   }))
+      return {
+         date,
+         revenue: filterRevenue
+      }
+   })
 
    return (
       <Card className="col-span-6">
