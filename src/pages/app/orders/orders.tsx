@@ -38,7 +38,7 @@ export function Orders() {
                   <SelectItem value="pending">Pendente</SelectItem>
                   <SelectItem value="preparing">Em preparo</SelectItem>
                   <SelectItem value="delivered">Entregue</SelectItem>
-                  <SelectItem value="canceled">Cancelados</SelectItem>
+                  <SelectItem value="canceled">Cancelado</SelectItem>
                </SelectContent>
             </Select>
          </div>

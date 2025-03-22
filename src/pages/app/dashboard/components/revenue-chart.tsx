@@ -4,17 +4,30 @@ import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line } fro
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-const revenueData = [
-   { date: "10/12", revenue: 1200 },
-   { date: "11/12", revenue: 800 },
-   { date: "12/12", revenue: 900 },
-   { date: "13/12", revenue: 400 },
-   { date: "14/12", revenue: 2300 },
-   { date: "15/12", revenue: 800 },
-   { date: "16/12", revenue: 600 },
-]
+import { useContext } from "react";
+import { OrdersContext } from "@/contexts/orders-context";
 
 export function RevenueChart() {
+   const { orders } = useContext(OrdersContext)
+
+   const graphicDateFormatter = new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit"
+   })
+
+   const filter7LastDays = Array(7).fill(null).map((_, index) => {
+      const today = new Date()
+
+      today.setDate(today.getDate() - (6 - index))
+      return graphicDateFormatter.format(today)
+   })
+
+   const revenueData = filter7LastDays.map((date) => ({
+      date,
+
+      revenue: orders.reduce((acc, order) => graphicDateFormatter.format(new Date(order.date)) === date ? acc + order.total : acc, 0)
+   }))
+
    return (
       <Card className="col-span-6">
          <CardHeader className="flex-row items-center justify-between pb-8">

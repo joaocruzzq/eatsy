@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useContext } from "react";
 import { DashboardContext } from "@/contexts/dashboard-context";
 
-export function MonthCanceledOrdersAmountCard() {
+export function MonthCanceledOrdersCard() {
    const { ordersThisMonth, ordersLastMonth } = useContext(DashboardContext)
 
    const canceledThisMonth = ordersThisMonth.filter((order) => {

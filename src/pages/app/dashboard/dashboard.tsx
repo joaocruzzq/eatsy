@@ -6,7 +6,7 @@ import { PopularProductsChart } from "./components/popular-products-chart";
 import { MothRevenueCard } from "./components/moth-revenue-card";
 import { DayOrdersAmountCard } from "./components/day-orders-amount-card";
 import { MonthOrdersAmountCard } from "./components/moth-orders-amount-card";
-import { MonthCanceledOrdersAmountCard } from "./components/month-canceled-orders-amount-card";
+import { MonthCanceledOrdersCard } from "./components/month-canceled-orders-card"; 
 
 export function DashBoard() {
    return (
@@ -22,11 +22,11 @@ export function DashBoard() {
 
             <MothRevenueCard />
 
-            <MonthCanceledOrdersAmountCard />
+            <MonthCanceledOrdersCard />
          </div>
 
          <div className="grid grid-cols-9 gap-4">
-            {/* <RevenueChart /> */}
+            <RevenueChart />
             {/* <PopularProductsChart /> */}
          </div>
       </div>
