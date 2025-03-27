@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 
+import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
+
 export function AccountMenu() {
+   const { user } = useContext(AppMainContext)
+   
    const navigate = useNavigate()
 
    function handleSignOut() {
@@ -26,8 +31,13 @@ export function AccountMenu() {
 
          <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="flex flex-col">
-               <span>João Pedro Cruz</span>
-               <span className="text-xs font-normal text-muted-foreground">joaocruzzq@icloud.com</span>
+               <span>
+                  {user?.name}
+               </span>
+
+               <span className="text-xs font-normal text-muted-foreground">
+                  {user?.email}
+               </span>
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />

@@ -1,6 +1,14 @@
-import { ChevronLeft, ShoppingCart } from "lucide-react"
+import { ChevronLeft, Pencil, ShoppingCart } from "lucide-react"
 
 import { Helmet } from "react-helmet-async"
+
+import {
+   Dialog,
+   DialogTitle,
+   DialogHeader,
+   DialogTrigger,
+   DialogContent,
+} from "@/components/ui/dialog"
 
 import { Stepper } from "@/components/stepper"
 import { Button } from "@/components/ui/button"
@@ -9,9 +17,14 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import { useContext, useState } from "react"
 import { PlatesContext } from "@/contexts/plates-context"
+import { AppMainContext } from "@/contexts/app-main-context"
 import { CustomerCartContext } from "@/contexts/customer-cart-context"
 
+import { AlterPlateModal } from "../manage-plates/components/alter-plate-modal"
+
 export function PlateDetails() {
+   const { user } = useContext(AppMainContext)
+
    const { id } = useParams()
    const plateId = Number(id)
 
@@ -73,16 +86,41 @@ export function PlateDetails() {
                   </span>
 
                   <div className="flex gap-2">
-                     <Stepper
-                        itemID={plateId}
-                        initialValue={itemQuantity}
-                        onChangeQuantity={setItemQuantity}
-                     />
+                     {user?.role === "costumer" ? (
+                        <>
+                        <Stepper
+                           itemID={plateId}
+                           initialValue={itemQuantity}
+                           onChangeQuantity={setItemQuantity}
+                        />
 
-                     <Button size={"lg"} className="font-normal" onClick={handleAddPlateToOrder}>
-                        <ShoppingCart />
-                        Adicionar ao pedido
-                     </Button>
+                        <Button size={"lg"} className="font-normal" onClick={handleAddPlateToOrder}>
+                           <ShoppingCart />
+                           Adicionar ao pedido
+                        </Button>
+                        </>
+                     ) : (
+                        <Dialog>
+                           <DialogTrigger asChild>
+                              <Button size={"lg"} className="font-normal" onClick={handleAddPlateToOrder}>
+                                 <Pencil />
+                                 Editar informações
+                              </Button>
+                           </DialogTrigger>
+
+                           <DialogContent>
+                              <DialogHeader>
+                                 <DialogTitle>
+                                    Editar prato
+                                 </DialogTitle>
+                              </DialogHeader>
+
+                              <AlterPlateModal
+                                 plateId={plateId}
+                              />
+                           </DialogContent>
+                        </Dialog>
+                     )}
                   </div>
                </div>
             </div>

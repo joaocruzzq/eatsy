@@ -11,9 +11,11 @@ import { Sheet, SheetTrigger } from "./ui/sheet";
 import { ThemeToggle } from "./theme/theme-toggle";
 
 import { useContext } from "react";
+import { AppMainContext } from "@/contexts/app-main-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
 
 export function Header() {
+   const { user } = useContext(AppMainContext)
    const { customerOrder } = useContext(CustomerCartContext)
 
    const totalItemsOnCart = customerOrder.reduce((acc, plate) => acc + plate.quantity, 0)
@@ -29,9 +31,13 @@ export function Header() {
                      Eatsy
                   </h1>
 
-                  <span className="text-xs leading-3 text-ring">
-                     admin
-                  </span>
+                  {
+                     user?.role === "admin" && (
+                        <span className="text-xs leading-3 text-ring">
+                           admin
+                        </span>
+                     )
+                  }
                </div>
             </div>
 
@@ -43,43 +49,53 @@ export function Header() {
                   Início
                </NavLink>
 
-               <NavLink to="/manage-plates">
-                  <UtensilsCrossed className="h-4 w-4" />
-                  Gerenciar Pratos
-               </NavLink>
-
                <NavLink to="/orders">
                   <ConciergeBell className="h-4 w-4" />
                   Pedidos
                </NavLink>
 
-               <NavLink to="/dashboard">
-                  <ChartNoAxesCombined className="h-4 w-4" />
-                  Dashboard
-               </NavLink>
+               {
+                  user?.role === "admin" && (
+                     <>
+                     <NavLink to="/manage-plates">
+                        <UtensilsCrossed className="h-4 w-4" />
+                        Gerenciar Pratos
+                     </NavLink>
+
+                     <NavLink to="/dashboard">
+                        <ChartNoAxesCombined className="h-4 w-4" />
+                        Dashboard
+                     </NavLink>
+                     </>
+                  )
+               }
             </nav>
 
             <div className="ml-auto flex items-center gap-2">
                <AccountMenu />
                <ThemeToggle />
 
-               <Sheet>
-                  <SheetTrigger>
-                     <Button variant="outline" size="icon" className="relative mr-1">
-                        {
-                           customerOrder.length > 0 && (
-                              <div className="flex w-5 h-5 items-center justify-center absolute rounded-full bg-primary -translate-y-[75%] translate-x-[75%]">
-                                 {totalItemsOnCart}
-                              </div>
-                           )
-                        }
+               {
+                  user?.role === "costumer" && (
+                     <Sheet>
+                        <SheetTrigger>
+                           <Button variant="outline" size="icon" className="relative mr-1">
+                              {
+                                 customerOrder.length > 0 && (
+                                    <div className="flex w-5 h-5 items-center justify-center absolute rounded-full bg-primary -translate-y-[75%] translate-x-[75%]">
+                                       {totalItemsOnCart}
+                                    </div>
+                                 )
+                              }
 
-                        <ShoppingCart />
-                     </Button>
-                  </SheetTrigger>
+                              <ShoppingCart />
+                           </Button>
+                        </SheetTrigger>
 
-                  <OrderCart />
-               </Sheet>
+                        <OrderCart />
+                     </Sheet>
+                  )
+               }
             </div>
          </div>
       </div>

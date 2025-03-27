@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { Banner } from "./components/banner"
-import { HomeDishCard } from "./components/home-dish-card"
+import { DishCard } from "@/components/dish-card"
 
 import { useContext } from "react"
 import { PlatesContext } from "@/contexts/plates-context"
@@ -46,7 +46,7 @@ export function Home() {
                   filteredPlates.length > 0 ? (
                      filteredPlates.map((plate) => {
                         return (
-                           <HomeDishCard
+                           <DishCard
                               key={plate.id}
                               plate={plate}
                            />
