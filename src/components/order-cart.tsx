@@ -26,7 +26,7 @@ export function OrderCart() {
          </SheetTitle>
          
          <SheetDescription className="mt-2 tracking-wide">
-            Pedido
+            Adicione, remova ou altere a quantidade dos itens
          </SheetDescription>
 
          <div className="flex flex-col gap-4 py-5 my-4 border-muted border-y-2 h-[74%] overflow-auto custom-scrollbar pr-2">

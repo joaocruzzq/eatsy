@@ -1,11 +1,20 @@
 import { ChevronDown, LogOut } from "lucide-react";
 
-import { NavLink } from "./nav-link";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 
 export function AccountMenu() {
+   const navigate = useNavigate()
+
+   function handleSignOut() {
+      localStorage.removeItem("@eatsy:user")
+
+      navigate("/")
+      location.reload()
+   }
+
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
@@ -23,12 +32,10 @@ export function AccountMenu() {
 
             <DropdownMenuSeparator />
 
-            <NavLink className="w-full" to="#">
-               <DropdownMenuItem className="text-rose-500 dark:text-rose-400 cursor-pointer">
-                  <LogOut />
-                  <span>Sair da conta</span>
-               </DropdownMenuItem>
-            </NavLink>
+            <DropdownMenuItem onClick={handleSignOut} className="text-rose-500 dark:text-rose-400 cursor-pointer">
+               <LogOut />
+               <span>Sair da conta</span>
+            </DropdownMenuItem>
          </DropdownMenuContent>
       </DropdownMenu>
    )

@@ -5,16 +5,19 @@ import { toast } from "sonner"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
+import { api } from "@/lib/axios"
+
 const signUpForm = z.object({
-   partnerName: z.string(),
+   name: z.string(),
    email: z.string().email(),
-   phone: z.number()
+   password: z.string(),
+   role: z.enum(["customer", "admin"])
 })
 
 type SignUpForm = z.infer<typeof signUpForm>
@@ -22,17 +25,18 @@ type SignUpForm = z.infer<typeof signUpForm>
 export function SignUp() {
    const { register, handleSubmit, formState: { isSubmitting } } = useForm<SignUpForm>()
 
+   const navigate = useNavigate()
+
    async function handleSignUp(data: SignUpForm) {
       try {
-         console.log(data)
+         await api.post("/users", {...data, role: "customer"})
 
-         await new Promise((resolve) => setTimeout(resolve, 2000))
-
-         toast.success("Parceiro cadastrado com sucesso.")
+         toast.success("Cadastro realizado com sucesso.")
+         navigate("/")
       }
 
       catch {
-         toast.error("Erro ao cadastrar novo colaborador.")
+         toast.error("Erro ao realizar cadastro.")
       }
    }
 
@@ -42,7 +46,7 @@ export function SignUp() {
 
          <div className="p-8 ">
             <Button variant="secondary" className="absolute right-8 top-8" asChild>
-               <Link to="/sign-in">
+               <Link to="/">
                   Fazer login
                </Link>
             </Button>
@@ -50,18 +54,18 @@ export function SignUp() {
             <div className="w-[350px] flex flex-col justify-center gap-6">
                <div className="flex flex-col gap-2 text-center">
                   <h1 className="text-2xl font-semibold tracking-tight">
-                     Adicione um colaborador
+                     Crie sua conta
                   </h1>
 
                   <p className="text-sm text-muted-foreground">
-                     Adicione parceiros e compartilhe o acesso às vendas.
+                     Acompanhe seus pedidos e salve seus pratos favoritos!
                   </p>
                </div>
 
                <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
                   <div className="space-y-2">
-                     <Label htmlFor="partnerName">Nome</Label>
-                     <Input id="partnerName" type="partnerName" {...register("partnerName")} />
+                     <Label htmlFor="name">Nome</Label>
+                     <Input id="name" type="text" {...register("name")} />
                   </div>
 
                   <div className="space-y-2">
@@ -70,8 +74,8 @@ export function SignUp() {
                   </div>
 
                   <div className="space-y-2">
-                     <Label htmlFor="phone">Telefone</Label>
-                     <Input id="phone" type="tel" {...register("phone")} />
+                     <Label htmlFor="password">Senha</Label>
+                     <Input id="password" type="password" {...register("password")} />
                   </div>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full">

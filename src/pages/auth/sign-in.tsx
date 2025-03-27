@@ -5,14 +5,17 @@ import { toast } from "sonner"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
+import { api } from "@/lib/axios"
+
 const signInForm = z.object({
-   email: z.string().email()
+   email: z.string().email(),
+   password: z.string()
 })
 
 type SignInForm = z.infer<typeof signInForm>
@@ -20,13 +23,25 @@ type SignInForm = z.infer<typeof signInForm>
 export function SignIn() {
    const { register, handleSubmit, formState: { isSubmitting } } = useForm<SignInForm>()
 
+   const navigate = useNavigate()
+
    async function handleSignIn(data: SignInForm) {
       try {
-         console.log(data)
+         const response = await api.get("/users")
 
-         await new Promise((resolve) => setTimeout(resolve, 2000))
+         const filteredUser = response.data
+         .find((user: SignInForm) => user.email === data.email && user.password === data.password)
 
-         toast.success("Link de autenticação enviado para seu e-mail.")
+         if(!filteredUser) {
+            toast.error("Email ou senha inválidos.")
+         }
+
+         else {
+            localStorage.setItem("@eatsy:user", JSON.stringify(filteredUser))
+
+            navigate("/")
+            location.reload()
+         }
       }
 
       catch {
@@ -48,18 +63,23 @@ export function SignIn() {
             <div className="w-[350px] flex flex-col justify-center gap-6">
                <div className="flex flex-col gap-2 text-center">
                   <h1 className="text-2xl font-semibold tracking-tight">
-                     Acessar painel
+                     Fazer login
                   </h1>
 
                   <p className="text-sm text-muted-foreground">
-                     Acompanhe suas vendas pelo painel do parceiro.
+                     Faça login e escolha seus pratos favoritos agora mesmo!
                   </p>
                </div>
 
                <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
                   <div className="space-y-2">
-                     <Label htmlFor="email">Seu email</Label>
+                     <Label htmlFor="email">Email</Label>
                      <Input id="email" type="email" {...register("email")} />
+                  </div>
+
+                  <div className="space-y-2">
+                     <Label htmlFor="password">Senha</Label>
+                     <Input id="password" type="password" {...register("password")} />
                   </div>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full">
