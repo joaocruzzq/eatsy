@@ -2,9 +2,6 @@ import { Helmet } from "react-helmet-async"
 
 import { toast } from "sonner"
 
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-
 import { Link, useNavigate } from "react-router-dom"
 
 import { Label } from "@/components/ui/label"
@@ -13,17 +10,22 @@ import { Button } from "@/components/ui/button"
 
 import { api } from "@/lib/axios"
 
-const signUpForm = z.object({
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+const SignUpFormSchema = z.object({
    name: z.string(),
-   email: z.string().email(),
    password: z.string(),
-   role: z.enum(["customer", "admin"])
+   email: z.string().email()
 })
 
-type SignUpForm = z.infer<typeof signUpForm>
+type SignUpForm = z.infer<typeof SignUpFormSchema>
 
 export function SignUp() {
-   const { register, handleSubmit, formState: { isSubmitting } } = useForm<SignUpForm>()
+   const { register, handleSubmit, formState: { isSubmitting } } = useForm<SignUpForm>({
+      resolver: zodResolver(SignUpFormSchema)
+   })
 
    const navigate = useNavigate()
 

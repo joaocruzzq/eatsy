@@ -9,7 +9,7 @@ type UserProps = {
    id: number
    name: string
    email: string
-   role: "admin" | "costumer"
+   role: "admin" | "customer"
 }
 
 interface AppMainContextType {

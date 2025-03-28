@@ -76,7 +76,7 @@ export function Header() {
                <ThemeToggle />
 
                {
-                  user?.role === "costumer" && (
+                  user?.role === "customer" && (
                      <Sheet>
                         <SheetTrigger>
                            <Button variant="outline" size="icon" className="relative mr-1">

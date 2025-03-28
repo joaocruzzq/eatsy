@@ -1,7 +1,9 @@
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
 
+import { AppMainContext } from "./app-main-context";
 import { CustomerCartContext } from "./customer-cart-context";
+
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type OrderStatus = "pending" | "preparing" | "delivered" | "canceled"
@@ -15,6 +17,7 @@ export interface OrderType {
    id: number
    date: Date
    total: number
+   userID: number
    status: OrderStatus
    address: AddressInputs
    payment: PaymentMethod
@@ -74,6 +77,7 @@ interface OrdersContextProviderProps {
 export const OrdersContext = createContext({} as OrdersContextType)
 
 export function OrdersContextProvider({ children }: OrdersContextProviderProps) {
+   const { user } = useContext(AppMainContext)
    const { customerOrder, onRemoveItemFromCart } = useContext(CustomerCartContext)
 
    const [orders, setOrders] = useState<OrderType[]>([])
@@ -145,6 +149,7 @@ export function OrdersContextProvider({ children }: OrdersContextProviderProps) 
 
                const formattedOrder = {
                   ...data,
+                  userID: user?.id,
                   status: "pending",
                   description: formattedDescription,
                   date: new Date(new Date().setHours(0, 0, 0, 0)),

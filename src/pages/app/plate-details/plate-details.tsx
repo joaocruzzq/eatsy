@@ -86,7 +86,7 @@ export function PlateDetails() {
                   </span>
 
                   <div className="flex gap-2">
-                     {user?.role === "costumer" ? (
+                     {user?.role === "customer" ? (
                         <>
                         <Stepper
                            itemID={plateId}

@@ -12,11 +12,13 @@ import { OrdersPagination } from "./orders-pagination/orders-pagination"
 
 import { useContext } from "react"
 import { OrdersContext } from "@/contexts/orders-context"
+import { AppMainContext } from "@/contexts/app-main-context"
 
 export function Orders() {
-   const { orders, filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)
+   const { user } = useContext(AppMainContext)
+   const { filteredOrders, ordersFilter, onFilterOrders, onUpdateOrderStatus } = useContext(OrdersContext)
 
-   console.log(orders)
+   const ordersOnTable = user?.role === "customer" ? filteredOrders.filter((order) => order.userID === user.id) : filteredOrders
 
    return (
       <>
@@ -46,40 +48,55 @@ export function Orders() {
          <div className="grid mt-5 flex-1">
             <table className="grid flex-1">
                {
-                  orders.length > 0 ? (
+                  ordersOnTable.length > 0 ? (
                      <div className="flex flex-col justify-between">
                         <tbody className="grid gap-3 overflow-hidden mb-4">
                            {
-                              filteredOrders.map((order) => (
+                              ordersOnTable.map((order) => (
                                  <tr className={`${order.status === "canceled" && "opacity-50"} flex h-fit text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg`}>
                                     <td className={`${order.status === "canceled" && "pointer-events-none"} w-[15%] text-center rounded-s-lg p-2.5`}>
-                                       <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
-                                          <SelectTrigger>
-                                             <SelectValue className="" placeholder="Status" />
-                                          </SelectTrigger>
-               
-                                          <SelectContent>
-                                             <SelectItem value="pending">
-                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
-                                                Pendente
-                                             </SelectItem>
+                                       {
+                                          user?.role === "admin" ? (
+                                             <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
+                                                <SelectTrigger>
+                                                   <SelectValue className="" placeholder="Status" />
+                                                </SelectTrigger>
+                     
+                                                <SelectContent>
+                                                   <SelectItem value="pending">
+                                                      <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500" />
+                                                      Pendente
+                                                   </SelectItem>
 
-                                             <SelectItem value="preparing">
-                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
-                                                Em preparo
-                                             </SelectItem>
-                                                            
-                                             <SelectItem value="delivered">
-                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
-                                                Entregue
-                                             </SelectItem>
+                                                   <SelectItem value="preparing">
+                                                      <span className="inline-block w-2 h-2 rounded-full mr-2 bg-yellow-500" />
+                                                      Em preparo
+                                                   </SelectItem>
+                                                                  
+                                                   <SelectItem value="delivered">
+                                                      <span className="inline-block w-2 h-2 rounded-full mr-2 bg-green-500" />
+                                                      Entregue
+                                                   </SelectItem>
 
-                                             <SelectItem value="canceled">
-                                                <span className="inline-block w-2 h-2 rounded-full mr-2 bg-stone-500" />
-                                                Cancelado
-                                             </SelectItem>
-                                          </SelectContent>
-                                       </Select>
+                                                   <SelectItem value="canceled">
+                                                      <span className="inline-block w-2 h-2 rounded-full mr-2 bg-stone-500" />
+                                                      Cancelado
+                                                   </SelectItem>
+                                                </SelectContent>
+                                             </Select>
+                                          ) : (
+                                             <div className="h-full flex items-center px-4">
+                                                <span className={`inline-block w-2 h-2 rounded-full mr-2
+                                                   ${order.status === "pending" ? "bg-red-500" : order.status === "preparing" ? "bg-yellow-500" : order.status === "delivered" ? "bg-green-500" : order.status === "canceled" && "bg-stone-500"}
+                                                `}/>
+
+                                                {order.status === "pending" && "Pendente"}
+                                                {order.status === "preparing" && "Preparando"}
+                                                {order.status === "delivered" && "Entregue"}
+                                                {order.status === "canceled" && "Cancelado"}
+                                             </div>
+                                          )
+                                       }
                                     </td>
                
                                     <td className="w-[15%] text-center py-4 px-3">
@@ -102,37 +119,41 @@ export function Orders() {
                                        {dateFormatter.format(new Date(order.date))}
                                     </td>
 
-                                    <td className="flex items-center justify-center pr-4">
-                                       <Dialog>
-                                          <DialogTrigger asChild>
-                                             <Button variant={"ghost"} size={"icon"}>
-                                                <Search />
-                                             </Button>
-                                          </DialogTrigger>
+                                    {
+                                       user?.role === "admin" && (
+                                          <td className="flex items-center justify-center pr-4">
+                                             <Dialog>
+                                                <DialogTrigger asChild>
+                                                   <Button variant={"ghost"} size={"icon"}>
+                                                      <Search />
+                                                   </Button>
+                                                </DialogTrigger>
 
-                                          <DialogContent>
-                                             <DialogHeader>
-                                                <span>
-                                                   Informações do Pedido
-                                                </span>
+                                                <DialogContent>
+                                                   <DialogHeader>
+                                                      <span>
+                                                         Informações do Pedido
+                                                      </span>
 
-                                                <div className="flex justify-between text-sm text-muted-foreground">
-                                                   <span className="font-mono tracking-wide">
-                                                      #{order.id}
-                                                   </span>
+                                                      <div className="flex justify-between text-sm text-muted-foreground">
+                                                         <span className="font-mono tracking-wide">
+                                                            #{order.id}
+                                                         </span>
 
-                                                   <span className="text-xs ">
-                                                      {dateFormatter.format(new Date(order.date))}
-                                                   </span>
-                                                </div>
-                                             </DialogHeader>
+                                                         <span className="text-xs ">
+                                                            {dateFormatter.format(new Date(order.date))}
+                                                         </span>
+                                                      </div>
+                                                   </DialogHeader>
 
-                                             <OrderDetails
-                                                orderId={order.id}
-                                             />
-                                          </DialogContent>
-                                       </Dialog>
-                                    </td>
+                                                   <OrderDetails
+                                                      orderId={order.id}
+                                                   />
+                                                </DialogContent>
+                                             </Dialog>
+                                          </td>
+                                       )
+                                    }
                                  </tr>
                               ))
                            }
