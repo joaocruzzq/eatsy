@@ -28,7 +28,7 @@ export function SearchForm() {
    }
 
    return (
-      <form onSubmit={handleSubmit(handleSearchPlates)} className="flex justify-end items-center h-10 w-11/12">
+      <form onSubmit={handleSubmit(handleSearchPlates)} className="flex justify-end items-center h-10 w-full sm:mt-2">
          <Input className="h-full w-full rounded-full" placeholder="Busque pelo prato ou ingredientes" {...register("query")}/>
 
          <Button className="absolute rounded-full w-8 h-8 mr-1.5">

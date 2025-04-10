@@ -51,23 +51,23 @@ export function DishCard({ plate }: HomePlateCardType) {
 
    return (
       <Card className="bg-stone-100 dark:bg-stone-900">
-         <CardContent>
-            <img src={plate.image} className="size-32 mx-auto mb-2 -translate-y-1/4 cursor-pointer" onClick={navigateToPlate} />
+         <CardContent className="flex flex-col min-h-full">
+            <img src={plate.image} className="size-28 mx-auto mb-2 -translate-y-1/4 cursor-pointer sm:size-32" onClick={navigateToPlate} />
 
-            <div className="flex flex-col items-center gap-y-3 pt-0 -mt-5">
-               <h1 className="font-semibold text-xl text-foreground tracking-wide line-clamp-1">
+            <div className="flex flex-1 flex-col justify-between items-center gap-y-3 pt-0 -mt-5">
+               <h1 className="font-semibold text-2xl text-foreground tracking-wide leading-6 text-center sm:line-clamp-1 sm:text-xl sm:font-medium">
                   {plate.name}
                </h1>
 
-               <span className="text-xs text-muted-foreground text-justify leading-5 line-clamp-2 tracking-wide">
+               <p className="hidden sm:block text-xs text-muted-foreground text-justify leading-5 max-h-10 overflow-hidden tracking-wide">
                   {plate.description}
-               </span>
+               </p>
 
-               <div className="w-full flex justify-between items-center my-1">
+               <div className="flex w-full justify-between items-center my-1">
                   <div className="flex gap-0.5 items-baseline">
                      <span className="text-xs text-muted-foreground">R$</span>
 
-                     <h1 className="text-xl font-medium">
+                     <h1 className="text-2xl sm:text-xl font-medium">
                         {plate.price}
                      </h1>
                   </div>

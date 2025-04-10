@@ -41,7 +41,7 @@ export function Home() {
                </div>
             </RadioGroup>
              
-            <div className="grid grid-cols-5 justify-center gap-x-5 gap-y-14 pt-20">
+            <div className="grid grid-cols-2 justify-center gap-x-5 gap-y-14 pt-14 sm:grid-cols-5">
                {
                   filteredPlates.length > 0 ? (
                      filteredPlates.map((plate) => {

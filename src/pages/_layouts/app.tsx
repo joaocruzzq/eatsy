@@ -15,7 +15,7 @@ export function AppLayout() {
             <Header />
          </div>
 
-         <div className="flex flex-1 flex-col w-full max-w-screen-xl mx-auto -mt-[580px] p-6 z-10 select-none">
+         <div className="flex flex-1 w-full flex-col mx-auto -mt-[580px] p-6 z-10 select-none sm:max-w-screen-xl">
             <Outlet />
          </div>
 

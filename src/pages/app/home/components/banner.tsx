@@ -14,7 +14,7 @@ import bannerPlate04 from "@/assets/name=cha, size=400.png"
 
 export function Banner() {
    return (
-      <div className="grid grid-cols-2 w-full my-4">
+      <div className="sm:grid grid-cols-2 my-4">
          <div className="flex flex-col justify-center gap-y-8">
             <div className="flex gap-2 bg-[#f5474717] w-fit py-2 px-3 items-center rounded-full">
                <Heart size={18} className="bg-red-500 rounded-full text-transparent fill-[#FDC55E] p-0.5" />
@@ -24,7 +24,7 @@ export function Banner() {
                </span>
             </div>
 
-            <h1 className="font-extrabold text-6xl font-bevietnam">O sabor que você
+            <h1 className="text-5xl leading-tight font-extrabold font-bevietnam sm:text-6xl">O sabor que você
                <span className="text-red-500"> confia</span>
                <span className="font-sans leading-8">,</span> a
                <span className="text-red-500"> qualidade</span> que você
@@ -32,14 +32,14 @@ export function Banner() {
                <img src={titleDetailIMG} className="ml-auto mt-1 h-3" />
             </h1>
 
-            <span className="text-muted-foreground text-xl mt-2 mb-6 leading-8">
+            <span className="text-lg leading-8 text-justify text-muted-foreground mt-2 mb-2 sm:text-xl">
                Cozinhamos com amor e entregamos com agilidade. Sua comida favorita, fresquinha e saborosa, chega até você em até 60 minutos!
             </span>
 
             <SearchForm />
          </div>
 
-         <div className="flex relative justify-center">
+         <div className="hidden sm:flex relative justify-center">
             <img src={homeMainIMG} className="w-3/4" />
 
             <div className="bg-background flex absolute rounded-md py-2 px-2.5 gap-2 -translate-x-40 translate-y-32">

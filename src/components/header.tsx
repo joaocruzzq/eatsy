@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed, ConciergeBell, ShoppingCart } from "lucide-react";
+import { ChartNoAxesCombined, CookingPot, Home, UtensilsCrossed, ConciergeBell, ShoppingCart, Menu } from "lucide-react";
 
 import { NavLink } from "./nav-link";
 import { OrderCart } from "./order-cart";
@@ -13,6 +13,7 @@ import { ThemeToggle } from "./theme/theme-toggle";
 import { useContext } from "react";
 import { AppMainContext } from "@/contexts/app-main-context";
 import { CustomerCartContext } from "@/contexts/customer-cart-context";
+import { MobileMenu } from "./mobile-menu";
 
 export function Header() {
    const { user } = useContext(AppMainContext)
@@ -41,9 +42,9 @@ export function Header() {
                </div>
             </div>
 
-            <Separator orientation="vertical" className="h-6" />
+            <Separator orientation="vertical" className="h-6 sm:flex hidden" />
 
-            <nav className="flex items-center space-x-4 lg:space-x-6">
+            <nav className="items-center space-x-4 lg:space-x-6 sm:flex hidden">
                <NavLink to="/">
                   <Home className="h-4 w-4" />
                   Início
@@ -71,7 +72,7 @@ export function Header() {
                }
             </nav>
 
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto items-center gap-2 sm:flex hidden">
                <AccountMenu />
                <ThemeToggle />
 
@@ -97,6 +98,14 @@ export function Header() {
                   )
                }
             </div>
+
+            <Sheet>
+               <SheetTrigger className="ml-auto">
+                  <Menu size={32} />
+               </SheetTrigger>
+
+               <MobileMenu />
+            </Sheet>
          </div>
       </div>
    )
