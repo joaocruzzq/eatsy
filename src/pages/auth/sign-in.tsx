@@ -86,7 +86,7 @@ export function SignIn() {
                   </div>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full">
-                     Acessar painel
+                     Acessar conta
                   </Button>
                </form>
             </div>
