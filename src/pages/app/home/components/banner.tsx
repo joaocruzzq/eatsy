@@ -14,7 +14,7 @@ import bannerPlate04 from "@/assets/name=cha, size=400.png"
 
 export function Banner() {
    return (
-      <div className="sm:grid grid-cols-2 my-4">
+      <div className="sm:grid grid-cols-2 my-4 gap-6">
          <div className="flex flex-col justify-center gap-y-8">
             <div className="flex gap-2 bg-[#f5474717] w-fit py-2 px-3 items-center rounded-full">
                <Heart size={18} className="bg-red-500 rounded-full text-transparent fill-[#FDC55E] p-0.5" />

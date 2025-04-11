@@ -28,7 +28,7 @@ export function InterativeCredicCard(props: CardType) {
    const cardBrandLogo = getCardBrand(props.cardNumber)
 
    return (
-      <Card className="h-52 w-80 flex flex-col justify-between relative overflow-hidden bg-muted rounded-lg font-bevietnam font-light">
+      <Card className="hidden h-52 w-80 sm:flex flex-col justify-between relative overflow-hidden bg-muted rounded-lg font-bevietnam font-light">
          <CardHeader className="z-10">
             <div className="flex flex-row justify-between items-center m-0 relative">
                <span className="text-sm">{props.method}</span>

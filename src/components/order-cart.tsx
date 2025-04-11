@@ -20,7 +20,7 @@ export function OrderCart() {
    const navigate = useNavigate()
 
    return (
-      <SheetContent>
+      <SheetContent className="grid grid-rows-[auto_auto_1fr_auto] gap-0">
          <SheetTitle className="text-xl">
             Meu pedido
          </SheetTitle>
@@ -29,7 +29,7 @@ export function OrderCart() {
             Adicione, remova ou altere a quantidade dos itens
          </SheetDescription>
 
-         <div className="flex flex-col gap-4 py-5 my-4 border-muted border-y-2 h-[74%] overflow-auto custom-scrollbar pr-2">
+         <div className="flex flex-col gap-4 py-5 my-4 border-muted border-y-2 flex-1 overflow-auto custom-scrollbar pr-2">
             {
                customerOrder.length > 0 ? (
                   <>

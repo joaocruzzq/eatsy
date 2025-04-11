@@ -51,20 +51,18 @@ export function PlateDetails() {
       <>
          <Helmet title={`${plateToShow?.name}`}/>
 
-         <div className="grid grid-cols-[auto_1fr] flex-1 max-w-[86%] gap-12 mx-auto items-center">
-            <img src={plateToShow?.image} />
+         <Button variant={"link"} className="flex w-fit leading-3 text-xl mt-2 mb-4" onClick={() => navigate(-1)}>
+            <ChevronLeft />
+            <span>voltar</span>
+         </Button>
+
+         <div className="grid justify-items-center sm:grid-cols-[auto_1fr] flex-1 max-w-[86%] gap-6 sm:gap-8 mx-auto items-center">  
+            <img src={plateToShow?.image} className="w-64 sm:w-fit" />
 
             <div className="grid justify-between">
-               <div className="flex justify-between">
-                  <h1 className="flex font-semibold text-4xl items-center gap-2">
-                     {plateToShow?.name}
-                  </h1>
-
-                  <Button variant={"link"} className="flex text-lg leading-3 items-start" onClick={() => navigate(-1)}>
-                     <ChevronLeft />
-                     <span>voltar</span>
-                  </Button>
-               </div>
+               <h1 className="flex font-semibold text-4xl items-center gap-2">
+                  {plateToShow?.name}
+               </h1>
 
                <span className="flex text-xl text-justify font-light my-6">
                   {plateToShow?.description}
@@ -78,14 +76,14 @@ export function PlateDetails() {
                   ))}
                </div>
 
-               <div className="flex mt-12 items-end gap-6">
+               <div className="flex mt-12 mb-2 items-end sm:gap-6">
                   <span className="text-lg"> R$ {" "}
                      <span className="text-3xl font-semibold">
                         {plateToShow?.price}
                      </span>
                   </span>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 ml-auto sm:ml-0">
                      {user?.role === "customer" ? (
                         <>
                         <Stepper

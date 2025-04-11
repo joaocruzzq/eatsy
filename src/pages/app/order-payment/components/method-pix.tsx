@@ -36,14 +36,14 @@ export function MethodPix() {
    }
 
    return (
-      <form onSubmit={handleSubmit(addPixPayment)} className="grid grid-cols-[1fr_auto] gap-4">
+      <form onSubmit={handleSubmit(addPixPayment)} className="grid sm:grid-cols-[1fr_auto] gap-4">
          <div className="p-8 flex flex-col justify-center gap-6 rounded-lg border border-muted/50">
             <p className="text-justify text-muted-foreground">
                Escaneie o QR Code para efetuar o pagamento ou, se preferir, copie o código fornecido abaixo.
             </p>
 
             <div className="bg-muted rounded-md flex items-center justify-between p-1.5 pl-5 focus-within:ring-1 focus-within:ring-ring">
-               <span className="opacity-50 text-sm">
+               <span className="opacity-50 text-sm line-clamp-1">
                   {pixKey}
                </span>
 
@@ -53,12 +53,12 @@ export function MethodPix() {
             </div>
          </div>
 
-         <div className="flex h-52 w-52 rounded-lg mt-auto bg-muted dark:bg-stone-300">
+         <div className="hidden sm:flex h-52 w-52 rounded-lg mt-auto bg-muted dark:bg-stone-300">
             <img src={qrCode} alt="" />
          </div>
 
-         <div className="flex justify-start col-span-2 mt-1">
-            <Button type="submit" disabled={!isPixCopied} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+         <div className="flex justify-start sm:col-span-2 mt-1">
+            <Button type="submit" disabled={!isPixCopied} className="ml-auto w-full sm:w-52 transition" variant={"secondary"} size={"lg"}>
                <Receipt />
                Adicionar pagamento
             </Button>

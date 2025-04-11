@@ -72,7 +72,7 @@ export function Header() {
                }
             </nav>
 
-            <div className="ml-auto items-center gap-2 sm:flex hidden">
+            <div className="flex ml-auto items-center gap-2">
                <AccountMenu />
                <ThemeToggle />
 
@@ -97,15 +97,15 @@ export function Header() {
                      </Sheet>
                   )
                }
+
+               <Sheet>
+                  <SheetTrigger className="sm:hidden">
+                     <Menu size={32} />
+                  </SheetTrigger>
+
+                  <MobileMenu />
+               </Sheet>
             </div>
-
-            <Sheet>
-               <SheetTrigger className="ml-auto">
-                  <Menu size={32} />
-               </SheetTrigger>
-
-               <MobileMenu />
-            </Sheet>
          </div>
       </div>
    )

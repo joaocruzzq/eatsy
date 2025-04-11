@@ -23,7 +23,7 @@ export function AccountMenu() {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex select-none items-center gap-2">
+            <Button variant="outline" className="hidden select-none items-center gap-2 sm:flex">
                Minha Conta
                <ChevronDown className="h-4 w-4" />
             </Button>

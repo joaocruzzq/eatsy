@@ -39,7 +39,7 @@ export function OrderPayment() {
       <>
          <Helmet title="Finalizar Pedido" />
 
-         <div className="grid grid-cols-7 gap-6 my-auto">
+         <div className="grid sm:grid-cols-7 gap-6 my-auto">
             <Tabs defaultValue="deliveryInfo" className="col-span-4 space-y-3">
                <TabsList className="grid grid-cols-2 h-fit">
                   <TabsTrigger value="deliveryInfo" className="p-2">
@@ -100,10 +100,22 @@ export function OrderPayment() {
                         </Tabs>
                      </CardContent>
                   </Card>
+
+                  <form onSubmit={handleSubmit(handleAddNewOrder)} className="grid sm:hidden grid-cols-2 gap-4 mt-6">
+                     <Button type="button" variant="outline" size={"lg"} onClick={() => navigate(-1)}>
+                        <ArrowLeftToLine />
+                        Voltar
+                     </Button>
+
+                     <Button type="submit" size={"lg"}>
+                        <ShoppingCart />
+                        Finalizar pedido
+                     </Button>
+                  </form>
                </TabsContent>
             </Tabs>
 
-            <Card className="col-span-3 grid grid-rows-[auto_1fr]">
+            <Card className="hidden sm:grid col-span-3 grid-rows-[auto_1fr]">
                <CardHeader>
                   <CardTitle className="text-xl">
                      Resumo do pedido

@@ -65,7 +65,7 @@ export function MethodCard() {
    }
 
    return (
-      <form onSubmit={handleSubmit(addCardPayment)} className="grid grid-cols-[auto_1fr] gap-4 h-fit">
+      <form onSubmit={handleSubmit(addCardPayment)} className="grid sm:grid-cols-[auto_1fr] gap-4 h-fit">
          <InterativeCredicCard
             method = {formattedPaymentMethod}
             cardNumber = {setCardNumber}
@@ -74,7 +74,7 @@ export function MethodCard() {
             cardOwnerName = {setCardOwnerName}
          />
 
-         <div className="flex flex-col justify-between">
+         <div className="flex flex-col gap-4 justify-between py-2 mt-0.5 sm:p-0">
             <Input
                type="text"
                placeholder="Nome no cartão"
@@ -178,8 +178,8 @@ export function MethodCard() {
             </div>
          </div>
 
-         <div className="flex justify-start col-span-2 mt-1">
-            <Button type="submit" disabled={isCardInputsEmpty} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+         <div className="flex justify-start sm:col-span-2 mt-1">
+            <Button type="submit" disabled={isCardInputsEmpty} className="ml-auto w-full sm:w-52 transition" variant={"secondary"} size={"lg"}>
                <Receipt />
                Adicionar pagamento
             </Button>

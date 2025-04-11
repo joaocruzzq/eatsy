@@ -53,8 +53,8 @@ export function Orders() {
                         <tbody className="grid gap-3 overflow-hidden mb-4">
                            {
                               ordersOnTable.map((order) => (
-                                 <tr className={`${order.status === "canceled" && "opacity-50"} flex h-fit text-sm border border-muted tracking-wider bg-background rounded-s-lg rounded-e-lg`}>
-                                    <td className={`${order.status === "canceled" && "pointer-events-none"} w-[15%] text-center rounded-s-lg p-2.5`}>
+                                 <tr className={`${order.status === "canceled" && "opacity-50"} grid relative h-fit text-sm border border-muted tracking-wider bg-background py-2 rounded-s-xl rounded-e-xl  sm:py-0 sm:rounded-s-lg sm:rounded-e-lg sm:grid-cols-[auto_auto_1fr_auto]`}>
+                                    <td className={`${order.status === "canceled" && "pointer-events-none"} text-center rounded-s-lg p-2.5`}>
                                        {
                                           user?.role === "admin" ? (
                                              <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
@@ -99,12 +99,12 @@ export function Orders() {
                                        }
                                     </td>
                
-                                    <td className="w-[15%] text-center py-4 px-3">
+                                    <td className="absolute mt-1 right-2 sm:flex text-center py-4 px-3">
                                        {order.id}
                                     </td>
                
-                                    <td className="flex-1 py-4 px-3 text-justify">
-                                       <div className="line-clamp-1">
+                                    <td className="flex-1 py-4 px-6 text-justify">
+                                       <div className="line-clamp-2 sm:line-clamp-1">
                                           {
                                              Array.isArray(order.description) && (
                                                 order.description
@@ -115,7 +115,7 @@ export function Orders() {
                                        </div>
                                     </td>
                
-                                    <td className="w-[15%] text-center rounded-e-lg py-4 px-3">
+                                    <td className="text-center rounded-e-lg py-4 px-3">
                                        {dateFormatter.format(new Date(order.date))}
                                     </td>
 

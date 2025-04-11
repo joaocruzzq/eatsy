@@ -56,7 +56,7 @@ export function MethodCash() {
    }
 
    return (
-      <form onSubmit={handleSubmit(addCashPayment)} className="grid grid-cols-[1fr_auto] gap-4">
+      <form onSubmit={handleSubmit(addCashPayment)} className="grid sm:grid-cols-[1fr_auto] gap-4">
          <div className="p-8 flex flex-col justify-center gap-6 rounded-lg border border-muted/50">
             <p className="text-justify text-muted-foreground">
                Informe o valor que será entregue ao entregador para que possamos calcular o troco corretamente.
@@ -76,7 +76,7 @@ export function MethodCash() {
             </div>
          </div>
 
-         <div className={`flex h-52 w-52 rounded-lg mt-auto relative overflow-hidden
+         <div className={`hidden sm:flex h-52 w-52 rounded-lg mt-auto relative overflow-hidden
          ${moneyExchange < 0 ? "bg-red-950" : moneyExchange > 0 ? "bg-green-950" : "bg-muted"}`} >
 
             <div className={`absolute size-96 rounded-full  brightness-125 opacity-75
@@ -101,8 +101,8 @@ export function MethodCash() {
             </div>
          </div>
 
-         <div className="flex justify-start col-span-2 mt-1">
-            <Button type="submit" disabled={!cashInput} className="ml-auto w-52 transition" variant={"secondary"} size={"lg"}>
+         <div className="flex justify-start sm:col-span-2 mt-1">
+            <Button type="submit" disabled={!cashInput} className="ml-auto w-full sm:w-52 transition" variant={"secondary"} size={"lg"}>
                <Receipt />
                Adicionar pagamento
             </Button>

@@ -40,7 +40,7 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                      <span>{plate.name}</span>
 
                      <span className="text-muted-foreground text-sm mr-0.5">
-                        {plate.quantity} x {plate.price}
+                        {(plate.price * plate.quantity).toFixed(2)}
                      </span>
                   </div>
                   
@@ -48,7 +48,11 @@ export function OrderPlateCard({ plate }: OrderPlateCardProps) {
                      <span className="text-xs font-light">R$</span>
 
                      <span className="text-xl leading-4 font-semibold">
-                        {(plate.price * plate.quantity).toFixed(2)}
+                        {plate.price}
+                     </span>
+
+                     <span className="text-muted-foreground text-lg font-semibold ml-1">
+                        x{plate.quantity}
                      </span>
 
                      <div className="flex gap-2 ml-auto h-9 items-baseline">

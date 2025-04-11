@@ -179,11 +179,11 @@ export function DeliveryInfoForm() {
                      disabled={isDisabled.neighborhood}
                   />
                               
-                  <div className="grid col-span-4 grid-cols-5 gap-3">
+                  <div className="grid col-span-4 grid-cols-3 sm:grid-cols-5 gap-3">
                      <Input
                         type="text"
                         placeholder="Cidade"
-                        className="col-span-4"
+                        className="col-span-2 sm:col-span-4"
                         {...register("city")}
                         disabled={isDisabled.city}
                      />
