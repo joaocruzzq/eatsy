@@ -25,12 +25,12 @@ export function ManagePlates() {
          <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold tracking-tight">Gerenciar Pratos</h1>
 
-            <div className="text-muted-foreground w-[168px]">
+            <div className="text-muted-foreground w-32">
                <Select onValueChange={onFilterPlates} value={plateFilter}>
                   <SelectTrigger>
                      <div className="flex items-center gap-1">
                         <Filter size={16} className="mr-1" />
-                        <SelectValue placeholder="Filtrar categoria"/>
+                        <SelectValue placeholder="Categoria"/>
                      </div>
                   </SelectTrigger>
 
@@ -44,7 +44,7 @@ export function ManagePlates() {
             </div>
          </div>
 
-         <div className="grid grid-cols-5 mt-12 mb-8 gap-x-5 gap-y-14">
+         <div className="grid grid-cols-2 sm:grid-cols-5 mt-12 mb-8 gap-x-5 gap-y-14">
             <Dialog>
                <DialogTrigger asChild>
                   <AddNewPlateButton />

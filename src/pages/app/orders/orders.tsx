@@ -54,11 +54,11 @@ export function Orders() {
                            {
                               ordersOnTable.map((order) => (
                                  <tr className={`${order.status === "canceled" && "opacity-50"} grid relative h-fit text-sm border border-muted tracking-wider bg-background py-2 rounded-s-xl rounded-e-xl  sm:py-0 sm:rounded-s-lg sm:rounded-e-lg sm:grid-cols-[auto_auto_1fr_auto]`}>
-                                    <td className={`${order.status === "canceled" && "pointer-events-none"} text-center rounded-s-lg p-2.5`}>
+                                    <td className={`${order.status === "canceled" && "pointer-events-none"} w-1/2 text-center rounded-s-lg p-2.5`}>
                                        {
                                           user?.role === "admin" ? (
                                              <Select value={order.status} onValueChange={(newStatus) => onUpdateOrderStatus(order.id, newStatus)}>
-                                                <SelectTrigger>
+                                                <SelectTrigger className="ml-2">
                                                    <SelectValue className="" placeholder="Status" />
                                                 </SelectTrigger>
                      
@@ -121,7 +121,7 @@ export function Orders() {
 
                                     {
                                        user?.role === "admin" && (
-                                          <td className="flex items-center justify-center pr-4">
+                                          <td className="absolute bottom-4 right-0 sm:flex items-center justify-center pr-4">
                                              <Dialog>
                                                 <DialogTrigger asChild>
                                                    <Button variant={"ghost"} size={"icon"}>

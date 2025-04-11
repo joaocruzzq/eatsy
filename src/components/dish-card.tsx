@@ -76,7 +76,7 @@ export function DishCard({ plate }: HomePlateCardType) {
                      user?.role === "admin" ? (
                         <div className="flex gap-2">
                            <Dialog>
-                              <DialogTrigger asChild>
+                              <DialogTrigger asChild className="hidden sm:grid">
                                  <Button className="px-2.5 w-fit" variant={"ghost"}>
                                     <Pencil />
                                  </Button>
