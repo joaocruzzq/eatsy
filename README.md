@@ -32,10 +32,18 @@ Follow these steps to run the project locally:
 
 > This application **should be able to**:
 
-- fetch and display user profile data from the GitHub API.
-- list and filter issues from a GitHub repository as blog posts.
-- view the full content of a post on a dedicated page.
+- display a list of restaurant menu items with images, descriptions, and prices.
+- filter menu items by category (mains, desserts, drinks).
+- allow users to add items to the shopping cart.
+- show a summary of the order with item details, quantities, and total price.
+- provide an option to view and edit the shopping cart.
+- integrate payment methods (e.g., credit card, Pix).
+- collect and validate delivery address information.
+- allow users to track the status of their orders in real time.
 - be fully responsive, optimized for both desktop and mobile devices.
+- provide a dashboard for admins to monitor sales performance.
+- compare the number of orders, cancellations, and revenue with the previous month.
+- display a pie chart showing the most sold products.
 
 ## 🛠️ Technologies Used
 
